@@ -51,3 +51,13 @@ a{
 .nonActiveLinks{
     color: var(--text-muted);
 }
+
+.signInLink{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: var(--bg-color);
+    background-color: var(--accent);
+    padding: 10px 13px;
+}
