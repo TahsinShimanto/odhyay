@@ -1,0 +1,53 @@
+.navbarWrapper{
+    height: 72px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-subtle);
+   
+}
+
+.appLogoContainer{
+    width: 10%;
+    padding-left: 32px;
+}
+
+a{
+    text-decoration: none;
+}
+
+#appName{
+    color: var(--text-primary);
+    font-family: var(--font-bengali);
+    font-size: 1.4rem;
+    font-weight: bolder;
+}
+
+.pageLinks{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.signinContainer{
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 32px;
+}
+
+.activeLinks, .nonActiveLinks{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.activeLinks{
+    color: var(--text-primary);
+}
+
+.nonActiveLinks{
+    color: var(--text-muted);
+}
