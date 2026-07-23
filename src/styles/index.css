@@ -6,7 +6,8 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-bengali: "Anek Bangla", sans-serif;
   --bg-color: #070708;
-  --surface-hover: #1c1c20;
+  --surface:  #1c1c20;
+  --surface-hover: #131316;
   --accent: #c0c1ff;
   --accent-hover: #a9aaff;
   --text-primary: #f5f5f7; 
