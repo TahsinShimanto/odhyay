@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <div className='navbarWrapper'>
       <div className="appLogoContainer">
-        <NavLink id='appName' to={"/"}>
+        <NavLink id='logo' to={"/"}>
             অধ্যায়.
         </NavLink>
       </div>
@@ -14,34 +14,34 @@ const Navbar = () => {
 
       <div className="pageLinks">
         <NavLink to={"/"} className={({isActive}) => isActive? "activeLinks":"nonActiveLinks"}>
-            <HomeIcon size={18}/>
+            <HomeIcon size={16}/>
             Home
         </NavLink>
 
         <NavLink to={"/questionsolving"} className={({isActive}) => isActive? "activeLinks":"nonActiveLinks"}>
-            <BookOpenCheck size={18}/>
+            <BookOpenCheck size={16}/>
             Question Solving
         </NavLink>
 
         <NavLink to={"/savedquestions"} className={({isActive}) => isActive? "activeLinks":"nonActiveLinks"}>
-            <Bookmark size={18}/>
+            <Bookmark size={16}/>
             Saved Questions
         </NavLink>
 
         <NavLink to={"/unrankedexam"} className={({isActive}) => isActive? "activeLinks":"nonActiveLinks"}>
-            <NotebookPen size={18}/>
+            <NotebookPen size={16}/>
             Unranked Exam
         </NavLink>
 
         <NavLink to={"/rankedexam"} className={({isActive}) => isActive? "activeLinks":"nonActiveLinks"}>
-            <BarChart size={18}/>
+            <BarChart size={16}/>
             Ranked Exam
         </NavLink>
       </div>
 
         <div className="signinContainer">
             <NavLink to={"/"} className="signInLink">
-                <LogIn size={18}/>
+                <LogIn size={16}/>
                 Sign In
             </NavLink>
         </div>

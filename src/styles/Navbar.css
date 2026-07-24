@@ -1,9 +1,9 @@
 .navbarWrapper{
-    height: 72px;
+    position: sticky;
+    height: 68px;
     display: flex;
-    align-items: center;
+    background-color: var(--bg-color);
     border-bottom: 1px solid var(--border-subtle);
-   
 }
 
 .appLogoContainer{
@@ -18,15 +18,22 @@ a{
     text-decoration: none;
 }
 
-#appName{
+#logo{
     color: var(--text-primary);
     font-family: var(--font-bengali);
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: bolder;
 }
 
 .pageLinks{
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
     width: 75%;
+    padding: 0.25rem;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -45,7 +52,7 @@ a{
     align-items: center;
     justify-content: center;
     padding: 8px 16px;
-    border-radius: 8px;
+    border-radius: 4px;
     gap: 7px;
 }
 
@@ -73,6 +80,7 @@ a{
     color: var(--bg-color);
     background-color: var(--accent);
     padding: 8px 20px;
+    margin-left: 2rem;
     font-weight: bold;
     border: 1px solid transparent;
     transition: all 0.2s ease;
@@ -83,4 +91,3 @@ a{
     background-color: var(--bg-color);
     color: var(--accent);
 }
-
