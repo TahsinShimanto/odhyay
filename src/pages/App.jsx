@@ -1,13 +1,13 @@
-import '../styles/App.css'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
-import HomePage from './HomePage'
 import Navbar from '../components/Navbar'
+import HomePage from './HomePage'
 import QuesSolving from './QuesSolving'
 import SavedQues from './SavedQues'
 import UnrankedExam from './UnrankedExam'
 import RankedExam from './RankedExam'
+
+
 function App() {
-  
 
   const router = createBrowserRouter([
     {
