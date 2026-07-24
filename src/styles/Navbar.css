@@ -1,0 +1,86 @@
+.navbarWrapper{
+    height: 72px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-subtle);
+   
+}
+
+.appLogoContainer{
+    width: 10%;
+    padding-left: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+#appName{
+    color: var(--text-primary);
+    font-family: var(--font-bengali);
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+.pageLinks{
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.signinContainer{
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 32px;
+}
+
+.activeLinks, .nonActiveLinks{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    gap: 7px;
+}
+
+.activeLinks{
+    color: var(--text-primary);
+    background-color: var(--surface);
+}
+
+.nonActiveLinks{
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.nonActiveLinks:hover{
+    background-color: var(--surface-hover);
+    color: var(--text-primary);
+}
+
+
+.signInLink{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: var(--bg-color);
+    background-color: var(--accent);
+    padding: 8px 20px;
+    font-weight: bold;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.signInLink:hover{
+    border: 1px solid var(--accent);
+    background-color: var(--bg-color);
+    color: var(--accent);
+}
+
