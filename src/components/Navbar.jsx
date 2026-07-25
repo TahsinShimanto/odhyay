@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import '../styles/Navbar.css'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 import {Menu, X, HomeIcon, BookOpenCheck, Bookmark, Lock, NotebookPen, BarChart3, LogIn} from 'lucide-react'
 
 
 export default function Navbar() {
-  
+
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {

@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import {createBrowserRouter, RouterProvider} from 'react-router'
 import Navbar from '../components/Navbar'
 import HomePage from './HomePage'
 import QuesSolving from './QuesSolving'
