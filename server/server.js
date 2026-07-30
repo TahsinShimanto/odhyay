@@ -1,6 +1,10 @@
 import express from 'express'
 import cors from 'cors'
-import 'dotenv/config'
+import dotenv from "dotenv"
+import { connectDB } from './src/config/db.js'
+
+// Dotenv
+dotenv.config()
 
 // App config
 const app = express()
@@ -18,3 +22,6 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log('server started on port: ' + port);
 })
+
+// MongoDB
+connectDB()
