@@ -5,6 +5,7 @@ import QuesSolving from './QuesSolving'
 import SavedQues from './SavedQues'
 import UnrankedExam from './UnrankedExam'
 import RankedExam from './RankedExam'
+import Footer from '../components/Footer'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       element: <div>
         <Navbar/>
         <HomePage/>
+        <Footer/>
       </div>
     },
 
