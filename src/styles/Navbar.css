@@ -6,7 +6,7 @@
 
     display: flex;
     align-items: center;
-
+    background-color: var(--bg-color);
     border-bottom: 1px solid var(--border-subtle);
 }
 
