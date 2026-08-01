@@ -1,0 +1,121 @@
+.simulator-container{
+    font-family: var(--font-sans);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 100px;
+    padding: 1rem;
+}
+
+.simulator-heading{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+.simulator-heading p{
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.simulator-heading h3{
+    display: flex;
+    align-items: center;
+}
+
+.simulator-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-subtle);
+    width: 100%;
+    max-width: 680px;
+    padding: 1rem;
+}
+.steps, .step-inputs{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.step-heading{
+    letter-spacing: 0.1rem;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0 0 0.5rem 0;
+}
+
+.input-line{
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-around;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.input-container label{
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+.input-container select{
+    background-color: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    padding: 5px;
+    border-radius: 0.25rem;
+    outline: none;
+}
+
+.input-container select:focus{
+    outline: none;
+    border-color: var(--accent);
+}
+
+
+.quantity-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.quantity-container p{
+    font-size: 0.8rem;
+    color: #d8d7dc;
+}
+
+.start-button{
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--accent);
+    color: var(--bg-color);
+    border-radius: 0.25rem;
+    font-weight: bolder;
+    letter-spacing: 0.05rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    outline: none;
+    border: 1px solid transparent;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.start-button:hover{
+    background-color: var(--bg-color);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    cursor: pointer;
+}
