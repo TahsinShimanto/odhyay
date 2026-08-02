@@ -16,37 +16,60 @@ export default function Navbar() {
     <div className='navbar-container'>
 
       <button className="mobile-menu-button" onClick={ toggleMenu }>
-        { isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        <Menu size={22} />
       </button>
 
-      {isMenuOpen && (
-        <div className="mobile-menu">
-            <NavLink to={"/"} className={({isActive}) => isActive ? "active-links":"non-active-links"}>
+        <div className={`mobile-menu ${isMenuOpen ? "mobile-menu-open" : ""}`}>
+            <div className="mobile-menu-logo-div">
+            <div className="mobile-logo-container">
+                <NavLink id='logo' to={"/"}>
+                    অধ্যায়.
+                </NavLink>
+            </div>
+
+            <button className="mobile-menu-x-button" onClick={ toggleMenu }>
+                <X size={22} />
+            </button>
+            </div>
+
+            <div className='mobile-links-container'>
+            <NavLink to={"/"} className={({isActive}) => isActive ? "mobile-active-links":"mobile-non-active-links"}>
                 <HomeIcon size={16}/>
-                Home
+                হোম
             </NavLink>
 
-            <NavLink to={"/questionsolving"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
+            <NavLink to={"/questionsolving"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
                 <BookOpenCheck size={16}/>
-                Question Solving
+                প্রশ্নব্যাংক
             </NavLink>
 
-            <NavLink to={"/savedquestions"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
+            <NavLink to={"/savedquestions"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
                 <Bookmark size={16}/>
-                Saved Questions
+                সংরক্ষিত প্রশ্ন
             </NavLink>
 
-            <NavLink to={"/unrankedexam"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
+            <NavLink to={"/unrankedexam"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
                 <NotebookPen size={16}/>
-                Unranked Exam
+                মডেল টেস্ট
             </NavLink>
 
-            <NavLink to={"/rankedexam"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
+            <NavLink to={"/rankedexam"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
                 <BarChart3 size={16}/>
-                Ranked Exam
+                প্রতিযোগীতামূলক পরীক্ষা
             </NavLink>
+            </div>
+
+            <div className="mobile-menu-footer-div">
+            <div className="mobile-menu-footer-logo">
+                <div id='small-logo'>
+                    অধ্যায়.
+                </div>
+            </div>
+
+            <div className='mobile-menu-footer-text'>Built for students, by students</div>
+            </div>
+
         </div>
-      )}
 
 
       <div className="app-logo-container">
@@ -59,27 +82,27 @@ export default function Navbar() {
       <div className="page-links">
         <NavLink to={"/"} className={({isActive}) => isActive ? "active-links":"non-active-links"}>
             <HomeIcon size={16}/>
-            Home
+            হোম
         </NavLink>
 
         <NavLink to={"/questionsolving"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
             <BookOpenCheck size={16}/>
-            Question Solving
+            প্রশ্নব্যাংক
         </NavLink>
 
         <NavLink to={"/savedquestions"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
             <Bookmark size={16}/>
-            Saved Questions
+            সংরক্ষিত প্রশ্ন
         </NavLink>
 
         <NavLink to={"/unrankedexam"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
             <NotebookPen size={16}/>
-            Unranked Exam
+            মডেল টেস্ট
         </NavLink>
 
         <NavLink to={"/rankedexam"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
             <BarChart3 size={16}/>
-            Ranked Exam
+            প্রতিযোগীতামূলক পরীক্ষা
         </NavLink>
       </div>
 
