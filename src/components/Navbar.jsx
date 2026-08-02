@@ -61,9 +61,9 @@ export default function Navbar() {
 
             <div className="mobile-menu-footer-div">
             <div className="mobile-menu-footer-logo">
-                <NavLink id='small-logo' to={"/"}>
+                <div id='small-logo'>
                     অধ্যায়.
-                </NavLink>
+                </div>
             </div>
 
             <div className='mobile-menu-footer-text'>Built for students, by students</div>
