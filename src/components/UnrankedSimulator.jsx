@@ -1,7 +1,8 @@
 import React from "react";
 import "../styles/UnrankedSimulator.css";
 import { Award, Play, TriangleAlert } from "lucide-react";
-const UnrankedSimulator = () => {
+const UnrankedSimulator = (props) => {
+
   return (
     <div className="simulator-container">
       <div className="simulator-heading">
@@ -80,11 +81,11 @@ const UnrankedSimulator = () => {
           <div className="settings-container">
             <div className="quantity-container">
               <p>প্রশ্ন সংখ্যা</p>
-              <input placeholder="২০" />
+              <input type="number" placeholder="২০" />
             </div>
             <div className="quantity-container">
               <p>পরীক্ষার সময় (মিনিট)</p>
-              <input placeholder="১০" />
+              <input type="number" placeholder="১০" />
             </div>
           </div>
           <div className="checkbox-container">
@@ -93,7 +94,7 @@ const UnrankedSimulator = () => {
           </div>
           
         
-          <button className="start-button">
+          <button onClick={props.setStart} className="start-button">
             <Play size={20} />
             পরীক্ষা শুরু করুন
           </button>
