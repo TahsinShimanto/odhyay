@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import '../styles/QuestionSolving.css'
 
 const QuesSolving = () => {
   const [questions ,setQuestions] = useState([]);
@@ -11,8 +12,8 @@ const QuesSolving = () => {
   })
 
   return (
-    <div>
-      QuesSolving
+    <div className="question-bank">
+
     </div>
   )
 }

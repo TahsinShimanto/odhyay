@@ -1,17 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@600&display=swap');
 
 :root {
   --font-serif: "Lora", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "Fira Code", monospace;
-  --font-bengali: "Anek Bangla", sans-serif;
-  --font-bengali-serif: "Noto Serif Bengali", serif;
+  --font-logo: "Anek Bangla", sans-serif;
+  --font-bengali-links: "Hind Siliguri", sans-serif;
+  --font-bengali-text: "Noto Sans Bengali", sans-serif;
   --bg-color: #0F0F0F;
   --surface:  #272727;
   --surface-hover: #2727277e;
   --accent: #c0c1ff;
   --accent-hover: #a9aaff;
-  --text-primary: #f5f5f7; 
+  --text-primary: #f5f5f7;
   --text-muted: #8a8890;
   --border-subtle: rgba(255, 255, 255, 0.1);
 }
@@ -25,6 +27,6 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
-    font-family: var(--font-serif);
+    font-family: var(--font-bengali-text);
     min-height: 100vh;
 }
