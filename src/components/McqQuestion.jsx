@@ -1,0 +1,43 @@
+import React from 'react';
+import {Bookmark, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Search, HelpCircle, Eye, EyeOff, AlertTriangle, Star} from 'lucide-react'
+
+function MCQ({question, current, total}) {
+    return (
+        <div className="question-card">
+            <div className="queston-card-info">
+                <div className="question-info-count">প্রশ্ন {current}/{total}</div>
+                <div className="question-info-taglike">importance</div>
+                <div className="question-info-taglike">নির্বাচনী প্রশ্ন</div>
+                <Bookmark size={22}/>
+                <Flag size={22}/>
+            </div>
+
+            <span className="question-statement">{question.questionText}</span>
+
+            <div className="question-occurances">
+                {question.appearances.map((object) =>
+                    <div key={object.id} className="appearance-tag">
+                        {object.university} {object.year}
+                    </div>
+                )}
+            </div>
+
+            <div className="question-options-container">
+                {question.options.map((option, index) =>
+                <div key={option.id} className="single-option-div">
+                    <div className="option-count">{index+1}</div>
+                    <span className="option-text">{option.text}</span>
+                    <span className="option-image">{option.image}</span>
+                </div>
+            )}
+            </div>
+            <div className="divider"></div>
+            <div className="explaination-card">
+                {question.explanationText}
+                {question.explanationImage}
+            </div>
+        </div>
+    );
+}
+
+export default MCQ;
