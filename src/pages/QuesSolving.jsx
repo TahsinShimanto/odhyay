@@ -55,7 +55,7 @@ const QuesSolving = () => {
                       key={question._id}
                       question={question}
                       current={index + 1}
-                      total={question.length}
+                      total={questions.length}
                   />
               )
 

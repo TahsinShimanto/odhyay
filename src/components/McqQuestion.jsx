@@ -12,7 +12,10 @@ function MCQ({question, current, total}) {
                 <Flag size={22}/>
             </div>
 
-            <span className="question-statement">{question.questionText}</span>
+            <div className="question-statement-container">
+                <span className="question-statement">{question.questionText}</span>
+                <span className="question-image">{question.questionimage}</span>
+            </div>
 
             <div className="question-occurances">
                 {question.appearances.map((object) =>
