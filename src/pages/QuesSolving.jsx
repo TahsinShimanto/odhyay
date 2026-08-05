@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 import MCQ from '../components/McqQuestion.jsx'
 import Written from "../components/WrittenQuestion.jsx";
-
 import '../styles/QuestionSolving.css'
-import '../styles/McqQuestion.css'
-import '../styles/WrittenQuestion.css'
 
 const QuesSolving = () => {
   const [questions, setQuestions] = useState([])
