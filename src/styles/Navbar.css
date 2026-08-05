@@ -23,14 +23,14 @@ a {
 
 #logo {
     color: var(--text-primary);
-    font-family: var(--font-bengali);
+    font-family: var(--font-logo);
     font-size: 1.6rem;
     font-weight: bolder;
 }
 
 .page-links {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
+    font-family: var(--font-bengali-links);
+    font-size: 0.9rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -88,7 +88,7 @@ a {
     background-color: var(--accent);
     padding: 8px 20px;
     margin-left: 2rem;
-    font-weight: bold;
+    font-weight: 500;
     border: 1px solid transparent;
     transition: all 0.2s ease;
 }
@@ -178,6 +178,8 @@ a {
     display: flex;
     align-items: center;
 
+    font-family: var(--font-bengali-links);
+    font-size: 1rem;
     width: 100%;
     padding: 0.7rem;
     padding-left: 20px;
@@ -214,7 +216,7 @@ a {
 
 #small-logo {
     color: var(--text-primary);
-    font-family: var(--font-bengali);
+    font-family: var(--font-logo);
     font-size: 1.25rem;
     font-weight: bolder;
 }

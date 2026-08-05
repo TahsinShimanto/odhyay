@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import '../styles/Navbar.css'
 import { NavLink } from 'react-router'
-import {Menu, X, HomeIcon, BookOpenCheck, Bookmark, Lock, NotebookPen, BarChart3, LogIn} from 'lucide-react'
+import {Menu, X, HomeIcon, FileText, Bookmark, Lock, Award, BarChart3, LogIn} from 'lucide-react'
 
 
 export default function Navbar() {
@@ -39,7 +39,7 @@ export default function Navbar() {
             </NavLink>
 
             <NavLink to={"/questionsolving"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
-                <BookOpenCheck size={16}/>
+                <FileText size={16}/>
                 প্রশ্নব্যাংক
             </NavLink>
 
@@ -49,7 +49,7 @@ export default function Navbar() {
             </NavLink>
 
             <NavLink to={"/unrankedexam"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
-                <NotebookPen size={16}/>
+                <Award size={16}/>
                 মডেল টেস্ট
             </NavLink>
 
@@ -86,7 +86,7 @@ export default function Navbar() {
         </NavLink>
 
         <NavLink to={"/questionsolving"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
-            <BookOpenCheck size={16}/>
+            <FileText size={16}/>
             প্রশ্নব্যাংক
         </NavLink>
 
@@ -96,7 +96,7 @@ export default function Navbar() {
         </NavLink>
 
         <NavLink to={"/unrankedexam"} className={({isActive}) => isActive? "active-links":"non-active-links"}>
-            <NotebookPen size={16}/>
+            <Award size={16}/>
             মডেল টেস্ট
         </NavLink>
 
@@ -109,7 +109,7 @@ export default function Navbar() {
       <div className="sign-in-container">
           <NavLink to={"/"} className="sign-in-link">
               <LogIn size={16}/>
-              Sign In
+              সাইন ইন
           </NavLink>
       </div>
 

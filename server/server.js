@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from "dotenv"
 import { connectDB } from './src/config/db.js'
+import questionsRouter from './src/routes/questions.js'
 
 // Dotenv
 dotenv.config()
@@ -18,6 +19,9 @@ app.use(cors())
 app.get('/', (req, res) => {
   res.send("API WORKING");
 })
+
+// Question routes
+app.use('/api/questions', questionsRouter)
 
 app.listen(port, () => {
   console.log('server started on port: ' + port);
