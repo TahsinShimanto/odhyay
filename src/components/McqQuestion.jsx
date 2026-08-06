@@ -1,8 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import {Bookmark, ShieldAlert, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Search, HelpCircle, Eye, EyeOff, AlertTriangle, Star} from 'lucide-react'
 import '../styles/McqQuestion.css'
 
 function MCQ({question, current, total}) {
+    const [showExplaination, setShowExplaination] = useState(false);
+
     return (
         <div className="question-card">
             <div className="question-card-info">
@@ -36,10 +38,23 @@ function MCQ({question, current, total}) {
                     </div>
                 )}
                 </div>
+
                 <div className="divider"></div>
-                <div className="explaination-card">
-                    {question.explanationText}
-                    {question.explanationImage}
+
+                <div className={(!showExplaination) ? "hidden-explanation-card" : "revealed-explanation-card"} onClick={() => setShowExplaination(true)}>
+                    {showExplaination ? (
+                        <>
+                            <div className="hide-explanation-button" onClick={(e) => { e.stopPropagation(); setShowExplaination(false)}}>ব্যাখ্যা লুকান</div>
+                            <div>{question.explanationText}</div>
+                            <div>{question.explanationImage}</div>
+                        </>
+
+                    ) : (
+                        <>
+                            <Eye size={16}/>
+                            <div>ব্যাখ্যা দেখুন</div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

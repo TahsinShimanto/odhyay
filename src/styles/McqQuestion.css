@@ -116,6 +116,7 @@
     font-family: monospace;
     font-weight: bold;
     color: var(--accent);
+    background-color: rgba(192, 193, 255, 0.1);
     border: 1px solid var(--border-subtle);
     border-radius: 4px;
     padding-block: 0.2rem;
@@ -148,6 +149,10 @@
     border-radius: 3px;
 }
 
+.single-option-div:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
 .option-count {
     font-size: 0.8rem;
     background-color: #1b1b1b;
@@ -166,3 +171,46 @@
 
 /* TODO: Change it later */
 .option-image {}
+
+.divider {
+    border-top: 1px solid var(--border-subtle);
+    margin-bottom: 1rem;
+}
+
+.hidden-explanation-card {
+    background-color: rgba(192, 193, 255, 0.1);
+    color: var(--accent);
+    font-size: small;
+    font-weight: bold;
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.8rem;
+}
+
+.revealed-explanation-card {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: monospace;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0.8rem;
+}
+
+.hide-explanation-button {
+    font-family: anek-bangla;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+}
+
+.hide-explanation-button:hover {
+    color: var(--text-primary);
+}
