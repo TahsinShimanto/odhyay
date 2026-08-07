@@ -1,14 +1,8 @@
-/* TODO: change this later */
 .question-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-inline: 5.2rem;
-    margin-block: 1.5rem;
-
-    width: 80%;
+    width: 90%;
     border: 1px solid var(--border-subtle);
     border-radius: 5px;
+    margin-block: 1.5rem;
 }
 
 .question-card-info {
@@ -106,10 +100,12 @@
     margin-bottom: 1.5rem;
 }
 
-/* TODO: Change this later */
+/* TODO: Change fonts later */
 .question-statement {
     font-weight: 500;
 }
+
+/* TODO: support images later */
 .question-statement-image {}
 
 .question-occurrences {
@@ -168,14 +164,14 @@
     padding-inline: 0.5rem;
 }
 
-/* TODO: Change it later */
+/* TODO: Change fonts later */
 .option-text {
     font-family: monospace;
     align-content: center;
     font-weight: 200;
 }
 
-/* TODO: Change it later */
+/* TODO: support images later */
 .option-image {}
 
 .divider {
@@ -220,3 +216,9 @@
 .hide-explanation-button:hover {
     color: var(--text-primary);
 }
+
+/* TODO: change font later */
+.explanation-text {}
+
+/* TODO: support images later */
+.explanation-image {}

@@ -41,8 +41,8 @@ function Written({question, current, total}) {
                     {showAnswer ? (
                         <>
                             <div className="hide-answer-button" onClick={(e) => { e.stopPropagation(); setShowAnswer(false)}}>উত্তর লুকান</div>
-                            <div>{question.answerText}</div>
-                            <div>{question.answerImage}</div>
+                            <div className="answer-text">{question.answerText}</div>
+                            <div className="answer-image">{question.answerImage}</div>
                         </>
 
                     ) : (

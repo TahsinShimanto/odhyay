@@ -1,7 +1,7 @@
 import {createBrowserRouter, RouterProvider} from 'react-router'
 import Navbar from '../components/Navbar'
 import HomePage from './HomePage'
-import QuesSolving from './QuesSolving'
+import QuestionSolving from './QuestionSolving.jsx'
 import SavedQues from './SavedQues'
 import UnrankedExam from './UnrankedExam'
 import RankedExam from './RankedExam'
@@ -24,7 +24,7 @@ function App() {
       path: "/questionsolving",
       element: <div>
         <Navbar/>
-        <QuesSolving/>
+        <QuestionSolving/>
       </div>
     },
 

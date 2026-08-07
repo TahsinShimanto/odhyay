@@ -1,3 +1,9 @@
+/* TODO:
+* checking the correctness of mcq
+* supporting latex symbols
+* supporting images
+*/
+
 import { useState } from 'react';
 import {Bookmark, ShieldAlert, Eye, Star} from 'lucide-react'
 import '../styles/McqQuestion.css'
@@ -53,8 +59,8 @@ function MCQ({question, current, total}) {
                     {showExplaination ? (
                         <>
                             <div className="hide-explanation-button" onClick={(e) => { e.stopPropagation(); setShowExplaination(false)}}>ব্যাখ্যা লুকান</div>
-                            <div>{question.explanationText}</div>
-                            <div>{question.explanationImage}</div>
+                            <div className="explanation-text">{question.explanationText}</div>
+                            <div className="explanation-image">{question.explanationImage}</div>
                         </>
 
                     ) : (

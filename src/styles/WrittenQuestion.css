@@ -1,14 +1,8 @@
-/* TODO: change this later */
 .question-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-inline: 5.2rem;
-    margin-block: 1.5rem;
-
-    width: 80%;
+    width: 90%;
     border: 1px solid var(--border-subtle);
     border-radius: 5px;
+    margin-block: 1.5rem;
 }
 
 .question-card-info {
@@ -106,10 +100,12 @@
     margin-bottom: 1.5rem;
 }
 
-/* TODO: Change this later */
+/* TODO: adjust font later */
 .question-statement {
     font-weight: 500;
 }
+
+/* TODO: support image for questions */
 .question-statement-image {}
 
 .question-occurrences {
@@ -179,3 +175,9 @@
 .hide-answer-button:hover {
     color: var(--text-primary);
 }
+
+/* TODO: adjust font later */
+.answer-text {}
+
+/* TODO: support images later */
+.answer-image {}
