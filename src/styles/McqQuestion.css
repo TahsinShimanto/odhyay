@@ -24,7 +24,6 @@
     margin-inline: 0.5rem;
 }
 
-/* TODO: change this later */
 .question-info-importance {
     font-size: 0.7rem;
     background-color: #1b1b1b;
@@ -33,6 +32,11 @@
     margin-right: 0.5rem;
     padding-inline: 0.5rem;
     padding-block: 0.1rem;
+}
+
+.star {
+    color: #fbbf24;
+    fill: #fbbf24;
 }
 
 .question-info-type {
