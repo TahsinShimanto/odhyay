@@ -4,26 +4,18 @@ import '../styles/McqQuestion.css'
 
 function MCQ({question, current, total}) {
     const [showExplaination, setShowExplaination] = useState(false);
-    const getStars = (question) => {
-        switch(question.importance) {
-            case "low":
-                return 1;
-            case "medium":
-                return 2;
-            case "high":
-                return 3;
-            default:
-                return 0;
-        }
-    }
 
     return (
         <div className="question-card">
             <div className="question-card-info">
                 <div className="question-info-count">প্রশ্ন {current}/{total}</div>
                 <div className="question-info-importance">
-                    {Array.from({ length: getStars(question) }, (_, index) => (
-                        <Star key={index} className="star" size={16} />
+                    {Array.from({ length: question.importance }).map((_, index) => (
+                        <Star
+                            key={index}
+                            size={14}
+                            className="star"
+                        />
                     ))}
                 </div>
                 <div className="question-info-type">নির্বাচনী প্রশ্ন</div>

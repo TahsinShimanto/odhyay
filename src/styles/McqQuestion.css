@@ -31,7 +31,9 @@
     border-radius: 3px;
     margin-right: 0.5rem;
     padding-inline: 0.5rem;
-    padding-block: 0.1rem;
+    padding-block: 0.2rem;
+    display: flex;
+    align-items: center;
 }
 
 .star {
