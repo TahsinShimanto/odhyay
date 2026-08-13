@@ -2,7 +2,8 @@ import {createBrowserRouter, RouterProvider} from 'react-router'
 import Navbar from '../components/Navbar'
 import HomePage from './HomePage'
 import QuestionSolving from './QuestionSolving.jsx'
-import SavedQues from './SavedQues'
+import SavedQuestions from './SavedQuestions.jsx'
+import SignIn from "./SignIn.jsx";
 import UnrankedExam from './UnrankedExam'
 import RankedExam from './RankedExam'
 import Footer from '../components/Footer'
@@ -33,7 +34,7 @@ function App() {
       path: "/savedquestions",
       element: <div>
         <Navbar/>
-        <SavedQues/>
+        <SavedQuestions/>
       </div>
     },
 
@@ -52,13 +53,10 @@ function App() {
         <RankedExam/>
       </div>
     },
-
     {
-      path: "/profile",
+      path: "/signin",
       element: <div>
-        <Navbar/>
-        <Profile/>
-        
+        <SignIn/>
       </div>
     },
   ])

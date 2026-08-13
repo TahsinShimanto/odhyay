@@ -1,3 +1,6 @@
+/* TODO:
+ * Make the filters work
+ */
 import { useEffect, useState } from 'react'
 import MCQ from '../components/McqQuestion.jsx'
 import Written from "../components/WrittenQuestion.jsx";
@@ -33,7 +36,6 @@ const QuestionSolving = () => {
           <div className="filters-div">
             <div className="title">প্রশ্ন ফিল্টার ও অনুসন্ধান</div>
             <div className="divider"></div>
-
           </div>
 
           {questions.map((question, index) => {

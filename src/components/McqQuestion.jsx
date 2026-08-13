@@ -8,7 +8,7 @@ import { useState } from 'react';
 import {Bookmark, ShieldAlert, Eye, Star} from 'lucide-react'
 import '../styles/McqQuestion.css'
 
-function MCQ({question, current, total}) {
+function MCQ({question, current, total, save}) {
     const [showExplaination, setShowExplaination] = useState(false);
 
     return (
@@ -25,7 +25,7 @@ function MCQ({question, current, total}) {
                     ))}
                 </div>
                 <div className="question-info-type">নির্বাচনী প্রশ্ন</div>
-                <button className="question-info-save"><Bookmark className="save-fill" size={16}/></button>
+                <button className="question-info-save" onClick={save}><Bookmark className="save-fill" size={16}/></button>
                 <button className="question-info-flag"><ShieldAlert className="flag-fill" size={16}/></button>
             </div>
 
