@@ -4,8 +4,7 @@
     flex-direction: column;
     gap: 1.5rem;
     align-items: center;
-    margin-top: 30px;
-    margin-bottom: 50px;
+    margin: 50px 10px;
 }
 
 .simulator-heading{
@@ -14,17 +13,17 @@
     width: 100%;
     max-width: 800px;
     gap: 0.5rem;
-    padding: 0.5rem 0.1rem;
+    padding: 1rem 0.1rem;
     border-bottom: 1px solid var(--border-subtle);
 }
 .simulator-heading p{
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .simulator-heading h3{
     font-weight: bolder;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -39,7 +38,6 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 800px;
-  
 }
 
 .steps, .step-inputs{
@@ -53,7 +51,7 @@
     
     border: 1px solid var(--border-subtle);
     border-radius: 0.5rem;
-    padding: 1rem;
+    padding: 2rem;
 }
 
 .step-heading{
@@ -88,7 +86,7 @@
     background-color: var(--surface);
     color: var(--text-primary);
     border: 1px solid var(--border-subtle);
-    padding: 5px;
+    padding: 0.6rem 0.5rem;
     border-radius: 0.25rem;
     outline: none;
 }
@@ -100,19 +98,20 @@
 
 .settings-container{
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .quantity-container{
+    width: 48%;
     display: flex;
-    align-items: center;
     gap: 0.5rem;
+    flex-direction: column;
 }
 
 .quantity-container p{
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #d8d7dc;
 }
 
@@ -120,9 +119,13 @@
     background-color: var(--surface);
     color: var(--text-primary);
     border: 1px solid var(--border-subtle);
-    padding: 5px;
+    padding: 0.5rem 1rem;
     border-radius: 0.25rem;
     outline: none;
+}
+
+.quantity-container input:focus{
+    border-color: var(--accent);
 }
 
 .start-button{
@@ -152,7 +155,7 @@
 
 .exam-description{
    border: 1px solid var(--border-subtle);
-   padding: 1rem;
+   padding: 1.5rem;
    background-color: rgba(212, 160, 23, 0.08);
    border-radius: 0.5rem;
 }
@@ -161,8 +164,12 @@
     display: flex;
     align-items: center;
     gap: 0.3rem;
+    margin-bottom: 0.4rem;
 } 
 .exam-description ul{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
     padding-left: 1rem;
     font-size: 0.85rem;
     line-height: 1.6
@@ -194,5 +201,8 @@
         gap: 10px;
         flex-direction: column;
         align-items: flex-start;
+    }
+    .quantity-container{
+        width: 100%;
     }
 }

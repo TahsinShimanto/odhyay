@@ -94,7 +94,7 @@ const UnrankedSimulator = (props) => {
           </div>
           
         
-          <button onClick={props.setStart} className="start-button">
+          <button onClick={props.handleStart} className="start-button">
             <Play size={20} />
             পরীক্ষা শুরু করুন
           </button>

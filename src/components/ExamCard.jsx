@@ -1,7 +1,7 @@
 import React from 'react'
 import "../styles/ExamCard.css";
 import {ArrowLeft, ArrowRight, Clock, Flag, Send} from 'lucide-react'
-const ExamCard = () => {
+const ExamCard = (props) => {
     const arr = [1,2,3,4,5,6,7,8,9,10]
   return (
     <div className="exam-container">
@@ -42,7 +42,7 @@ const ExamCard = () => {
                 </div>
            </div>
            <div className="finish-exam">
-                <button> <Send size={17}/>  পরীক্ষা শেষ করুন</button>
+                <button onClick={props.handleFinish}> <Send size={17}/>  পরীক্ষা শেষ করুন</button>
             </div>
 
         </div>
