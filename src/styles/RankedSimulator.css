@@ -1,0 +1,125 @@
+.ranked-simulator-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.ranked-heading{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+}
+
+.ranked-heading h3{
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.ranked-heading p{
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.ranked-cards-section{
+    width: 80%;
+    display: flex;
+    align-items: start;
+    gap: 2.5rem;
+    
+}
+
+.exam-start-card{
+    border: 1px solid var(--border-subtle);
+    padding: 1rem;
+    flex: 1.5;
+}
+
+.exam-start-card p, .leaderboard-card p{
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+.leaderboard-card{
+    flex: 1;
+    
+}
+.selection-card-container{
+    margin: 1rem 0; 
+    display: flex;
+    gap: 1rem;
+    
+}
+.c1{
+    flex: 1;
+    color: var(--text-muted);
+}
+.selection-card{
+    background-color: var(--surface-hover);
+    border-radius: 0.3rem;
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.c1:hover{
+    border-color: var(--accent);
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.leaderboard-card{
+    border: 1px solid var(--border-subtle);
+    padding: 1rem;
+}
+
+.top-names{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.name-card{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid var(--border-subtle);
+    padding: 0.8rem;
+    align-items: center;
+    background-color: var(--surface-hover);
+    border-radius: 0.3rem;
+}
+
+.name-rank{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.name-rank span, .percentage{
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.name-rank p{
+    color: var(--text-primary);
+    margin: 0;
+}
+
+@media (max-width: 750px){
+    .ranked-cards-section{
+        flex-direction: column;
+    }
+    .leaderboard-card{
+        width: 100%;
+    }
+}
