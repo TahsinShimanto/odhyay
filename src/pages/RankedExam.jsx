@@ -5,7 +5,7 @@ import ExamCard from '../components/ExamCard';
 const RankedExam = () => {
 
   const [startRank, setStartRank] = useState(false)
-
+  
   function handleStartRank(){
     setStartRank(true);
   }

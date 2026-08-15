@@ -1,6 +1,8 @@
 import React from 'react'
 import '../styles/User.css'
 import { Award, Bookmark, BookOpen, Clock2, Zap } from 'lucide-react'
+import Chart from './Chart.jsx'
+import ProgressCard from './ProgressCard.jsx'
 const User = () => {
   return (
     <div className='user-container'>
@@ -62,6 +64,7 @@ const User = () => {
           </div>
         </div>
       </div>
+      
       <div className="more-details-card-container">
 
         <div className="more-details-card">
@@ -105,8 +108,12 @@ const User = () => {
       </div>
 
       <div className="performance-container">
-        <div className="graph-card"></div>
-        <div className="progress-card"></div>
+        <div className="graph-card">
+          <Chart/>
+        </div>
+        <div className="progress-card">
+          <ProgressCard/>
+        </div>
       </div>
     </div>
   )

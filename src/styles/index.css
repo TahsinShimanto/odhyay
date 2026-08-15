@@ -32,6 +32,6 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
-    font-family: var(--font-bengali-text);
+    font-family: var(--font-text);
     min-height: 100vh;
 }

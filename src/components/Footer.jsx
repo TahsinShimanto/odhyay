@@ -7,38 +7,40 @@ const Footer = () => {
   return (
     <div className="footer-container">
       <div className="content-container">
-        <div className="about-app-container">
+        <section>
+          <div className="vertical-line"></div>
+          <div className="about-app-container">
           <p className="app-logo">অধ্যায়.</p>
           <p className="app-description">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus,
-            tenetur.
+            প্রশ্নব্যাংক, মডেল টেস্ট আর প্রতিযোগিতামূলক পরীক্ষার প্রস্তুতি, সব একসাথে।
           </p>
         </div>
+        </section>
 
         <div className="platform-link-container">
-          <p className="platform-title">PLATFORM</p>
+          <p className="platform-title">প্ল্যাটফর্ম</p>
           <NavLink to={"/questionsolving"} className="footer-link">
-            QUESTION SOLVING
+            প্রশ্ন সমাধান
           </NavLink>
 
           <NavLink to={"/savedquestions"} className="footer-link">
-            SAVED QUESTION
+            সংরক্ষিত প্রশ্ন
           </NavLink>
 
           <NavLink to={"/rankedexam"} className="footer-link">
-            RANKED EXAM
+            প্রতিযোগীতামূলক পরীক্ষা
           </NavLink>
         </div>
 
         <div className="support-container">
-          <p className="platform-title">SUPPORT</p>
-          <p className="support-link">CONTACT</p>
-          <p className="support-link">FAQ</p>
+          <p className="platform-title">সহায়তা</p>
+          <p className="support-link">যোগাযোগ</p>
+          <p className="support-link">সাধারণ জিজ্ঞাসা</p>
         </div>
       </div>
 
       <div className="social-conatiner">
-        <p className="platform-title">CONNECT</p>
+        <p className="platform-title">আমাদের সঙ্গে যুক্ত থাকুন</p>
         <div className="social-links">
           <a href="https://www.facebook.com">
             <FaFacebook size={33}/>
@@ -54,8 +56,8 @@ const Footer = () => {
       </div>
 
       <div className="copyright-container">
-        <div>© 2026 Odhyay. All rights reserved.</div>
-        <div>Built for students, by students</div>
+        <div>© ২০২৬ অধ্যায়। সর্বস্বত্ব সংরক্ষিত।</div>
+        <div>শিক্ষার্থীদের জন্য, শিক্ষার্থীদের হাতেই তৈরি</div>
       </div>
     </div>
   );

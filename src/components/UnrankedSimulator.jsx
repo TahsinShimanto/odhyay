@@ -1,10 +1,12 @@
 import React from "react";
 import "../styles/UnrankedSimulator.css";
 import { Award, Play, TriangleAlert } from "lucide-react";
+import Footer from "./Footer";
 const UnrankedSimulator = (props) => {
 
   return (
-    <div className="simulator-container">
+    <div>
+      <div className="simulator-container">
       <div className="simulator-heading">
         <h3>
           <Award size={20} /> মডেল টেস্ট পরীক্ষা
@@ -100,6 +102,8 @@ const UnrankedSimulator = (props) => {
           </button>
         </div>
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 };
