@@ -27,6 +27,7 @@ function App() {
       element: <div>
         <Navbar/>
         <QuestionSolving/>
+        <Footer/>
       </div>
     },
 
@@ -35,6 +36,7 @@ function App() {
       element: <div>
         <Navbar/>
         <SavedQuestions/>
+        <Footer/>
       </div>
     },
 

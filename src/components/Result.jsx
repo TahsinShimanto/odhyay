@@ -4,7 +4,7 @@ import AnsCard from './AnsCard'
 const Result = () => {
   return (
       <div className="result-container">
-         <div className="heading">
+         <div className="result-heading">
             <h2>পরীক্ষা সম্পন্ন হয়েছে!</h2>
             <p>আপনার পরীক্ষার সংকলিত ফলাফল নিচে তুলে ধরা হলো</p>
          </div>

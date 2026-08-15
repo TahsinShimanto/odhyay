@@ -19,29 +19,28 @@ const HomePage = () => {
         <div className="left">
           <div className="hero-badge">
             <Pen size={15} />
-            Lorem ipsum dolor kit
+            শেখার নতুন অভিজ্ঞতা
           </div>
 
           <div className="hero-description">
-            <p id="hero-heading">Lorem ipsum dolor sit amet </p>
+            <p id="hero-heading">প্রশ্ন অনুশীলন করুন, নিজেকে যাচাই করুন </p>
             <span>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
-              ipsum laudantium tempora quas ad vero consectetur blanditiis
-              ullam, officiis deserunt laudantium tempora quas ad vero{" "}
+              বিষয় ও অধ্যায় বেছে নিয়ে প্রশ্ন সমাধান করুন। সঙ্গে সঙ্গে উত্তর ও ব্যাখ্যা দেখুন এবং আপনার অগ্রগতি ধরে রাখুন।
+              {" "}
             </span>
           </div>
 
           <div className="hero-page-links">
             <NavLink to={"/questionsolving"} className="solve-question">
-              SOLVE QUESTIONS
+              প্রশ্ন সমাধান করুন
             </NavLink>
 
             <NavLink to={"/unrankedexam"} className="custom-exam">
-              CUSTOM EXAMS
+              নিজের পরীক্ষা তৈরি করুন
             </NavLink>
 
             <NavLink to={"/"} className="sign-in">
-              SIGN IN TO TRACK STREAK
+              স্ট্রিক দেখতে সাইন ইন করুন
               <ArrowRight size={15} />
             </NavLink>
           </div>
@@ -55,36 +54,36 @@ const HomePage = () => {
       <div className="modules-container">
         <div className="module-header">
           <Layers size={18} color="#c0c1ff" />
-          AVAILABLE MODULES (3)
+          অনুশীলনের মডিউল (৩টি)
         </div>
         <div className="module-cards">
 
           <div className="card-module">
-            <p>LOREM</p>
-            <p className="card-title">Lorem ipsum dolor sit amet.</p>
-            <p>LOREM LOREM</p>
+            <p>বিষয়</p>
+            <p className="card-title">ইঞ্জিনিয়ারিং প্রস্তুতি</p>
+            <p>৩টি বিষয় · ৫০০+ প্রশ্ন</p>
             <NavLink to={"/unrankedexam"} className="enter-practice">
-              ENTER PRACTICE
+              অনুশীলন শুরু করুন
               <ArrowRight size={12} />
             </NavLink>
           </div>
 
           <div className="card-module">
-            <p>LOREM</p>
-            <p className="card-title">Lorem ipsum dolor sit amet.</p>
-            <p>LOREM LOREM</p>
+            <p>বিষয়</p>
+            <p className="card-title">ভার্সিটি প্রস্তুতি</p>
+            <p>৬টি বিষয় · ১০০০+ প্রশ্ন</p>
             <NavLink to={"/unrankedexam"} className="enter-practice">
-              ENTER PRACTICE
+              অনুশীলন শুরু করুন
               <ArrowRight size={12} />
             </NavLink>
           </div>
 
           <div className="card-module">
-            <p>LOREM</p>
-            <p className="card-title">Lorem ipsum dolor sit amet.</p>
-            <p>LOREM LOREM</p>
+            <p>বিষয়</p>
+            <p className="card-title">মেডিকেল প্রস্তুতি</p>
+            <p>৩টি বিষয় · ৬০০+ প্রশ্ন</p>
             <NavLink to={"/unrankedexam"} className="enter-practice">
-              ENTER PRACTICE
+              অনুশীলন শুরু করুন
               <ArrowRight size={12} />
             </NavLink>
           </div>
@@ -95,7 +94,7 @@ const HomePage = () => {
       <div className="modules-container">
         <div className="module-header">
           <Sparkles size={18} color="#c0c1ff" />
-          HOW IT WORKS 
+          যেভাবে কাজ করে 
         </div>
 
         <div className="module-cards">
@@ -105,9 +104,9 @@ const HomePage = () => {
               <ClipboardList size={18} color="#c0c1ff"/>
             </div>
             
-            <p className="step-text">Step 01</p>
-            <p className="instruction-text">Pick a chapter</p>
-            <p className="instruction-description">Choose a subject, chapter, or topic from the question bank.</p>
+            <p className="step-text">ধাপ ০১</p>
+            <p className="instruction-text">অধ্যায় বেছে নিন</p>
+            <p className="instruction-description">প্রশ্নব্যাংক থেকে বিষয়, অধ্যায় বা টপিক বেছে নিন।</p>
           </div>
 
           <div className="card-module">
@@ -115,9 +114,9 @@ const HomePage = () => {
               <Lightbulb size={18} color="#c0c1ff"/>
             </div>
             
-            <p className="step-text">Step 02</p>
-            <p className="instruction-text">Solve with feedback</p>
-            <p className="instruction-description">Answer questions and reveal explanations instantly.</p>
+            <p className="step-text">ধাপ ০২</p>
+            <p className="instruction-text">সমাধান করুন, শিখুন</p>
+            <p className="instruction-description">প্রশ্নের উত্তর দিন এবং সঙ্গে সঙ্গে ব্যাখ্যা দেখুন।</p>
           </div>
 
           <div className="card-module">
@@ -125,9 +124,9 @@ const HomePage = () => {
               <BarChart size={18} color="#c0c1ff"/>
             </div>
             
-            <p className="step-text">Step 03</p>
-            <p className="instruction-text">Track your streak</p>
-            <p className="instruction-description">See your accuracy, rank, and progress over time.</p>
+            <p className="step-text">ধাপ ০৩</p>
+            <p className="instruction-text">আপনার স্ট্রিক দেখুন</p>
+            <p className="instruction-description">সময়ের সঙ্গে আপনার সঠিক উত্তরের হার, অবস্থান ও অগ্রগতি দেখুন।</p>
           </div>
         </div>
       </div>

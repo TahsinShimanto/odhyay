@@ -1,12 +1,30 @@
 import React from 'react'
 import '../styles/RankedSimulator.css'
 import { BarChart3, Hourglass, Users } from 'lucide-react'
+import Footer from './Footer'
 const RankedSimulator = (props) => {
   return (
+    <div>
     <div className='ranked-simulator-container'>
+      <div className="rank-header-container">
+
       <div className="ranked-heading">
         <h3> <BarChart3/> প্রস্তুতি যাচাই পরীক্ষা (Timed)</h3>
         <p>নির্দিষ্ট সময়সীমায় নিজের মেধা যাচাই করুন এবং লিডারবোর্ডে শীর্ষে থাকার প্রতিযোগিতা করুন।</p>
+      </div>
+
+      <div className="rank-header-card">
+        <div className="rank-header-card-item">
+            <p>সর্বোত্তম নম্বর</p>
+            <p className='r-h-c-v'>৮৪</p>
+        </div>
+        <div className="vertical-divider"></div>
+        <div className="rank-header-card-item">
+            <p>সম্পন্ন পরীক্ষা</p>
+            <p className='r-h-c-v'>৮</p>
+        </div>
+      </div>
+
       </div>
 
       <div className="ranked-cards-section">
@@ -38,7 +56,7 @@ const RankedSimulator = (props) => {
                 <div className="name-card">
                     <div className="name-rank">
                         <span>#1</span>
-                        <p>Zarek Tia</p>
+                        <p>Rock Johnson</p>
                     </div>
                     
                     <div className="percentage">
@@ -49,7 +67,7 @@ const RankedSimulator = (props) => {
                 <div className="name-card">
                     <div className="name-rank">
                         <span>#2</span>
-                        <p>DD Ameer</p>
+                        <p>Brad Pit</p>
                     </div>
                     
                     <div className="percentage">
@@ -60,7 +78,7 @@ const RankedSimulator = (props) => {
                 <div className="name-card">
                     <div className="name-rank">
                         <span>#3</span>
-                        <p>Imran epstein</p>
+                        <p>Imran Eistein</p>
                     </div>
                     
                     <div className="percentage">
@@ -93,6 +111,8 @@ const RankedSimulator = (props) => {
         </div>
 
       </div>
+    </div>
+    <Footer/>
     </div>
   )
 }

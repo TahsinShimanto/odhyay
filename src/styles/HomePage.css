@@ -3,18 +3,19 @@
   padding: 50px;
   display: flex;
   gap: 50px;
-  font-family: var(--font-sans);
   margin: 50px 100px;
+  display: flex;
+  justify-content: space-between;
 }
 .left {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  
 }
 
 .hero-badge {
   font-size: 0.8rem;
-  letter-spacing: 0.12rem;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -32,7 +33,7 @@
 }
 
 #hero-heading {
-  font-size: 3rem;
+  font-size: 2.3rem;
   color: var(--text-primary);
 }
 
@@ -49,7 +50,6 @@ a {
 
 .solve-question {
   font-size: 0.8rem;
-  letter-spacing: 0.12rem;
   color: var(--bg-color);
   background-color: var(--accent);
   padding: 12px 20px;
@@ -66,7 +66,6 @@ a {
 
 .custom-exam {
   font-size: 0.8rem;
-  letter-spacing: 0.12rem;
   color: var(--text-muted);
   padding: 12px 20px;
   font-weight: bold;
@@ -85,7 +84,6 @@ a {
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
-  letter-spacing: 0.12rem;
   color: var(--text-muted);
 
   transition: color 0.2s ease;
@@ -99,7 +97,6 @@ a {
   flex-direction: column;
   display: flex;
   gap: 20px;
-  font-family: var(--font-sans);
   margin: 50px 100px;
 }
 

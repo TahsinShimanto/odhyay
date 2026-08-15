@@ -1,5 +1,4 @@
 .simulator-container{
-    font-family: var(--font-bengali-text);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
