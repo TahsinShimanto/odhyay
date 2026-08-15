@@ -19,3 +19,32 @@
     color: rgba(255, 255, 255, 0.6);
     margin-bottom: 0.1rem;
 }
+
+.all-filter-categories {
+    display: grid;
+    gap: 1rem;
+    padding: 0.4rem;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.filter-grid-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-grid-child label{
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+}
+
+.filter-grid-child select{
+    background-color: black;
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    padding-block: 0.6rem;
+    padding-inline: 0.4rem;
+    border-radius: 0.25rem;
+    outline: none;
+}

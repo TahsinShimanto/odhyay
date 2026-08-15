@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import {Bookmark} from 'lucide-react'
 import MCQ from '../components/McqQuestion.jsx'
 import Written from "../components/WrittenQuestion.jsx";
-import '../styles/SavedQuesttions.css'
+import '../styles/SavedQuestions.css'
 
 const SavedQuestions = () => {
     const [questions, setQuestions] = useState([])
