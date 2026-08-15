@@ -57,6 +57,14 @@ function App() {
         <RankedExam/>
       </div>
     },
+
+    {
+      path: "/profile",
+      element: <div>
+        <Navbar/>
+        <Profile/>
+      </div>
+    },
   ])
 
   return (

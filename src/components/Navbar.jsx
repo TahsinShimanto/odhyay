@@ -1,7 +1,9 @@
+// TODO: remove the hardcoded profile button later
+
 import { useState } from 'react'
 import '../styles/Navbar.css'
 import { NavLink } from 'react-router'
-import {Menu, X, HomeIcon, FileText, Bookmark, Lock, Award, BarChart3, LogIn} from 'lucide-react'
+import {Menu, X, HomeIcon, FileText, Bookmark, Lock, Award, BarChart3, LogIn, User} from 'lucide-react'
 
 
 export default function Navbar({onSignIn}) {
@@ -55,6 +57,11 @@ export default function Navbar({onSignIn}) {
             <NavLink to={"/rankedexam"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
                 <BarChart3 size={16}/>
                 প্রতিযোগীতামূলক পরীক্ষা
+            </NavLink>
+
+            <NavLink to={"/profile"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
+                <User size={16}/>
+                Profile
             </NavLink>
             </div>
 
