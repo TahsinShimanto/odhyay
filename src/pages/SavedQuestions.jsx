@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import {Bookmark} from 'lucide-react'
 import MCQ from '../components/McqQuestion.jsx'
 import Written from "../components/WrittenQuestion.jsx";
+import FilterCard from "../components/FilterCard.jsx";
 import '../styles/SavedQuestions.css'
 
 const SavedQuestions = () => {
@@ -40,10 +41,7 @@ const SavedQuestions = () => {
             </div>
             <p className="description-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, aperiam.</p>
 
-            <div className="filters-div">
-                <div className="title">প্রশ্ন ফিল্টার ও অনুসন্ধান</div>
-                <div className="divider"></div>
-            </div>
+            <FilterCard />
 
             {questions.map((question, index) => {
                 // TODO: uncomment this line
