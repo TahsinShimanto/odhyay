@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import HomePage from './HomePage'
 import QuestionSolving from './QuestionSolving.jsx'
 import SavedQuestions from './SavedQuestions.jsx'
-import SignIn from "./SignIn.jsx";
+import SignIn from "../components/SignIn.jsx";
 import UnrankedExam from './UnrankedExam'
 import RankedExam from './RankedExam'
 import Footer from '../components/Footer'
