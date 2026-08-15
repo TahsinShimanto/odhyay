@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import MCQ from '../components/McqQuestion.jsx'
 import Written from "../components/WrittenQuestion.jsx";
+import FilterCard from "../components/FilterCard.jsx";
 import '../styles/QuestionSolving.css'
 
 const QuestionSolving = () => {
@@ -30,11 +31,8 @@ const QuestionSolving = () => {
 
   return (
         <div className="question-bank">
-          <div className="filters-div">
-            <div className="title">প্রশ্ন ফিল্টার ও অনুসন্ধান</div>
-            <div className="divider"></div>
 
-          </div>
+          <FilterCard />
 
           {questions.map((question, index) => {
             switch (question.type) {

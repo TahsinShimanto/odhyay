@@ -107,7 +107,7 @@ export default function Navbar() {
       </div>
 
       <div className="sign-in-container">
-          <NavLink to={"/"} className="sign-in-link">
+          <NavLink to={"/signin"} className="sign-in-link">
               <LogIn size={16}/>
               সাইন ইন
           </NavLink>

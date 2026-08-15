@@ -2,12 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@600&display=swap');
 
 :root {
+/* TO BE DEPRECATED */
   --font-serif: "Lora", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "Fira Code", monospace;
-  --font-logo: "Anek Bangla", sans-serif;
   --font-bengali-links: "Hind Siliguri", sans-serif;
   --font-bengali-text: "Noto Sans Bengali", sans-serif;
+ /* USE THESE BELOW */
+  --font-logo: "Anek Bangla", sans-serif;
+  --font-heading: "Anek Bangla", sans-serif;
+  --font-text: "Noto Sans Bengali", sans-serif;
+  --font-link: "Hind Siliguri", sans-serif;
   --bg-color: #0F0F0F;
   --surface:  #272727;
   --surface-hover: #2727277e;

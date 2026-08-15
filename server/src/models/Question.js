@@ -12,7 +12,7 @@ const appearanceSchema = new mongoose.Schema({
 }, { _id: false })
 
 const questionSchema = new mongoose.Schema({
-  type: { type: String, enum: ["mcq", "short"] },
+  type: { type: String, enum: ["mcq", "written"] },
   exam: String,
   subject: String,
   chapter: String,
@@ -27,6 +27,7 @@ const questionSchema = new mongoose.Schema({
   answerText: String,
   answerImage: String,
   appearances: [appearanceSchema],
+  saved: Boolean,
 }, { collection: "questions" })
 
 const Question = mongoose.model("Question", questionSchema)
