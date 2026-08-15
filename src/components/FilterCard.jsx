@@ -31,6 +31,16 @@ export default function FilterCard() {
                 </div>
 
                 <div className="filter-grid-child">
+                    <label htmlFor="year">সাল</label>
+                    <select id="year">
+                        <option>সকল শিক্ষাবর্ষ</option>
+                        <option>2025</option>
+                        <option>2024</option>
+                        <option>2023</option>
+                    </select>
+                </div>
+
+                <div className="filter-grid-child">
                     <label htmlFor="subject">বিষয়</label>
                     <select id="subject">
                         <option>সকল বিষয়</option>
@@ -58,16 +68,6 @@ export default function FilterCard() {
                         <option>Topic 1</option>
                         <option>Topic 2</option>
                         <option>Topic 3</option>
-                    </select>
-                </div>
-
-                <div className="filter-grid-child">
-                    <label htmlFor="year">সাল</label>
-                    <select id="year">
-                        <option>সকল শিক্ষাবর্ষ</option>
-                        <option>2025</option>
-                        <option>2024</option>
-                        <option>2023</option>
                     </select>
                 </div>
             </div>
