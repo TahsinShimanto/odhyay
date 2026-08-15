@@ -1,10 +1,13 @@
 import '../styles/SignIn.css'
 
-const SignIn = () => {
-    return (
-        <div className="sign-in-page">
-            <div className="overlay" />
+const SignIn = ({isOpen}) => {
 
+    if(!isOpen) {
+        return null;
+    }
+
+    return (
+        <div className="sign-in-overlay">
             <div className="floating-card">
                 <h3 className="welcome-text">Welcome Back</h3>
                 <p className="welcome-description">Sign in with an account to unlock all features</p>

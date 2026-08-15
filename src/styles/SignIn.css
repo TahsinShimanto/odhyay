@@ -1,14 +1,19 @@
-.sign-in-page {
-    min-height: 100vh;
+.sign-in-overlay {
+    position: fixed;
+    inset: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
 }
 
 .floating-card {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 450px;
     padding: 3rem;
 
     background-color: var(--bg-color);
@@ -70,4 +75,10 @@
     color: var(--text-primary);
     font-weight: bold;
     text-transform: none;
+}
+
+@media (max-width: 465px) {
+    .floating-card {
+        width: 350px;
+    }
 }

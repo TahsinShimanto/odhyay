@@ -4,13 +4,12 @@ import { NavLink } from 'react-router'
 import {Menu, X, HomeIcon, FileText, Bookmark, Lock, Award, BarChart3, LogIn} from 'lucide-react'
 
 
-export default function Navbar() {
-
+export default function Navbar({onSignIn}) {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
-
   const toggleMenu = () => {
     SetIsMenuOpen((prev) => !prev);
   };
+
 
   return (
     <div className='navbar-container'>
@@ -107,7 +106,7 @@ export default function Navbar() {
       </div>
 
       <div className="sign-in-container">
-          <NavLink to={"/signin"} className="sign-in-link">
+          <NavLink onClick={onSignIn} className="sign-in-link">
               <LogIn size={16}/>
               সাইন ইন
           </NavLink>

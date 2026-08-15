@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {createBrowserRouter, RouterProvider} from 'react-router'
 import Navbar from '../components/Navbar'
 import HomePage from './HomePage'
@@ -11,12 +12,13 @@ import Profile from './Profile.jsx'
 
 
 function App() {
+  const [showSignIn, setShowSignIn] = useState(false);
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: <div>
-        <Navbar/>
+        <Navbar onSignIn={() => setShowSignIn(true)} />
         <HomePage/>
         <Footer/>
       </div>
@@ -55,17 +57,12 @@ function App() {
         <RankedExam/>
       </div>
     },
-    {
-      path: "/signin",
-      element: <div>
-        <SignIn/>
-      </div>
-    },
   ])
 
   return (
     <div className="appWrapper">
-        <RouterProvider router={router} />
+      <RouterProvider router={router} />
+      <SignIn isOpen={showSignIn}/>
     </div>
   )
 }
