@@ -1,0 +1,73 @@
+.sign-in-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floating-card {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 3rem;
+
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+}
+
+.welcome-text {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-description {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.input-label {
+    color: var(--text-muted);
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 0.5rem;
+    text-transform: uppercase;
+}
+
+.input-field {
+    width: 100%;
+    background-color: #1b1b1b;
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 0.7rem;
+    margin-bottom: 0.6rem;
+}
+
+.submit-button {
+    font-family: var(--font-sans);
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+    padding-block: 0.7rem;
+    background-color: var(--accent);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    margin-top: 0.6rem;
+    margin-bottom: 1.4rem;
+}
+
+.query-text {
+    font-family: monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.register-now {
+    color: var(--text-primary);
+    font-weight: bold;
+    text-transform: none;
+}
