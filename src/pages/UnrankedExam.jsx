@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import UnrankedSimulator from "../components/UnrankedSimulator";
-import ExamCard from "../components/ExamCard";
-import Result from "../components/result";
+import ExamCard from "../components/ExamCard.jsx";
+import Result from "../components/Result.jsx";
 
 const UnrankedExam = () => {
   const [start, setStart] = useState(false);
