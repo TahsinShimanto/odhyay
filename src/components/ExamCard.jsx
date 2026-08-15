@@ -48,7 +48,7 @@ const ExamCard = (props) => {
         </div>
 
         <div className="question-card-container">
-                <div className="question-card">
+                <div className="question-cardd">
                     <div className="card-header">
                         <div className="tag-section">
                             <span>প্রশ্ন 1/7</span>

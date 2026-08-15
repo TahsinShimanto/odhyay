@@ -6,6 +6,7 @@ import SavedQues from './SavedQues'
 import UnrankedExam from './UnrankedExam'
 import RankedExam from './RankedExam'
 import Footer from '../components/Footer'
+import Profile from './Profile.jsx'
 
 
 function App() {
@@ -49,6 +50,15 @@ function App() {
       element: <div>
         <Navbar/>
         <RankedExam/>
+      </div>
+    },
+
+    {
+      path: "/profile",
+      element: <div>
+        <Navbar/>
+        <Profile/>
+        
       </div>
     },
   ])
