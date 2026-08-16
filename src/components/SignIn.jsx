@@ -1,6 +1,7 @@
 import '../styles/SignIn.css'
+import { X } from 'lucide-react'
 
-const SignIn = ({isOpen}) => {
+const SignIn = ({isOpen, setIsOpen}) => {
 
     if(!isOpen) {
         return null;
@@ -9,6 +10,7 @@ const SignIn = ({isOpen}) => {
     return (
         <div className="sign-in-overlay">
             <div className="floating-card">
+                <X onClick={() => setIsOpen(false)} size={16} className="close-button"/>
                 <h3 className="welcome-text">Welcome Back</h3>
                 <p className="welcome-description">Sign in with an account to unlock all features</p>
 

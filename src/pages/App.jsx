@@ -70,7 +70,7 @@ function App() {
   return (
     <div className="appWrapper">
       <RouterProvider router={router} />
-      <SignIn isOpen={showSignIn}/>
+      <SignIn isOpen={showSignIn} setIsOpen={setShowSignIn} />
     </div>
   )
 }

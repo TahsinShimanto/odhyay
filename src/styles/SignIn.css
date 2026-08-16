@@ -21,6 +21,15 @@
     border-radius: 3px;
 }
 
+.close-button {
+    color: var(--text-muted);
+    margin-left: auto;
+}
+
+.close-button:hover {
+    color: var(--text-primary);
+}
+
 .welcome-text {
     text-align: center;
     font-size: 1.5rem;
