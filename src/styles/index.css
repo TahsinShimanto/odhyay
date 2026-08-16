@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@600&display=swap');
+@import url('https://fonts.maateen.me/nikosh/font.css');
+@import url('https://fonts.maateen.me/adorsho-lipi/font.css');
 
 :root {
 /* TO BE DEPRECATED */
@@ -10,9 +12,9 @@
   --font-bengali-text: "Noto Sans Bengali", sans-serif;
  /* USE THESE BELOW */
   --font-logo: "Anek Bangla", sans-serif;
-  --font-heading: "Anek Bangla", sans-serif;
-  --font-text: "Noto Sans Bengali", sans-serif;
-  --font-link: "Hind Siliguri", sans-serif;
+  --font-text: 'Nikosh', 'Adorsho Lipi', 'Noto Sans Bengali', 'system-ui';
+  --font-headlink: 'Hind Siliguri', 'Nikosh', 'Noto Sans Bengali', sans-serif;
+  --font-question: 'Nikosh', 'Noto Sans Bengali', sans-serif;
   --bg-color: #0F0F0F;
   --surface:  #272727;
   --surface-hover: #2727277e;

@@ -102,6 +102,7 @@
 
 /* TODO: Change fonts later */
 .question-statement {
+    font-family: var(--font-question);
     font-weight: 500;
 }
 
