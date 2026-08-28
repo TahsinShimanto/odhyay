@@ -40,7 +40,7 @@
     display: grid;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--border-subtle);
-    grid-template-columns: repeat(auto-fit, minmax(2.7rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(2.7rem, 1fr));
     gap: 1rem;
 }
 
@@ -166,7 +166,7 @@
     background-color: var(--surface);
 }
 
-.flag{
+.flag, .active-flag{
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -180,6 +180,12 @@
     font-size: 0.7rem;
 }
 
+.active-flag{
+    background-color: #1A110C;
+    color: #FFBF00;
+    border-color: #FFBF00;
+}
+
 .flag:hover{
     color: var(--text-primary);
     cursor: pointer;
@@ -189,6 +195,24 @@
     flex-direction: column;
     gap: 1.5rem;
     margin-bottom: 0.7rem;
+}
+
+.answered {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg-color);
+}
+
+.flagged {
+  background-color: #1A110C;
+  border-color: #FFBF00;
+  color: #FFBF00;
+}
+
+.ques-num.active {
+  border: 1px solid var(--accent);
+  background-color: var(--surface);
+  color: var(--text-primary);
 }
 
 .option{
@@ -209,6 +233,10 @@
     cursor: pointer;
 }
 
+.option:focus{
+    background-color: var(--accent);
+}
+
 .option-num{
     display: flex;
     align-items: center;
@@ -219,6 +247,24 @@
     background-color: var(--surface);
 }
 
+
+.written-answer-section textarea {
+  width: 100%;
+  min-height: 160px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  color: var(--text-primary);
+  padding: 1rem;
+  font-family: var(--font-text);
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+}
+
+.written-answer-section textarea:focus {
+  border-color: var(--accent);
+}
 .next-prev-ques{
     display: flex;
     justify-content: space-between;
@@ -257,6 +303,14 @@
     background-color: var(--bg-color);
     border-color: var(--accent);
     cursor: pointer;
+}
+
+.prev-button:disabled,.next-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: var(--surface);
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
 }
 
 @media (max-width: 770px){

@@ -83,11 +83,11 @@ const UnrankedSimulator = (props) => {
           <div className="settings-container">
             <div className="quantity-container">
               <p>প্রশ্ন সংখ্যা</p>
-              <input type="number" placeholder="২০" />
+              <input type="number" placeholder="২০" value={props.quesCount} onChange={(e) => props.setQuesCount(e.target.value)} />
             </div>
             <div className="quantity-container">
               <p>পরীক্ষার সময় (মিনিট)</p>
-              <input type="number" placeholder="১০" />
+              <input type="number" placeholder="১০" value={props.minutes} onChange={(e) => props.setMinutes(e.target.value)} />
             </div>
           </div>
           <div className="checkbox-container">

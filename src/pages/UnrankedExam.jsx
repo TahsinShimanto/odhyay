@@ -5,26 +5,40 @@ import ExamCard from "../components/ExamCard.jsx";
 import Result from "../components/Result.jsx";
 
 const UnrankedExam = () => {
-  const [start, setStart] = useState(false);
-  const [finish, setFinish] = useState(false);
+  const [stage, setStage] = useState("setup");
+  const [quesCount, setQuesCount] = useState("");
+  const [minutes, setMinutes] = useState("");
 
   function handleStart() {
-    setStart(true);
+    setStage("active");
   }
-
-  function handleFinish(){
-    setFinish(true);
+  function handleFinish() {
+    setStage("finished");
+  }
+  function handleRetry() {
+    setStage("setup");
   }
 
   return (
     <div>
-      {finish ? (
-        <Result/>
-      ) : !start ? (
-          <UnrankedSimulator handleStart={handleStart} />
-        ) : (
-          <ExamCard handleFinish={handleFinish} />
-        )}
+      {stage === "finished" ? (
+        <Result handleRetry={handleRetry} examType="unranked" />
+      ) : stage === "active" ? (
+        <ExamCard
+          handleFinish={handleFinish}
+          examType="unranked"
+          quesCount={quesCount}
+          minutes={minutes}
+        />
+      ) : (
+        <UnrankedSimulator
+          handleStart={handleStart}
+          quesCount={quesCount}
+          setQuesCount={setQuesCount}
+          minutes={minutes}
+          setMinutes={setMinutes}
+        />
+      )}
     </div>
   );
 };
