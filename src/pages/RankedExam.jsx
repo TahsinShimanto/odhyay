@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import RankedSimulator from '../components/RankedSimulator'
-import ExamCard from '../components/ExamCard';
-
+import ExamCard from '../components/ExamCard'
+import Result from '../components/Result'
 const RankedExam = () => {
 
   const [stage, setStage] = useState("setup"); 
