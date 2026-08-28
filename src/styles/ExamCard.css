@@ -209,6 +209,10 @@
     cursor: pointer;
 }
 
+.option:focus{
+    background-color: var(--accent);
+}
+
 .option-num{
     display: flex;
     align-items: center;

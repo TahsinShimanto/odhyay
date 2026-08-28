@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../styles/ExamCard.css";
 import { ArrowLeft, ArrowRight, Clock, Flag, Send } from "lucide-react";
 import axios from "axios";
+import Countdown from "react-countdown";
 const ExamCard = (props) => {
-
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,28 +20,32 @@ const ExamCard = (props) => {
   const [flagged, setFlagged] = useState([]);
   const [answers, setAnswers] = useState({});
 
-  function toggleFlag(quesId){
-    if(flagged.includes(quesId)){
+  function toggleFlag(quesId) {
+    if (flagged.includes(quesId)) {
       const newFlagged = flagged.filter((id) => id !== quesId);
       setFlagged(newFlagged);
-    }
-    else{
+    } else {
       const newFlagged = flagged.slice();
       newFlagged.push(quesId);
       setFlagged(newFlagged);
     }
   }
 
+  function selectOption(questId, optId) {
+    const newAnswers = {};
+    for (const key in answers) {
+      newAnswers[key] = answers[key];
+    }
 
-function selectOption(questId, optId) {
-  const newAnswers = {};
-  for (const key in answers) {
-    newAnswers[key] = answers[key];
+    newAnswers[questId] = optId;
+    setAnswers(newAnswers);
   }
 
-  newAnswers[questId] = optId;
-  setAnswers(newAnswers);
-}
+  const [currentTime] = useState(() => {
+  const validMinutes = Number(props.minutes) || 10; 
+  return Date.now() + validMinutes * 60 * 1000;
+  });
+
 
   useEffect(() => {
     axios
@@ -69,7 +73,15 @@ function selectOption(questId, optId) {
           <span>একনজরে</span>
           <div className="timer-container">
             <Clock size={20} color="#c0c1ff" />
-            <span>00:00</span>
+            <Countdown
+              date={currentTime}
+              onComplete={() => props.handleFinish()}
+              renderer={({ minutes, seconds }) => (
+                <span>
+                  {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+                </span>
+              )}
+            />
           </div>
         </div>
         <div className="navigation-container">
@@ -79,9 +91,8 @@ function selectOption(questId, optId) {
             if (answers[ques._id] !== undefined) status = "answered";
 
             let activeClass = "";
-            if (index === currentIndex)
-              activeClass = "active";
-            
+            if (index === currentIndex) activeClass = "active";
+
             return (
               <div
                 className={`ques-num ${status} ${activeClass}`}
