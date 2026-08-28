@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/Result.css'
 import AnsCard from './AnsCard'
-const Result = () => {
+const Result = (props) => {
   return (
       <div className="result-container">
          <div className="result-heading">
@@ -50,7 +50,7 @@ const Result = () => {
 
         <div className="result-nav">
             <button className='next-button'>নতুন পরীক্ষা</button>
-            <button className='prev-button'>আবার চেষ্টা করুন</button>
+            <button className='prev-button' onClick={props.handleRetry}>আবার চেষ্টা করুন</button>
         </div>
       </div>
     
