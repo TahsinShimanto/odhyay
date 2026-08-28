@@ -139,8 +139,10 @@ const ExamCard = (props) => {
                 {currentQuestion.type === "mcq" ? "এমসিকিউ" : "লিখিত"}
               </div>
             </div>
-            <button className="flag">
-              <Flag size={15} /> ফ্ল্যাগ করুন
+            <button className={flagged.includes(currentQuestion._id) ? "active-flag":"flag"} 
+            onClick={() => toggleFlag(currentQuestion._id)}>
+              <Flag size={15} /> 
+              {flagged.includes(currentQuestion._id) ? "ফ্ল্যাগ সরান" : "ফ্ল্যাগ করুন"}
             </button>
           </div>
 
