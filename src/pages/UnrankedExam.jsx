@@ -21,9 +21,9 @@ const UnrankedExam = () => {
     <div>
 
       {stage === "finished" ? (
-        <Result handleRetry={handleRetry}  />
+        <Result handleRetry={handleRetry} examType="unranked" />
       ) : stage === "active" ? (
-        <ExamCard handleFinish={handleFinish} />
+        <ExamCard handleFinish={handleFinish} examType="unranked" />
       ) : (
         <UnrankedSimulator handleStart={handleStart} />
       )}
