@@ -3,25 +3,62 @@ import "../styles/ExamCard.css";
 import { ArrowLeft, ArrowRight, Clock, Flag, Send } from "lucide-react";
 import axios from "axios";
 const ExamCard = (props) => {
+
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const arr = [1,2,3,4,5,6,7,8,9,10];
-  useEffect(() =>{
-    axios.get("/api/questions")
-    .then((res) => {
-        setQuestions(res.data);
+
+  function handleNext() {
+    setCurrentIndex((prev) => prev + 1);
+  }
+
+  function handlePrev() {
+    setCurrentIndex((prev) => prev - 1);
+  }
+
+  const [flagged, setFlagged] = useState([]);
+  const [answers, setAnswers] = useState({});
+
+  function toggleFlag(quesId){
+    if(flagged.includes(quesId)){
+      const newFlagged = flagged.filter((id) => id !== quesId);
+      setFlagged(newFlagged);
+    }
+    else{
+      const newFlagged = flagged.slice();
+      newFlagged.push(quesId);
+      setFlagged(newFlagged);
+    }
+  }
+
+
+function selectOption(questId, optId) {
+  const newAnswers = {};
+  for (const key in answers) {
+    newAnswers[key] = answers[key];
+  }
+
+  newAnswers[questId] = optId;
+  setAnswers(newAnswers);
+}
+
+  useEffect(() => {
+    axios
+      .get("/api/questions", { params: { count: props.quesCount } })
+      .then((res) => {
+        const sliced = res.data.slice(0, Number(props.quesCount) || 10);
+        setQuestions(sliced);
         setLoading(false);
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         setError(err.message);
         setLoading(false);
-    })
+      });
   }, []);
 
-  if (loading) return (<div className="exam-container">লোড হচ্ছে...</div>);
-  if (error) return (<div className="exam-container">ত্রুটি: {error}</div>);
+  if (loading) return <div className="load-error">লোড হচ্ছে...</div>;
+  if (error) return <div className="load-error">ত্রুটি: {error}</div>;
 
   const currentQuestion = questions[currentIndex];
 
@@ -36,10 +73,22 @@ const ExamCard = (props) => {
           </div>
         </div>
         <div className="navigation-container">
-          {arr.map((element) => {
+          {questions.map((ques, index) => {
+            let status = "notAnswered";
+            if (flagged.includes(ques._id)) status = "flagged";
+            if (answers[ques._id] !== undefined) status = "answered";
+
+            let activeClass = "";
+            if (index === currentIndex)
+              activeClass = "active";
+            
             return (
-              <div className="ques-num" key={element}>
-                {element}
+              <div
+                className={`ques-num ${status} ${activeClass}`}
+                key={ques._id}
+                onClick={() => setCurrentIndex(index)}
+              >
+                {index + 1}
               </div>
             );
           })}
@@ -72,8 +121,12 @@ const ExamCard = (props) => {
         <div className="question-cardd">
           <div className="card-header">
             <div className="tag-section">
-              <span>প্রশ্ন {currentIndex + 1}/7</span>
-              <div className="tag">{currentQuestion.type === "mcq" ? "এমসিকিউ": "লিখিত"}</div>
+              <span>
+                প্রশ্ন {currentIndex + 1}/{questions.length}
+              </span>
+              <div className="tag">
+                {currentQuestion.type === "mcq" ? "এমসিকিউ" : "লিখিত"}
+              </div>
             </div>
             <button className="flag">
               <Flag size={15} /> ফ্ল্যাগ করুন
@@ -83,30 +136,42 @@ const ExamCard = (props) => {
           <div className="ques-section">
             <div className="ques">
               <h3>{currentQuestion.questionText}</h3>
-              {currentQuestion.questionImage? (<img src={currentQuestion.questionImage}/>) : null}
+              {currentQuestion.questionImage ? (
+                <img src={currentQuestion.questionImage} />
+              ) : null}
             </div>
             <div className="option-section">
-                
-              {
-                currentQuestion.options.map((opt, index) =>(
-                    <div className="option" key={opt.id}>
-                        <div className="option-num">{index + 1}</div>
-                        {opt.text}
-                        {opt.image ? (<img src={opt.image} alt="" />) : null}
-                    </div>
+              {currentQuestion.type === "mcq" ? (
+                currentQuestion.options?.map((opt, index) => (
+                  <div className="option" key={opt.id}>
+                    <div className="option-num">{index + 1}</div>
+                    {opt.text}
+                    {opt.image ? <img src={opt.image} alt="" /> : null}
+                  </div>
                 ))
-              }
-
+              ) : (
+                <div className="written-answer-section">
+                  <textarea placeholder="তোমার উত্তর লিখো..." />
+                </div>
+              )}
             </div>
           </div>
         </div>
 
         <div className="next-prev-ques">
-          <button className="prev-button">
-            {" "}
+          <button
+            className="prev-button"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+          >
             <ArrowLeft size={15} /> পূর্ববর্তী প্রশ্ন
           </button>
-          <button className="next-button">
+
+          <button
+            className="next-button"
+            onClick={handleNext}
+            disabled={currentIndex === questions.length - 1}
+          >
             পরবর্তী প্রশ্ন <ArrowRight size={15} />
           </button>
         </div>

@@ -6,6 +6,8 @@ import Result from "../components/Result.jsx";
 
 const UnrankedExam = () => {
   const [stage, setStage] = useState("setup");
+  const [quesCount, setQuesCount] = useState("");
+  const [minutes, setMinutes] = useState("");
 
   function handleStart() {
     setStage("active");
@@ -19,15 +21,24 @@ const UnrankedExam = () => {
 
   return (
     <div>
-
       {stage === "finished" ? (
         <Result handleRetry={handleRetry} examType="unranked" />
       ) : stage === "active" ? (
-        <ExamCard handleFinish={handleFinish} examType="unranked" />
+        <ExamCard
+          handleFinish={handleFinish}
+          examType="unranked"
+          quesCount={quesCount}
+          minutes={minutes}
+        />
       ) : (
-        <UnrankedSimulator handleStart={handleStart} />
+        <UnrankedSimulator
+          handleStart={handleStart}
+          quesCount={quesCount}
+          setQuesCount={setQuesCount}
+          minutes={minutes}
+          setMinutes={setMinutes}
+        />
       )}
-
     </div>
   );
 };

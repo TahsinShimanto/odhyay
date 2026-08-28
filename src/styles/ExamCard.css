@@ -219,6 +219,24 @@
     background-color: var(--surface);
 }
 
+
+.written-answer-section textarea {
+  width: 100%;
+  min-height: 160px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  color: var(--text-primary);
+  padding: 1rem;
+  font-family: var(--font-text);
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+}
+
+.written-answer-section textarea:focus {
+  border-color: var(--accent);
+}
 .next-prev-ques{
     display: flex;
     justify-content: space-between;
@@ -257,6 +275,14 @@
     background-color: var(--bg-color);
     border-color: var(--accent);
     cursor: pointer;
+}
+
+.prev-button:disabled,.next-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: var(--surface);
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
 }
 
 @media (max-width: 770px){
