@@ -215,7 +215,7 @@
   color: var(--text-primary);
 }
 
-.option{
+.option, .selected-option{
     font-size: 0.8rem;
     color: var(--text-muted);
     display: flex;
@@ -233,11 +233,8 @@
     cursor: pointer;
 }
 
-.option:focus{
-    background-color: var(--accent);
-}
 
-.option-num{
+.option-num, .selected-option-num{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -247,6 +244,15 @@
     background-color: var(--surface);
 }
 
+.selected-option{
+    background-color: var(--accent);
+    color: var(--bg-color);
+    font-weight: bold;
+}
+
+.selected-option-num{
+    color: var(--accent);
+}
 
 .written-answer-section textarea {
   width: 100%;

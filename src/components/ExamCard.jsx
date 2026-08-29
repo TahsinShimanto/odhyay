@@ -42,14 +42,13 @@ const ExamCard = (props) => {
   }
 
   const [currentTime] = useState(() => {
-  const validMinutes = Number(props.minutes) || 10; 
-  return Date.now() + validMinutes * 60 * 1000;
+    const validMinutes = Number(props.minutes) || 10;
+    return Date.now() + validMinutes * 60 * 1000;
   });
-
 
   useEffect(() => {
     axios
-      .get("/api/questions", { params: { count: props.quesCount } })
+      .get("/api/questions")
       .then((res) => {
         const sliced = res.data.slice(0, Number(props.quesCount) || 10);
         setQuestions(sliced);
@@ -78,7 +77,8 @@ const ExamCard = (props) => {
               onComplete={() => props.handleFinish()}
               renderer={({ minutes, seconds }) => (
                 <span>
-                  {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+                  {String(minutes).padStart(2, "0")}:
+                  {String(seconds).padStart(2, "0")}
                 </span>
               )}
             />
@@ -139,10 +139,16 @@ const ExamCard = (props) => {
                 {currentQuestion.type === "mcq" ? "এমসিকিউ" : "লিখিত"}
               </div>
             </div>
-            <button className={flagged.includes(currentQuestion._id) ? "active-flag":"flag"} 
-            onClick={() => toggleFlag(currentQuestion._id)}>
-              <Flag size={15} /> 
-              {flagged.includes(currentQuestion._id) ? "ফ্ল্যাগ সরান" : "ফ্ল্যাগ করুন"}
+            <button
+              className={
+                flagged.includes(currentQuestion._id) ? "active-flag" : "flag"
+              }
+              onClick={() => toggleFlag(currentQuestion._id)}
+            >
+              <Flag size={15} />
+              {flagged.includes(currentQuestion._id)
+                ? "ফ্ল্যাগ সরান"
+                : "ফ্ল্যাগ করুন"}
             </button>
           </div>
 
@@ -155,13 +161,20 @@ const ExamCard = (props) => {
             </div>
             <div className="option-section">
               {currentQuestion.type === "mcq" ? (
-                currentQuestion.options?.map((opt, index) => (
-                  <div className="option" key={opt.id}>
-                    <div className="option-num">{index + 1}</div>
-                    {opt.text}
-                    {opt.image ? <img src={opt.image} alt="" /> : null}
-                  </div>
-                ))
+                currentQuestion.options.map((opt, index) => {
+                  const isSelected = answers[currentQuestion._id] === opt.id;
+                  return (
+                    <div
+                      className={isSelected ? "selected-option" : "option"}
+                      key={opt.id}
+                      onClick={() => selectOption(currentQuestion._id, opt.id)}
+                    >
+                      <div className={isSelected ? "selected-option-num" : "option-num"}>{index + 1}</div>
+                      {opt.text}
+                      {opt.image ? <img src={opt.image} alt="" /> : null}
+                    </div>
+                  );
+                })
               ) : (
                 <div className="written-answer-section">
                   <textarea placeholder="তোমার উত্তর লিখো..." />
