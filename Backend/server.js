@@ -1,7 +1,6 @@
 import express from 'express'
-import cors from 'cors'
 import dotenv from "dotenv"
-import { connectDB } from './src/config/db.js'
+import { connectDB } from './src/config/database.js'
 import questionsRouter from './src/routes/questions.js'
 
 import dns from 'dns'
@@ -16,14 +15,13 @@ const port = process.env.PORT || 4000
 
 // Middlewares
 app.use(express.json())
-app.use(cors())
 
 // API endpoints
 app.get('/', (req, res) => {
   res.send("API WORKING");
 })
 
-// Question routes
+// Question route
 app.use('/api/questions', questionsRouter)
 
 app.listen(port, () => {
