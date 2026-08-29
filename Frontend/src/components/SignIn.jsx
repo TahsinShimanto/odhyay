@@ -21,6 +21,7 @@ const SignIn = ({isOpen, setIsOpen}) => {
                 return;
             }
             localStorage.setItem("user", JSON.stringify(userData));
+            window.location.reload();
         }
         catch (error) {
             console.log("Something went wrong:", error);

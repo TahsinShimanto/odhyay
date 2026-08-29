@@ -4,6 +4,8 @@ import { Award, Bookmark, BookOpen, Clock2, Zap } from 'lucide-react'
 import Chart from './Chart.jsx'
 import ProgressCard from './ProgressCard.jsx'
 const User = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <div className='user-container'>
       <div className="user-details-card">
@@ -12,8 +14,8 @@ const User = () => {
             PS
           </div>
           <div className="name-email-section">
-            <h3>Pfizer Saleh</h3>
-            <p>abcsdea@gmail.com</p>
+            <h3>{user.user.name}</h3>
+            <p>{user.user.email}</p>
           </div>
         </div>
         <div className="streak-section">

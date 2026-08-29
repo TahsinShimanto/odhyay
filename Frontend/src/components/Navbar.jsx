@@ -1,5 +1,3 @@
-// TODO: remove the hardcoded profile button later
-
 import { useState } from 'react'
 import '../styles/Navbar.css'
 import { NavLink } from 'react-router'
@@ -12,6 +10,8 @@ export default function Navbar({onSignIn}) {
     SetIsMenuOpen((prev) => !prev);
   };
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isSignedIn = (user);
 
   return (
     <div className='navbar-container'>
@@ -57,11 +57,6 @@ export default function Navbar({onSignIn}) {
             <NavLink to={"/rankedexam"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
                 <BarChart3 size={16}/>
                 প্রতিযোগীতামূলক পরীক্ষা
-            </NavLink>
-
-            <NavLink to={"/profile"} className={({isActive}) => isActive? "mobile-active-links":"mobile-non-active-links"}>
-                <User size={16}/>
-                Profile
             </NavLink>
             </div>
 
@@ -113,7 +108,12 @@ export default function Navbar({onSignIn}) {
       </div>
 
       <div className="sign-in-container">
-          <NavLink onClick={onSignIn} className="sign-in-link">
+          <NavLink to={"/profile"} className={isSignedIn ? "active-profile-icon":"hidden-profile-icon"}>
+              <User size={16}/>
+              { (isSignedIn) ? user.user.name : "null" }
+          </NavLink>
+
+          <NavLink onClick={onSignIn} className={isSignedIn ? "hidden-sign-in-link":"sign-in-link"}>
               <LogIn size={16}/>
               সাইন ইন
           </NavLink>
