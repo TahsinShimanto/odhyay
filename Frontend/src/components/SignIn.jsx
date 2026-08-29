@@ -4,6 +4,29 @@ import { useFormik } from 'formik'
 
 const SignIn = ({isOpen, setIsOpen}) => {
 
+    const handleLogin = async (values) => {
+        try {
+            const response = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+
+            const userData = await response.json();
+
+            if (!response.ok) {
+                console.log(userData.message);
+                return;
+            }
+            localStorage.setItem("user", JSON.stringify(userData));
+        }
+        catch (error) {
+            console.log("Something went wrong:", error);
+        }
+    };
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -22,7 +45,7 @@ const SignIn = ({isOpen, setIsOpen}) => {
             return errors;
         },
         onSubmit: (values) => {
-            console.log(values);
+            handleLogin(values);
         }
     });
 

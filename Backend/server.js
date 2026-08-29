@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import { connectDB } from './src/config/database.js'
 import questionsRouter from './src/routes/questions.js'
 import usersRouter from './src/routes/users.js'
+import authRouter from './src/routes/auth.js'
 
 import dns from 'dns'
 dns.setServers(['8.8.8.8', '1.1.1.1']);
@@ -20,6 +21,8 @@ app.use(express.json())
 // Routes
 app.use('/api/questions', questionsRouter)
 app.use('/api/users', usersRouter)
+
+app.use('/api/auth', authRouter)
 
 app.listen(port, () => {
   console.log('server started on port: ' + port);
