@@ -27,7 +27,7 @@ function App() {
     {
       path: "/questionsolving",
       element: <div>
-        <Navbar/>
+        <Navbar onSignIn={() => setShowSignIn(true)} />
         <QuestionSolving/>
         <Footer/>
       </div>
@@ -36,7 +36,7 @@ function App() {
     {
       path: "/savedquestions",
       element: <div>
-        <Navbar/>
+        <Navbar onSignIn={() => setShowSignIn(true)} />
         <SavedQuestions/>
         <Footer/>
       </div>
@@ -45,7 +45,7 @@ function App() {
     {
       path: "/unrankedexam",
       element: <div>
-        <Navbar/>
+        <Navbar onSignIn={() => setShowSignIn(true)} />
         <UnrankedExam/>
       </div>
     },
@@ -53,7 +53,7 @@ function App() {
     {
       path: "/rankedexam",
       element: <div>
-        <Navbar/>
+        <Navbar onSignIn={() => setShowSignIn(true)} />
         <RankedExam/>
       </div>
     },
@@ -61,7 +61,7 @@ function App() {
     {
       path: "/profile",
       element: <div>
-        <Navbar/>
+        <Navbar onSignIn={() => setShowSignIn(true)} />
         <Profile/>
       </div>
     },

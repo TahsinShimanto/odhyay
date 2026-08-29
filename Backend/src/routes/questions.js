@@ -8,7 +8,6 @@ router.get("/", async (req, res) => {
     const questions = await Question.find().lean()
     res.json(questions)
   } catch (error) {
-    console.error("Error fetching questions:", error)
     res.status(500).json({ message: "Failed to fetch questions" })
   }
 })
