@@ -59,6 +59,19 @@
     border-radius: 4px;
     padding: 0.7rem;
     margin-bottom: 0.6rem;
+    color: var(--text-primary);
+}
+
+.input-field::placeholder {
+    color: var(--text-muted);
+}
+
+.input-field.error {
+    border: 1px solid #ef4444;
+}
+
+.input-field.error::placeholder {
+    color: #ef4444;
 }
 
 .submit-button {

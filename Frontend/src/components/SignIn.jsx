@@ -1,7 +1,30 @@
 import '../styles/SignIn.css'
 import { X } from 'lucide-react'
+import { useFormik } from 'formik'
 
 const SignIn = ({isOpen, setIsOpen}) => {
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validate: (values) => {
+            const errors = {};
+            if (!values.email) {
+                errors.email = 'ইমেইল অ্যাড্রেস দিন';
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+                errors.email = 'সঠিক ইমেইল অ্যাড্রেস দিন';
+            }
+            if (!values.password) {
+                errors.password = 'পাসওয়ার্ড দিন';
+            }
+            return errors;
+        },
+        onSubmit: (values) => {
+            console.log(values);
+        }
+    });
 
     if(!isOpen) {
         return null;
@@ -12,20 +35,38 @@ const SignIn = ({isOpen, setIsOpen}) => {
             <div className="floating-card">
                 <X onClick={() => setIsOpen(false)} size={18} className="close-button"/>
                 <h3 className="welcome-text">আবারও স্বাগতম!</h3>
-                <p className="welcome-description">অধ্যায় এর সকল সেবা পেতে সাইন ইন করুন</p>
+                <p className="welcome-description">অধ্যায় এর সকল সেবা পেতে সাইন ইন করুন</p>
 
-                <form>
-                    <label className="input-label">ইমেইল অ্যাড্রেস</label>
+                <form onSubmit={formik.handleSubmit}>
+                    <label className="input-label" htmlFor="email">ইমেইল অ্যাড্রেস</label>
                     <br/>
-                    <input className="input-field" type="text" />
+                    <input
+                        className={formik.touched.email && formik.errors.email ? 'input-field error' : 'input-field'}
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder={formik.touched.email && formik.errors.email ? formik.errors.email : 'ইমেইল অ্যাড্রেস'}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email}
+                    />
                     <br/>
-                    <label className="input-label">পাসওয়ার্ড</label>
+                    <label className="input-label" htmlFor="password">পাসওয়ার্ড</label>
                     <br/>
-                    <input className="input-field" type="password" />
+                    <input
+                        className={formik.touched.password && formik.errors.password ? 'input-field error' : 'input-field'}
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : 'পাসওয়ার্ড'}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.password}
+                    />
                     <br/>
-                    <p className="query-text">পাসওয়ার্ড ভুলে গেছেন?</p>
+                    <p className="query-text">পাসওয়ার্ড ভুলে গেছেন?</p>
                     <br/>
-                    <input className="submit-button" type="submit" value="সাইন ইন" />
+                    <button className="submit-button" type="submit">সাইন ইন</button>
                 </form>
                 <div className="divider" />
                 <p className="query-text">
