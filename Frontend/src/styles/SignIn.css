@@ -88,6 +88,14 @@
     margin-bottom: 1.4rem;
 }
 
+.submit-button:hover {
+    background-color: var(--accent-hover);
+}
+
+.submit-button:active {
+    transform: scale(0.98);
+}
+
 .query-text {
     font-family: monospace;
     font-size: 0.7rem;
