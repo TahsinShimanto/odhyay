@@ -1,17 +1,23 @@
 import { useState } from 'react'
 import '../styles/Navbar.css'
 import { NavLink } from 'react-router'
-import {Menu, X, HomeIcon, FileText, Bookmark, Lock, Award, BarChart3, LogIn, User} from 'lucide-react'
+import {Menu, X, HomeIcon, FileText, Bookmark, Lock, Award, BarChart3, LogIn, ChevronDown, User, LogOut} from 'lucide-react'
 
 
 export default function Navbar({onSignIn}) {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
+  const [isProfileMenuOpen, SetIsProfileMenuOpen] = useState(false);
   const toggleMenu = () => {
     SetIsMenuOpen((prev) => !prev);
   };
 
   const user = JSON.parse(localStorage.getItem("user"));
   const isSignedIn = (user);
+
+  const logout = () => {
+      localStorage.removeItem("user");
+      window.location.reload();
+  }
 
   return (
     <div className='navbar-container'>
@@ -108,10 +114,43 @@ export default function Navbar({onSignIn}) {
       </div>
 
       <div className="sign-in-container">
-          <NavLink to={"/profile"} className={isSignedIn ? "active-profile-icon":"hidden-profile-icon"}>
-              <User size={16}/>
-              { (isSignedIn) ? user.user.name : "null" }
-          </NavLink>
+          <div className={`profile-menu-wrapper ${isSignedIn ? "":"hidden-profile"}`}>
+            <button
+              className="profile-trigger"
+              onClick={() => SetIsProfileMenuOpen(prev => !prev)}
+            >
+              <span className="profile-avatar">{ (isSignedIn) ? Array.from(user.user.name)[0] : null }</span>
+              <span className="active-profile">
+                { (isSignedIn) ? user.user.name : "null" }
+                <span className="role">{ (user && user.user.role) ? user.user.role : "Student" }</span>
+              </span>
+              <ChevronDown className="profile-chevron" size={14}/>
+            </button>
+
+            { isProfileMenuOpen && isSignedIn && (
+              <div className="profile-dropdown-menu">
+
+                <NavLink
+                  to={"/profile"}
+                  onClick={() => SetIsProfileMenuOpen(false)}
+                  className="profile-dropdown-item"
+                >
+                  <User className="profile-dropdown-icon profile-dropdown-icon-user" size={16}/>
+                  প্রোফাইল
+                </NavLink>
+
+                <div className="profile-dropdown-divider" />
+
+                <button
+                  className="profile-dropdown-item profile-dropdown-logout"
+                  onClick={logout}
+                >
+                  <LogOut className="profile-dropdown-icon" size={16}/>
+                  সাইন আউট
+                </button>
+              </div>
+            )}
+          </div>
 
           <NavLink onClick={onSignIn} className={isSignedIn ? "hidden-sign-in-link":"sign-in-link"}>
               <LogIn size={16}/>
