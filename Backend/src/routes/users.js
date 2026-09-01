@@ -1,16 +1,30 @@
-import {Router} from "express";
-import User from "../models/User.js"
+import { Router } from "express";
+import verifyToken from '../middlewares/verifyToken.js';
+import {
+    getAllUsers,
+    getProfile,
+    createUser,
+    updateUser,
+    deleteUser
+} from "../controllers/userController.js"
+
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-    try {
-        const users = await User.find().lean()
-        res.json(users)
-    }
-    catch (error) {
-        res.status(500).json({ message: "Failed to fetch users" })
-    }
-})
+
+// get all users
+router.get("/", verifyToken, getAllUsers);      // TODO: remove this later
+
+// get user profile information
+router.get("/profile", verifyToken, getProfile);
+
+// creates an user
+router.post("/", verifyToken, createUser);
+
+// updates user information
+router.put("/:id", verifyToken, updateUser);
+
+// deletes user
+router.delete("/:id", verifyToken, deleteUser);
 
 export default router
