@@ -1,5 +1,5 @@
+import { hashPassword } from '../utils/helpers.js'
 import User from "../models/User.js"
-import jwt from "jsonwebtoken"
 
 
 // TODO: delete this later
@@ -9,25 +9,21 @@ export const getAllUsers = async (req, res) => {
     return res.status(200).json(allUsers);
   }
   catch (err) {
-    return res.status(400).json(err);
+    return res.status(500).json({ error: "Server error occurred" });
   }
 };
 
-// Gets the json web token from the cookies sent with the request
-// Verifys the user by matching the token with the server's internal jwt secret key
-// If the user is verified, then it fetches the user info
+
+// Fetches the user info from database
 // It searches the user inside the database using user id
 // -__v tells Mongoose to exclude the internal version (__v) field from your query results.
 export const getProfile = async (req, res) => {
   try {
-    const { token } = req.cookies;
-    const user = jwt.verify(token, process.env.JWT_SECRET)
-
-    const userInfo = await User.findById(user.id).select(["-__v"]);
+    const userInfo = await User.findById(req.user.id).select(["-password", "-__v"]);
     return res.status(200).json(userInfo);
   }
   catch(err) {
-    return res.status(400).json(err);
+    return res.status(500).json({ error: "Server error occurred" });
   }
 };
 
@@ -40,27 +36,31 @@ export const getProfile = async (req, res) => {
 export const createUser = async (req, res) => {
   const { username, displayName, email, password } = req.body;
 
-  const hashedPassword = await hashPassword(password);
-
-  const newUser = new User({
-    username,
-    displayName,
-    email,
-    password: hashedPassword,
-  });
-
   try {
-    const existingUsername = await User.findOne({ username }).select(["name"]);
-
+    const existingUsername = await User.findOne({ username }).select("_id");
     if(existingUsername) {
       return res.status(400).json({ error: "Username already in use" });
     }
 
+    const existingEmail = await User.findOne({ email }).select("_id");
+    if(existingEmail) {
+      return res.status(400).json({ error: "Email already in use" });
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    const newUser = new User({
+      username,
+      displayName,
+      email,
+      password: hashedPassword,
+    });
+
     await newUser.save();
-    return res.status(201).json({ messege: "New user added successfully" });
+    return res.status(201).json({ message: "New user added successfully" });
   }
   catch(err) {
-    return res.status(400).json(err);
+    return res.status(500).json({ error: "Server error occurred" });
   }
 };
 
@@ -77,6 +77,10 @@ export const updateUser = async (req, res) => {
   const { displayName, username, email, password } = req.body;
   const { id } = req.params;
 
+  if (id !== req.user.id) {
+    return res.status(403).json({ error: "You can only update your own account" });
+  }
+
   const hashedPassword = await hashPassword(password);
 
   try {
@@ -88,16 +92,16 @@ export const updateUser = async (req, res) => {
 
     const updatedUser = await User.findOneAndUpdate(
       { _id: id },
-      { username, displayName, password: hashPassword },
+      { username, displayName, password: hashedPassword },
       {
         new: true,
       },
-    ).select("-__v");
+    ).select("-password -__v");
 
     return res.status(200).json(updatedUser);
   }
   catch(err) {
-    return res.status(400).json(err);
+    return res.status(500).json({ error: "Server error occurred" });
   }
 };
 
@@ -107,11 +111,15 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
 
+  if (id !== req.user.id) {
+    return res.status(403).json({ error: "You can only delete your own account" });
+  }
+
   try {
     await User.deleteOne({ _id: id });
-    return res.status(200).json({ messege: "User deleted" });
+    return res.status(200).json({ message: "User deleted" });
   }
   catch(err) {
-    return res.status(400).json(err);
+    return res.status(500).json({ error: "Server error occurred" });
   }
 };

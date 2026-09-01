@@ -19,7 +19,7 @@ router.get("/", verifyToken, getAllUsers);      // TODO: remove this later
 router.get("/profile", verifyToken, getProfile);
 
 // creates an user
-router.post("/", verifyToken, createUser);
+router.post("/", createUser);
 
 // updates user information
 router.put("/:id", verifyToken, updateUser);

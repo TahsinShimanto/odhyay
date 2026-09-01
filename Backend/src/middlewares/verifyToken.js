@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken"
 
-
 // middleware function that verifies json web token
 // checks if the token provided in through the cookies is null
 // then it verifies the token with the jwt secret key
@@ -21,6 +20,7 @@ const verifyToken = (req, res, next) => {
       });
       return res.status(401).json({ error: "Invalid token" });
     }
+    req.user = user;
     next();
   });
 };

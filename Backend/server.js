@@ -1,4 +1,5 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
 import dotenv from "dotenv"
 import { connectDB } from './src/config/database.js'
 import questionsRouter from './src/routes/questions.js'
@@ -11,6 +12,8 @@ dns.setServers(['8.8.8.8', '1.1.1.1']);
 // App config
 const app = express()
 const port = process.env.PORT || 4000
+app.use(express.json())
+app.use(cookieParser())
 
 // Setting up a listener for our server
 app.listen(port, () => {
@@ -20,22 +23,19 @@ app.listen(port, () => {
 // Dotenv
 dotenv.config()
 
-// connect to MongoDB
+// Connect to MongoDB
 connectDB()
-
-// Middlewares
-app.use(express.json())
 
 
 ///////////////////API Endpoints///////////////////////
 
-// authentication related APIs
+// Authentication APIs
 app.use('/api/auth', authRouter)
 
 
-// user related APIs
+// Authorization APIs
 app.use('/api/users', usersRouter)
 
 
-// question related APIs
+// Question related APIs
 app.use('/api/questions', questionsRouter)
