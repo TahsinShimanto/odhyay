@@ -1,24 +1,24 @@
-import {useState} from "react";
 import {createBrowserRouter, RouterProvider} from 'react-router'
 import Navbar from '../components/Navbar'
 import HomePage from './HomePage'
 import QuestionSolving from './QuestionSolving.jsx'
 import SavedQuestions from './SavedQuestions.jsx'
-import SignIn from "../components/SignIn.jsx";
+import SignIn from "./SignIn.jsx"
 import UnrankedExam from './UnrankedExam'
 import RankedExam from './RankedExam'
 import Footer from '../components/Footer'
 import Profile from './Profile.jsx'
+import Register from './Register.jsx'
+
 
 
 function App() {
-  const [showSignIn, setShowSignIn] = useState(false);
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: <div>
-        <Navbar onSignIn={() => setShowSignIn(true)} />
+        <Navbar/>
         <HomePage/>
         <Footer/>
       </div>
@@ -27,7 +27,7 @@ function App() {
     {
       path: "/questionsolving",
       element: <div>
-        <Navbar onSignIn={() => setShowSignIn(true)} />
+        <Navbar/>
         <QuestionSolving/>
         <Footer/>
       </div>
@@ -36,7 +36,7 @@ function App() {
     {
       path: "/savedquestions",
       element: <div>
-        <Navbar onSignIn={() => setShowSignIn(true)} />
+        <Navbar/>
         <SavedQuestions/>
         <Footer/>
       </div>
@@ -45,7 +45,7 @@ function App() {
     {
       path: "/unrankedexam",
       element: <div>
-        <Navbar onSignIn={() => setShowSignIn(true)} />
+        <Navbar/>
         <UnrankedExam/>
       </div>
     },
@@ -53,7 +53,7 @@ function App() {
     {
       path: "/rankedexam",
       element: <div>
-        <Navbar onSignIn={() => setShowSignIn(true)} />
+        <Navbar/>
         <RankedExam/>
       </div>
     },
@@ -61,8 +61,22 @@ function App() {
     {
       path: "/profile",
       element: <div>
-        <Navbar onSignIn={() => setShowSignIn(true)} />
+        <Navbar/>
         <Profile/>
+      </div>
+    },
+    {
+      path: "/signin",
+      element: <div>
+        <Navbar/>
+        <SignIn/>
+      </div>
+    },
+    {
+      path: "/register",
+      element: <div>
+        <Navbar/>
+        <Register/>
       </div>
     },
   ])
@@ -70,7 +84,6 @@ function App() {
   return (
     <div className="appWrapper">
       <RouterProvider router={router} />
-      <SignIn isOpen={showSignIn} setIsOpen={setShowSignIn} />
     </div>
   )
 }

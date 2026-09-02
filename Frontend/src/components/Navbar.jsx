@@ -4,7 +4,7 @@ import { NavLink } from 'react-router'
 import {Menu, X, HomeIcon, FileText, Bookmark, Lock, Award, BarChart3, LogIn, ChevronDown, User, LogOut} from 'lucide-react'
 
 
-export default function Navbar({onSignIn}) {
+ const Navbar = () => {
   const [isMenuOpen, SetIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, SetIsProfileMenuOpen] = useState(false);
   const toggleMenu = () => {
@@ -152,7 +152,7 @@ export default function Navbar({onSignIn}) {
             )}
           </div>
 
-          <NavLink onClick={onSignIn} className={isSignedIn ? "hidden-sign-in-link":"sign-in-link"}>
+          <NavLink to="/signin" className={isSignedIn ? "hidden-sign-in-link":"sign-in-link"}>
               <LogIn size={16}/>
               সাইন ইন
           </NavLink>
@@ -161,3 +161,5 @@ export default function Navbar({onSignIn}) {
     </div>
   )
 }
+
+export default Navbar;

@@ -1,9 +1,9 @@
 import '../styles/SignIn.css'
 import { X } from 'lucide-react'
 import { useFormik } from 'formik'
-
-const SignIn = ({isOpen, setIsOpen}) => {
-
+import { useNavigate, NavLink } from 'react-router'
+const SignIn = () => {
+    const navigate = useNavigate();
     const handleLogin = async (values) => {
         try {
             const response = await fetch("/api/auth/login", {
@@ -50,14 +50,11 @@ const SignIn = ({isOpen, setIsOpen}) => {
         }
     });
 
-    if(!isOpen) {
-        return null;
-    }
 
     return (
         <div className="sign-in-overlay">
             <div className="floating-card">
-                <X onClick={() => setIsOpen(false)} size={18} className="close-button"/>
+                <X onClick={() => navigate(-1)} size={18} className="close-button"/>
                 <h3 className="welcome-text">আবারও স্বাগতম!</h3>
                 <p className="welcome-description">অধ্যায় এর সকল সেবা পেতে সাইন ইন করুন</p>
 
@@ -95,7 +92,7 @@ const SignIn = ({isOpen, setIsOpen}) => {
                 <div className="divider" />
                 <p className="query-text">
                     অ্যাকাউন্ট নেই?
-                    <a className="register-now"> রেজিস্টার করুন</a>
+                    <NavLink to="/register" replace  className="register-now"> রেজিস্টার করুন</NavLink>
                 </p>
             </div>
         </div>
