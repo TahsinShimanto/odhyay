@@ -1,7 +1,21 @@
-import React from 'react'
+import { useNavigate, useParams, useLocation } from 'react-router'
 import '../styles/Result.css'
-import AnsCard from './AnsCard'
-const Result = (props) => {
+import AnsCard from '../components/AnsCard'
+const Result = () => {
+
+  const navigate = useNavigate();
+  const { type } = useParams(); //ranked or unranked
+  const location = useLocation();
+  const { quesCount, minutes, secondTime } = location.state || {};
+
+  function handleRetry() {
+    navigate(`/exam/${type}`, { state: { quesCount, minutes, secondTime } });
+  }
+
+  function handleNewExam() {
+    navigate(type === "ranked" ? "/rankedexam" : "/unrankedexam");
+  }
+
   return (
       <div className="result-container">
          <div className="result-heading">
@@ -49,8 +63,8 @@ const Result = (props) => {
         </div>
 
         <div className="result-nav">
-            <button className='next-button'>নতুন পরীক্ষা</button>
-            <button className='prev-button' onClick={props.handleRetry}>আবার চেষ্টা করুন</button>
+            <button className='next-button' onClick={handleNewExam}>নতুন পরীক্ষা</button>
+            <button className='prev-button' onClick={handleRetry}>আবার চেষ্টা করুন</button>
         </div>
       </div>
     

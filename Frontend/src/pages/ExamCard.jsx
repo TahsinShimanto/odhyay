@@ -1,9 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router";
 import "../styles/ExamCard.css";
 import { ArrowLeft, ArrowRight, Clock, Flag, Send } from "lucide-react";
 import axios from "axios";
 import Countdown from "react-countdown";
-const ExamCard = (props) => {
+const ExamCard = () => {
+  const navigate = useNavigate();
+  const { type } = useParams(); //ranked or unranked
+  const location = useLocation();
+
+  const {
+    quesCount = 10, minutes = 10, secondTime = false,} = location.state || {};
+
+
+  useEffect(() => {
+    if (!location.state) {
+      navigate(type === "ranked" ? "/rankedexam" : "/unrankedexam", { replace: true });
+    }
+  }, []);
+
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,7 +57,7 @@ const ExamCard = (props) => {
   }
 
   const [currentTime] = useState(() => {
-    const validMinutes = Number(props.minutes) || 10;
+    const validMinutes = Number(minutes) || 10;
     return Date.now() + validMinutes * 60 * 1000;
   });
 
@@ -50,7 +65,7 @@ const ExamCard = (props) => {
     axios
       .get("/api/questions")
       .then((res) => {
-        const sliced = res.data.slice(0, Number(props.quesCount) || 10);
+        const sliced = res.data.slice(0, Number(quesCount) || 10);
         setQuestions(sliced);
         setLoading(false);
       })
@@ -59,6 +74,12 @@ const ExamCard = (props) => {
         setLoading(false);
       });
   }, []);
+
+  function handleFinish() {
+    navigate(`/result/${type}`, {
+      state: { answers, flagged, questions, secondTime, quesCount, minutes },
+    });
+  }
 
   if (loading) return <div className="load-error">লোড হচ্ছে...</div>;
   if (error) return <div className="load-error">ত্রুটি: {error}</div>;
@@ -74,7 +95,7 @@ const ExamCard = (props) => {
             <Clock size={20} color="#c0c1ff" />
             <Countdown
               date={currentTime}
-              onComplete={() => props.handleFinish()}
+              onComplete={() => handleFinish()}
               renderer={({ minutes, seconds }) => (
                 <span>
                   {String(minutes).padStart(2, "0")}:
@@ -121,7 +142,7 @@ const ExamCard = (props) => {
           </div>
         </div>
         <div className="finish-exam">
-          <button onClick={props.handleFinish}>
+          <button onClick={handleFinish}>
             {" "}
             <Send size={17} /> পরীক্ষা শেষ করুন
           </button>
