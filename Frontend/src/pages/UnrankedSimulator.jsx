@@ -3,20 +3,23 @@ import { Award, Play, TriangleAlert } from "lucide-react";
 import Footer from "../components/Footer";
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import axios from "axios";
 const UnrankedSimulator = () => {
   const navigate = useNavigate();
   const [quesCount, setQuesCount] = useState("");
   const [minutes, setMinutes] = useState("");
   const [secondTime, setSecondTime] = useState(false);
 
-  function handleStart() {
+  async function handleStart() {
+    const res = await axios.post("/api/exam/start", {
+      type: "unranked",
+      questionCount: Number(quesCount) || 10,
+      minutes: Number(minutes) || 10,
+      secondTime,
+    })
+
     navigate("/exam/unranked", {
-      state: {
-        quesCount: Number(quesCount) || 10,
-        minutes: Number(minutes) || 10,
-        secondTime,
-        attemptId: Date.now()
-      },
+      state: { attemptId: res.data.attemptId },
     });
   }
 

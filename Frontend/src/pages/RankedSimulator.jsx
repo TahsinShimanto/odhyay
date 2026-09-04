@@ -1,8 +1,9 @@
 import "../styles/RankedSimulator.css";
 import { BarChart3, Hourglass, Users } from "lucide-react";
 import Footer from "../components/Footer";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
+import axios from "axios";
 const RankedSimulator = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState("full");
@@ -12,17 +13,19 @@ const RankedSimulator = () => {
     chapter: { label: "অধ্যায়ভিত্তি", quesCount: 5, minutes: 2 },
   };
 
-  function handleStartRank() {
+  async function handleStartRank() {
     const { quesCount, minutes } = EXAM_MODES[mode];
-    navigate("/exam/ranked", {
-      state: {
-        quesCount,
-        minutes,
-        mode,
-        attemptId: Date.now()
-      },
+    
+    const res = await axios.post("/api/exam/start", {
+      type: "ranked",
+      questionCount: quesCount,
+      minutes,
     });
-  }
+
+    navigate("/exam/ranked", {
+      state: { attemptId: res.data.attemptId, mode },
+    });
+}
 
   return (
     <div>

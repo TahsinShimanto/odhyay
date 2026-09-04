@@ -5,11 +5,18 @@ const Result = () => {
 
   const navigate = useNavigate();
   const { type } = useParams(); //ranked or unranked
-  const location = useLocation();
-  const { quesCount, minutes, secondTime } = location.state || {};
+  
+  async function handleRetry() {
+    const res = await axios.post("/api/exam/start", {
+          type: "unranked",
+          questionCount: Number(quesCount) || 10,
+          minutes: Number(minutes) || 10,
+          secondTime,
+    })
 
-  function handleRetry() {
-    navigate(`/exam/${type}`, { state: { quesCount, minutes, secondTime, attemptId: Date.now() } });
+    navigate(`/exam/${type}`, {
+        state: {attemptId: res.data.attemptId}
+    });
   }
 
   function handleNewExam() {

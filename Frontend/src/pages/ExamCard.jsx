@@ -9,51 +9,36 @@ const ExamCard = () => {
   const { type } = useParams(); //ranked or unranked
   const location = useLocation();
 
-  const {quesCount = 10, minutes = 10, secondTime = false, attemptId} = location.state || {};
+  const { attemptId } = location.state || {};
 
   useEffect(() => {
-    if (!location.state) {
-      navigate(type === "ranked" ? "/rankedexam" : "/unrankedexam", { replace: true });
-    }
+  if (!attemptId) 
+    navigate(type === "ranked" ? "/rankedexam" : "/unrankedexam", { replace: true });
   }, []);
 
-  const storageKey = `${type}-${attemptId}`;
-
-  function getSavedData(){
-    let savedDataString = sessionStorage.getItem(storageKey);
-
-    if (savedDataString === null)
-      return null
-
-    try{
-      return JSON.parse(savedDataString);
-
-    } catch{
-      return null;
-    }
-  }
-
-  const savedData = getSavedData(); 
-
-  let initialFlagged = [];
-  if (savedData && savedData.flagged) {
-    initialFlagged = savedData.flagged;
-  }
-
-  let initialAnswers = {};
-  if (savedData && savedData.answers) {
-    initialAnswers = savedData.answers;
-  }
-
-  let initialIndex = 0;
-  if (savedData && savedData.currentIndex !== undefined) {
-    initialIndex = savedData.currentIndex;
-  }
-
   const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [attemptLoaded, setAttemptLoaded] = useState(false);
+  const [questionsLoaded, setQuestionsLoaded] = useState(false);
+  const loading = !attemptLoaded || !questionsLoaded;
+  
+  useEffect(() => {
+  if (!attemptId) return;
+
+  axios.get(`/api/exam/${attemptId}`)
+    .then((res) => {
+      setAnswers(res.data.answers || {});
+      setFlagged(res.data.flagged || []);
+      setCurrentIndex(res.data.currentIndex || 0);
+      setEndTime(res.data.endTime);
+      setAttemptLoaded(true);
+    })
+    .catch((err) => { 
+      setError(err.message); 
+      setAttemptLoaded(true);
+    });
+  }, [attemptId]);
 
   function handleNext() {
     setCurrentIndex((prev) => prev + 1);
@@ -63,8 +48,9 @@ const ExamCard = () => {
     setCurrentIndex((prev) => prev - 1);
   }
 
-  const [flagged, setFlagged] = useState(initialFlagged);
-  const [answers, setAnswers] = useState(initialAnswers);
+  const [flagged, setFlagged] = useState([]);
+  const [answers, setAnswers] = useState({});
+  const [endTime, setEndTime] = useState(null);
 
   function toggleFlag(quesId) {
     if (flagged.includes(quesId)) {
@@ -87,47 +73,35 @@ const ExamCard = () => {
     setAnswers(newAnswers);
   }
 
-  const [endTime] = useState(() => {
-    if(savedData && savedData.endTime)
-      return savedData.endTime
-
-    const validMinutes = Number(minutes) || 10;
-    return Date.now() + validMinutes * 60 * 1000;
-  })
-
   useEffect(() => {
-    if (!attemptId)
-      return;
+  if (!attemptId || loading) 
+    return;
 
-    const toSave = {
-      answers: answers,
-      flagged: flagged,
-      currentIndex: currentIndex,
-      endTime: endTime,
-    };
+  const timeoutId = setTimeout(() => {
+    axios.patch(`/api/exam/${attemptId}/progress`, { answers, flagged, currentIndex })
+      .catch(() => {});
+  }, 600);
+  return () => clearTimeout(timeoutId);
+}, [answers, flagged, currentIndex, attemptId, loading]);
 
-    sessionStorage.setItem(storageKey, JSON.stringify(toSave));
-  }, [answers, flagged, currentIndex, endTime, storageKey, attemptId]);
 
   useEffect(() => {
     axios
       .get("/api/questions")
       .then((res) => {
-        const sliced = res.data.slice(0, Number(quesCount) || 10);
-        setQuestions(sliced);
-        setLoading(false);
+        // const sliced = res.data.slice(0, Number(quesCount) || 10);
+        // setQuestions(sliced);
+        setQuestions(res.data);
+        setQuestionsLoaded(true);
       })
       .catch((err) => {
         setError(err.message);
-        setLoading(false);
+        setQuestionsLoaded(true);
       });
   }, []);
 
   function handleFinish() {
-    sessionStorage.removeItem(storageKey);
-    navigate(`/result/${type}`, {
-      state: { answers, flagged, questions, secondTime, quesCount, minutes },
-    });
+    navigate(`/result/${type}`);
   }
 
   if (loading) return <div className="load-error">লোড হচ্ছে...</div>;
