@@ -1,7 +1,14 @@
 import User from '../models/User.js';
 import RefreshToken from '../models/RefreshToken.js';
-import { comparePassword, generateAccessToken, generateRefreshToken, cookieOptions, ACCESS_COOKIE_MAXAGE, REFRESH_COOKIE_MAXAGE } from '../utils/helpers.js';
 import jwt from 'jsonwebtoken';
+import {
+  comparePassword,
+  generateAccessToken,
+  generateRefreshToken,
+  cookieOptions,
+  ACCESS_COOKIE_MAXAGE,
+  REFRESH_COOKIE_MAXAGE
+}  from '../utils/helpers.js';
 
 
 // login API handler
