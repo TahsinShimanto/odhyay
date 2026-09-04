@@ -9,9 +9,7 @@ const ExamCard = () => {
   const { type } = useParams(); //ranked or unranked
   const location = useLocation();
 
-  const {
-    quesCount = 10, minutes = 10, secondTime = false,} = location.state || {};
-
+  const {quesCount = 10, minutes = 10, secondTime = false, attemptId} = location.state || {};
 
   useEffect(() => {
     if (!location.state) {
@@ -19,10 +17,43 @@ const ExamCard = () => {
     }
   }, []);
 
+  const storageKey = `${type}-${attemptId}`;
+
+  function getSavedData(){
+    let savedDataString = sessionStorage.getItem(storageKey);
+
+    if (savedDataString === null)
+      return null
+
+    try{
+      return JSON.parse(savedDataString);
+
+    } catch{
+      return null;
+    }
+  }
+
+  const savedData = getSavedData(); 
+
+  let initialFlagged = [];
+  if (savedData && savedData.flagged) {
+    initialFlagged = savedData.flagged;
+  }
+
+  let initialAnswers = {};
+  if (savedData && savedData.answers) {
+    initialAnswers = savedData.answers;
+  }
+
+  let initialIndex = 0;
+  if (savedData && savedData.currentIndex !== undefined) {
+    initialIndex = savedData.currentIndex;
+  }
+
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
 
   function handleNext() {
     setCurrentIndex((prev) => prev + 1);
@@ -32,8 +63,8 @@ const ExamCard = () => {
     setCurrentIndex((prev) => prev - 1);
   }
 
-  const [flagged, setFlagged] = useState([]);
-  const [answers, setAnswers] = useState({});
+  const [flagged, setFlagged] = useState(initialFlagged);
+  const [answers, setAnswers] = useState(initialAnswers);
 
   function toggleFlag(quesId) {
     if (flagged.includes(quesId)) {
@@ -56,10 +87,27 @@ const ExamCard = () => {
     setAnswers(newAnswers);
   }
 
-  const [currentTime] = useState(() => {
+  const [endTime] = useState(() => {
+    if(savedData && savedData.endTime)
+      return savedData.endTime
+
     const validMinutes = Number(minutes) || 10;
     return Date.now() + validMinutes * 60 * 1000;
-  });
+  })
+
+  useEffect(() => {
+    if (!attemptId)
+      return;
+
+    const toSave = {
+      answers: answers,
+      flagged: flagged,
+      currentIndex: currentIndex,
+      endTime: endTime,
+    };
+
+    sessionStorage.setItem(storageKey, JSON.stringify(toSave));
+  }, [answers, flagged, currentIndex, endTime, storageKey, attemptId]);
 
   useEffect(() => {
     axios
@@ -76,6 +124,7 @@ const ExamCard = () => {
   }, []);
 
   function handleFinish() {
+    sessionStorage.removeItem(storageKey);
     navigate(`/result/${type}`, {
       state: { answers, flagged, questions, secondTime, quesCount, minutes },
     });
@@ -94,7 +143,7 @@ const ExamCard = () => {
           <div className="timer-container">
             <Clock size={20} color="#c0c1ff" />
             <Countdown
-              date={currentTime}
+              date={endTime}
               onComplete={() => handleFinish()}
               renderer={({ minutes, seconds }) => (
                 <span>

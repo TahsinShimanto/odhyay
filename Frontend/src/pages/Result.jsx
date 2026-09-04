@@ -9,7 +9,7 @@ const Result = () => {
   const { quesCount, minutes, secondTime } = location.state || {};
 
   function handleRetry() {
-    navigate(`/exam/${type}`, { state: { quesCount, minutes, secondTime } });
+    navigate(`/exam/${type}`, { state: { quesCount, minutes, secondTime, attemptId: Date.now() } });
   }
 
   function handleNewExam() {

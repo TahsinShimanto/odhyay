@@ -15,6 +15,7 @@ const UnrankedSimulator = () => {
         quesCount: Number(quesCount) || 10,
         minutes: Number(minutes) || 10,
         secondTime,
+        attemptId: Date.now()
       },
     });
   }
