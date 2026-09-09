@@ -1,22 +1,38 @@
-import { useNavigate, useParams, useLocation } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
+import { useEffect, useState } from "react";
 import '../styles/Result.css'
 import AnsCard from '../components/AnsCard'
+import axios from "axios";
 const Result = () => {
 
   const navigate = useNavigate();
-  const { type } = useParams(); //ranked or unranked
+  const { type, attemptId } = useParams(); //ranked or unranked
+  const [settings, setSettings] = useState(null);
   
-  async function handleRetry() {
-    const res = await axios.post("/api/exam/start", {
-          type: "unranked",
-          questionCount: Number(quesCount) || 10,
-          minutes: Number(minutes) || 10,
-          secondTime,
-    })
 
-    navigate(`/exam/${type}`, {
-        state: {attemptId: res.data.attemptId}
-    });
+  useEffect(() => {
+    if (!attemptId) 
+        return;
+
+    axios.get(`/api/exam/${attemptId}`)
+      .then((res) => {
+        setSettings({
+          type: res.data.type,
+          questionCount: res.data.questionCount,
+          minutes: res.data.minutes,
+          secondTime: res.data.secondTime,
+        });
+      })
+      .catch(() => {});
+  }, [attemptId]);
+
+  async function handleRetry() {
+    if (!settings)
+        return;
+
+    const res = await axios.post("/api/exam/start", settings);
+
+    navigate(`/exam/${settings.type}/${res.data.attemptId}`);
   }
 
   function handleNewExam() {
@@ -71,7 +87,7 @@ const Result = () => {
 
         <div className="result-nav">
             <button className='next-button' onClick={handleNewExam}>নতুন পরীক্ষা</button>
-            <button className='prev-button' onClick={handleRetry}>আবার চেষ্টা করুন</button>
+            <button className='prev-button' onClick={handleRetry} disabled={!settings}>আবার চেষ্টা করুন</button>
         </div>
       </div>
     

@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import "../styles/ExamCard.css";
 import { ArrowLeft, ArrowRight, Clock, Flag, Send } from "lucide-react";
 import axios from "axios";
 import Countdown from "react-countdown";
 const ExamCard = () => {
   const navigate = useNavigate();
-  const { type } = useParams(); //ranked or unranked
-  const location = useLocation();
-
-  const { attemptId } = location.state || {};
+  const { type, attemptId } = useParams(); //ranked or unranked
 
   useEffect(() => {
   if (!attemptId) 
@@ -101,7 +98,7 @@ const ExamCard = () => {
   }, []);
 
   function handleFinish() {
-    navigate(`/result/${type}`);
+    navigate(`/result/${type}/${attemptId}`);
   }
 
   if (loading) return <div className="load-error">লোড হচ্ছে...</div>;

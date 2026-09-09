@@ -58,14 +58,14 @@ function App() {
       </div>
     },
     {
-      path: "/exam/:type",
+      path: "/exam/:type/:attemptId",
       element: <div>
         <Navbar/>
         <ExamCard/>
       </div>
     },
     {
-      path: "/result/:type",
+      path: "/result/:type/:attemptId",
       element: <div>
         <Navbar/>
         <Result/>

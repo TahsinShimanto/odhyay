@@ -22,9 +22,7 @@ const RankedSimulator = () => {
       minutes,
     });
 
-    navigate("/exam/ranked", {
-      state: { attemptId: res.data.attemptId, mode },
-    });
+    navigate(`/exam/ranked/${res.data.attemptId}`);
 }
 
   return (

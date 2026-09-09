@@ -1,7 +1,9 @@
 import express from "express";
 import ExamAttempt from "../models/ExamAttempt.js";
+import verifyToken from "../middlewares/verifyToken.js"
 
 const router = express.Router();
+router.use(verifyToken)
 
 router.post("/start", async (req, res) => {
     const { type, questionCount, minutes, secondTime } = req.body;
@@ -9,6 +11,7 @@ router.post("/start", async (req, res) => {
     const endTime = new Date(Date.now() + (minutes || 10) * 60 * 1000);
 
     const attempt = await ExamAttempt.create({
+        user: req.user.id,
         type, 
         questionCount,
         minutes,
@@ -32,6 +35,9 @@ router.patch("/:attemptId/progress", async (req, res) => {
     if (!attempt) 
         return res.status(404).json({ error: "Attempt not found" });
 
+    if(attempt.user.toString() !== req.user.id)
+        return res.status(403).json({ error: "আপনার এই কাজটি করার অনুমতি নেই" });
+
     attempt.answers = answers;
     attempt.flagged = flagged;
     attempt.currentIndex = currentIndex;
@@ -42,14 +48,21 @@ router.patch("/:attemptId/progress", async (req, res) => {
 
 router.get("/:attemptId", async (req, res) => {
     const attempt = await ExamAttempt.findById(req.params.attemptId);
+    
     if (!attempt) 
-        return res.status(404).json({ error: "Attempt not found" });
+        return res.status(404).json({ error: "পরীক্ষার তথ্য খুঁজে পাওয়া যায়নি" });
+
+    if(attempt.user.toString() !== req.user.id)
+        return res.status(403).json({ error: "আপনার এই কাজটি করার অনুমতি নেই" });
 
     res.json({
+        type: attempt.type,
+        questionCount: attempt.questionCount,
+        minutes: attempt.minutes,
+        secondTime: attempt.secondTime,
         answers: attempt.answers,
         flagged: attempt.flagged,
         currentIndex: attempt.currentIndex,
-        secondTime: attempt.secondTime,
         endTime: attempt.endTime,
     })
 });
