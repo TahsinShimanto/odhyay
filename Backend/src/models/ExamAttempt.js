@@ -9,6 +9,9 @@ const examAttemptSchema = new mongoose.Schema({
     currentIndex: { type: Number, default: 0 },
     answers: Object,
     flagged: [String],
+    subjectId: { type: mongoose.Schema.Types.ObjectId, ref: "Subject" },
+    chapterId: { type: mongoose.Schema.Types.ObjectId, ref: "Chapter" },
+    topicId: { type: mongoose.Schema.Types.ObjectId, ref: "Topic" },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 

@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import ExamAttempt from "../models/ExamAttempt.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import Question from "../models/Question.js";
@@ -7,7 +8,19 @@ const router = express.Router();
 router.use(verifyToken);
 
 router.post("/start", async (req, res) => {
-  const { type, questionCount, minutes, secondTime } = req.body;
+  const { type, questionCount, minutes, secondTime, subjectId, chapterId, topicId } = req.body;
+
+  if (subjectId && !mongoose.Types.ObjectId.isValid(subjectId)) {
+    return res.status(400).json({ error: "Invalid subject ID" });
+  }
+  
+  if (chapterId && !mongoose.Types.ObjectId.isValid(chapterId)) {
+    return res.status(400).json({ error: "Invalid chapter ID" });
+  }
+  
+  if (topicId && !mongoose.Types.ObjectId.isValid(topicId)) {
+    return res.status(400).json({ error: "Invalid topic ID" });
+  }
 
   const endTime = new Date(Date.now() + (minutes || 10) * 60 * 1000);
 
@@ -18,6 +31,9 @@ router.post("/start", async (req, res) => {
     minutes,
     secondTime,
     endTime,
+    subjectId: subjectId || undefined,
+    chapterId: chapterId || undefined,
+    topicId: topicId || undefined,
 
     answers: {},
     flagged: [],
@@ -72,6 +88,9 @@ router.get("/:attemptId", async (req, res) => {
       flagged: attempt.flagged,
       currentIndex: attempt.currentIndex,
       endTime: attempt.endTime,
+      subjectId: attempt.subjectId,
+      chapterId: attempt.chapterId,
+      topicId: attempt.topicId,
     });
   } catch (err) {
     console.error(err);
@@ -162,6 +181,43 @@ router.get("/:attemptId/result", async (req, res) => {
       },
       details,
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error occurred" });
+  }
+});
+
+router.get("/:attemptId/questions", async (req, res) => {
+  try {
+    const attempt = await ExamAttempt.findById(req.params.attemptId);
+
+    if (!attempt)
+      return res.status(404).json({ error: "পরীক্ষার তথ্য খুঁজে পাওয়া যায়নি" });
+
+    if (attempt.user.toString() !== req.user.id)
+      return res.status(403).json({ error: "আপনার এই কাজটি করার অনুমতি নেই" });
+
+    const filter = { type: "mcq" };
+
+    if (attempt.subjectId) filter.subjectId = attempt.subjectId;
+    if (attempt.chapterId) filter.chapterId = attempt.chapterId;
+    if (attempt.topicId) filter.topicId = attempt.topicId;
+
+    const questionCount = attempt.questionCount || 10;
+
+    const questions = await Question.aggregate([
+      { $match: filter },
+      { $sample: { size: questionCount } },
+      {
+        $project: {
+          "options.isCorrect": 0,
+          answerOrExplanationText: 0,
+          answerOrExplanationImage: 0,
+        },
+      },
+    ]);
+
+    res.json({ questions });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error occurred" });

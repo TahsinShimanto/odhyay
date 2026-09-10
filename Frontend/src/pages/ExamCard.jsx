@@ -83,17 +83,19 @@ const ExamCard = () => {
 
 
   useEffect(() => {
-    axios
-      .get("/api/questions?type=mcq")
-      .then((res) => {
-        setQuestions(res.data.data.questions);
-        setQuestionsLoaded(true);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setQuestionsLoaded(true);
-      });
-  }, []);
+      if (!attemptId) return;
+  
+      axios
+        .get(`/api/exam/${attemptId}/questions`)
+        .then((res) => {
+          setQuestions(res.data.questions);
+          setQuestionsLoaded(true);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setQuestionsLoaded(true);
+        });
+  }, [attemptId]);
 
   function handleFinish() {
     navigate(`/result/${type}/${attemptId}`, { replace: true });

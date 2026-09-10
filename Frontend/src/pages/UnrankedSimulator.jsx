@@ -1,7 +1,7 @@
 import "../styles/UnrankedSimulator.css";
 import { Award, Play, TriangleAlert } from "lucide-react";
 import Footer from "../components/Footer";
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import axios from "axios";
 const UnrankedSimulator = () => {
@@ -10,16 +10,63 @@ const UnrankedSimulator = () => {
   const [minutes, setMinutes] = useState("");
   const [secondTime, setSecondTime] = useState(false);
 
+  const [curriculum, setCurriculum] = useState([]);
+  const [curriculumLoading, setCurriculumLoading] = useState(true);
+  const [curriculumError, setCurriculumError] = useState(null);
+
+  const [selectedSubjectId, setSelectedSubjectId] = useState("");
+  const [selectedChapterId, setSelectedChapterId] = useState("");
+  const [selectedTopicId, setSelectedTopicId] = useState("");
+
+  useEffect(() => {
+    axios.get("/api/curriculum")
+    .then((res) => {
+      setCurriculum(res.data.data)
+      setCurriculumLoading(false)
+    })
+    .catch((err) => {
+      setCurriculumError(err.message)
+      setCurriculumLoading(false)
+    })
+  }, [])
+
+  const selectedSubject = curriculum.find((s) => s._id === selectedSubjectId);
+  const chapterOptions = selectedSubject ? selectedSubject.chapters : [];
+
+  const selectedChapter = chapterOptions.find((c) => c._id === selectedChapterId);
+  const topicOptions = selectedChapter ? selectedChapter.topics : [];
+
+  function handleSubjectChange(e){
+    setSelectedSubjectId(e.target.value);
+    setSelectedChapterId("");
+    setSelectedTopicId("");
+  }
+
+  function handleChapterChange(e) {
+    setSelectedChapterId(e.target.value);
+    setSelectedTopicId("");
+  }
+
+  function handleTopicChange(e) {
+    setSelectedTopicId(e.target.value);
+  }
+
   async function handleStart() {
     const res = await axios.post("/api/exam/start", {
       type: "unranked",
       questionCount: Number(quesCount) || 10,
       minutes: Number(minutes) || 10,
       secondTime,
+      subjectId: selectedSubjectId || undefined,
+      chapterId: selectedChapterId || undefined,
+      topicId: selectedTopicId || undefined,
     })
 
     navigate(`/exam/unranked/${res.data.attemptId}`, { replace: true });
   }
+
+  if (curriculumLoading) return <div className="load-error">লোড হচ্ছে...</div>;
+  if (curriculumError) return <div className="load-error">ত্রুটি: {curriculumError}</div>;
 
   return (
     <div>
@@ -52,10 +99,13 @@ const UnrankedSimulator = () => {
 
               <div className="input-container">
                 <label htmlFor="subject">বিষয়</label>
-                <select id="subject">
-                  <option>সকল বিষয়</option>
-                  <option>Physics</option>
-                  <option>Chemistry</option>
+                <select id="subject" value={selectedSubjectId} onChange={handleSubjectChange}>
+                  <option value="">সকল বিষয়</option>
+                  {curriculum.map((subject) => (
+                      <option key={subject._id} value={subject._id}>
+                        {subject.name}
+                      </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -63,19 +113,35 @@ const UnrankedSimulator = () => {
             <div className="input-line">
               <div className="input-container">
                 <label htmlFor="chapter">অধ্যায়</label>
-                <select id="chapter">
-                  <option>সকল অধ্যায়</option>
-                  <option>Chapter 2</option>
-                  <option>Chapter 3</option>
+                <select
+                    id="chapter"
+                    value={selectedChapterId}
+                    onChange={handleChapterChange}
+                    disabled={!selectedSubjectId}
+                  >
+                  <option value="">সকল অধ্যায়</option>
+                  {chapterOptions.map((chapter) => (
+                      <option key={chapter._id} value={chapter._id}>
+                        {chapter.name}
+                      </option>
+                  ))}
                 </select>
               </div>
 
               <div className="input-container">
                 <label htmlFor="topic">টপিক</label>
-                <select id="topic">
-                  <option>সকল টপিক</option>
-                  <option>Topic 2</option>
-                  <option>Topic 3</option>
+                 <select
+                    id="topic"
+                    value={selectedTopicId}
+                    onChange={handleTopicChange}
+                    disabled={!selectedChapterId}
+                  >
+                    <option value="">সকল টপিক</option>
+                    {topicOptions.map((topic) => (
+                      <option key={topic._id} value={topic._id}>
+                        {topic.name}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
