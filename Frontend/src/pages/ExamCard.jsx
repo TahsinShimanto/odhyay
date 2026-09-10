@@ -84,9 +84,9 @@ const ExamCard = () => {
 
   useEffect(() => {
     axios
-      .get("/api/questions")
+      .get("/api/questions?type=mcq")
       .then((res) => {
-        setQuestions(res.data);
+        setQuestions(res.data.data.questions);
         setQuestionsLoaded(true);
       })
       .catch((err) => {
@@ -201,12 +201,12 @@ const ExamCard = () => {
             <div className="option-section">
               {currentQuestion.type === "mcq" ? (
                 currentQuestion.options.map((opt, index) => {
-                  const isSelected = answers[currentQuestion._id] === opt.id;
+                  const isSelected = answers[currentQuestion._id] === index;
                   return (
                     <div
                       className={isSelected ? "selected-option" : "option"}
-                      key={opt.id}
-                      onClick={() => selectOption(currentQuestion._id, opt.id)}
+                      key={index}
+                      onClick={() => selectOption(currentQuestion._id, index)}
                     >
                       <div className={isSelected ? "selected-option-num" : "option-num"}>{index + 1}</div>
                       {opt.text}
