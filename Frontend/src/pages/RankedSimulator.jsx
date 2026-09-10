@@ -1,29 +1,54 @@
 import "../styles/RankedSimulator.css";
-import { BarChart3, Hourglass, Users } from "lucide-react";
+import {
+  BarChart3,
+  LucideSwatchBook,
+  School,
+  Settings,
+  Stethoscope,
+  Users,
+} from "lucide-react";
 import Footer from "../components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+
 const RankedSimulator = () => {
   const navigate = useNavigate();
-  const [mode, setMode] = useState("full");
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [bestScore, setBestScore] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
 
-  const EXAM_MODES = {
-    full: { label: "পূর্ণাঙ্গ সিলেবাস", quesCount: 10, minutes: 4 },
-    chapter: { label: "অধ্যায়ভিত্তি", quesCount: 5, minutes: 2 },
-  };
+  const [selectedExamType, setSelectedExamType] = useState("");
+
+  function handleSelectExamType(examType) {
+    setSelectedExamType(examType);
+  }
 
   async function handleStartRank() {
-    const { quesCount, minutes } = EXAM_MODES[mode];
-    
     const res = await axios.post("/api/exam/start", {
       type: "ranked",
-      questionCount: quesCount,
-      minutes,
+      questionCount: 10,
+      minutes: 10,
+      exam: selectedExamType || undefined,
     });
 
+    useEffect(() => {
+      axios
+        .get("/api/exam/leaderboard")
+        .then((res) => setLeaderboard(res.data.leaderboard))
+        .catch(() => {});
+
+      axios
+        .get("/api/exam/my-stats")
+        .then((res) => {
+          setBestScore(res.data.bestScore);
+          setCompletedCount(res.data.completedCount);
+        })
+        .catch(() => {});
+    }, []);
+
     navigate(`/exam/ranked/${res.data.attemptId}`);
-}
+  }
 
   return (
     <div>
@@ -32,7 +57,7 @@ const RankedSimulator = () => {
           <div className="ranked-heading">
             <h3>
               {" "}
-              <BarChart3 /> প্রস্তুতি যাচাই পরীক্ষা (Timed)
+              <BarChart3 /> প্রস্তুতি যাচাই পরীক্ষা
             </h3>
             <p>
               নির্দিষ্ট সময়সীমায় নিজের মেধা যাচাই করুন এবং লিডারবোর্ডে শীর্ষে
@@ -43,12 +68,12 @@ const RankedSimulator = () => {
           <div className="rank-header-card">
             <div className="rank-header-card-item">
               <p>সর্বোত্তম নম্বর</p>
-              <p className="r-h-c-v">৮৪</p>
+              <p className="r-h-c-v">{bestScore}</p>
             </div>
             <div className="vertical-divider"></div>
             <div className="rank-header-card-item">
               <p>সম্পন্ন পরীক্ষা</p>
-              <p className="r-h-c-v">৮</p>
+              <p className="r-h-c-v">{completedCount}</p>
             </div>
           </div>
         </div>
@@ -56,30 +81,55 @@ const RankedSimulator = () => {
         <div className="ranked-cards-section">
           <div className="exam-start-card">
             <p>
-              {" "}
-              <Hourglass size={15} /> পরীক্ষার ধরন নির্ধারণ করুন
+              <LucideSwatchBook size={15} /> পরীক্ষার বিভাগ নির্ধারণ করুন
             </p>
             <div className="divider"></div>
-            <p>পরীক্ষার ব্যাপ্তি</p>
             <div className="selection-card-container">
               <div
-                className={`selection-card c1 ${mode === "full" ? "active" : ""}`}
-                onClick={() => setMode("full")}
+                className={
+                  selectedExamType === "engineering"
+                    ? "selection-card c1 active"
+                    : "selection-card c1"
+                }
+                onClick={() => handleSelectExamType("engineering")}
               >
-                <h5>পূর্ণাঙ্গ সিলেবাস</h5>
-                <p>১০টি প্রশ্ন • ৪ মিনিট</p>
+                <Settings size={23} color="#c0c1ff" />
+                <div className="sel-card-text-sec">
+                  <h5>ইঞ্জিনিয়ারিং প্রস্তুতি</h5>
+                  <p>BUET, CUET, KUET, RUET</p>
+                </div>
               </div>
               <div
-                className={`selection-card c1 ${mode === "chapter" ? "active" : ""}`}
-                onClick={() => setMode("chapter")}
+                className={
+                  selectedExamType === "medical"
+                    ? "selection-card c1 active"
+                    : "selection-card c1"
+                }
+                onClick={() => handleSelectExamType("medical")}
               >
-                <h5>অধ্যায়ভিত্তি</h5>
-                <p>৫টি প্রশ্ন • ২ মিনিট</p>
+                <Stethoscope size={23} color="#c0c1ff" />
+                <div className="sel-card-text-sec">
+                  <h5>মেডিকেল প্রস্তুতি</h5>
+                  <p>MBBS, BDS ভর্তি পরীক্ষা</p>
+                </div>
+              </div>
+              <div
+                className={
+                  selectedExamType === "varsity"
+                    ? "selection-card c1 active"
+                    : "selection-card c1"
+                }
+                onClick={() => handleSelectExamType("varsity")}
+              >
+                <School size={23} color="#c0c1ff" />
+                <div className="sel-card-text-sec">
+                  <h5>ভার্সিটি প্রস্তুতি</h5>
+                  <p>ঢাবি ক/খ/গ ইউনিট ও অন্যান্য</p>
+                </div>
               </div>
             </div>
 
-            <div className="selection-card">
-              <h5>গুরুত্বপূর্ণ নিয়মাবলি</h5>
+            <div className="selection-card c2">
               <p>
                 পরীক্ষা শুরু হলে নির্ধারিত সময়ের মধ্যে সব উত্তর প্রদান করতে হবে।
                 সময় শেষ হলে স্বয়ংক্রিয়ভাবে উত্তরপত্র জমা হয়ে যাবে।
@@ -91,54 +141,18 @@ const RankedSimulator = () => {
           </div>
           <div className="leaderboard-card">
             <p>
-              {" "}
               <Users size={15} /> গ্লোবাল লিডারবোর্ড
             </p>
             <div className="top-names">
-              <div className="name-card">
-                <div className="name-rank">
-                  <span>#1</span>
-                  <p>Rock Johnson</p>
+              {leaderboard.map((entry, index) => (
+                <div className="name-card" key={index}>
+                  <div className="name-rank">
+                    <span>#{index + 1}</span>
+                    <p>{entry.displayName}</p>
+                  </div>
+                  <div className="percentage">{entry.percentage}%</div>
                 </div>
-
-                <div className="percentage">100%</div>
-              </div>
-
-              <div className="name-card">
-                <div className="name-rank">
-                  <span>#2</span>
-                  <p>Brad Pit</p>
-                </div>
-
-                <div className="percentage">97%</div>
-              </div>
-
-              <div className="name-card">
-                <div className="name-rank">
-                  <span>#3</span>
-                  <p>Imran Eistein</p>
-                </div>
-
-                <div className="percentage">67%</div>
-              </div>
-
-              <div className="name-card">
-                <div className="name-rank">
-                  <span>#4</span>
-                  <p>Chirlie kirk</p>
-                </div>
-
-                <div className="percentage">60%</div>
-              </div>
-
-              <div className="name-card">
-                <div className="name-rank">
-                  <span>#5</span>
-                  <p>Chill guy</p>
-                </div>
-
-                <div className="percentage">33%</div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

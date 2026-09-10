@@ -8,16 +8,24 @@ const router = express.Router();
 router.use(verifyToken);
 
 router.post("/start", async (req, res) => {
-  const { type, questionCount, minutes, secondTime, subjectId, chapterId, topicId } = req.body;
+  const {
+    type,
+    questionCount,
+    minutes,
+    secondTime,
+    subjectId,
+    chapterId,
+    topicId,
+  } = req.body;
 
   if (subjectId && !mongoose.Types.ObjectId.isValid(subjectId)) {
     return res.status(400).json({ error: "Invalid subject ID" });
   }
-  
+
   if (chapterId && !mongoose.Types.ObjectId.isValid(chapterId)) {
     return res.status(400).json({ error: "Invalid chapter ID" });
   }
-  
+
   if (topicId && !mongoose.Types.ObjectId.isValid(topicId)) {
     return res.status(400).json({ error: "Invalid topic ID" });
   }
@@ -168,6 +176,10 @@ router.get("/:attemptId/result", async (req, res) => {
     const percentage =
       totalMarks > 0 ? Math.round((obtainedMarks / totalMarks) * 100) : 0;
 
+    attempt.obtainedMarks = Number(obtainedMarks.toFixed(2));
+    attempt.percentage = percentage;
+    await attempt.save();
+
     res.json({
       summary: {
         totalQuestions,
@@ -192,7 +204,9 @@ router.get("/:attemptId/questions", async (req, res) => {
     const attempt = await ExamAttempt.findById(req.params.attemptId);
 
     if (!attempt)
-      return res.status(404).json({ error: "পরীক্ষার তথ্য খুঁজে পাওয়া যায়নি" });
+      return res
+        .status(404)
+        .json({ error: "পরীক্ষার তথ্য খুঁজে পাওয়া যায়নি" });
 
     if (attempt.user.toString() !== req.user.id)
       return res.status(403).json({ error: "আপনার এই কাজটি করার অনুমতি নেই" });
@@ -223,5 +237,69 @@ router.get("/:attemptId/questions", async (req, res) => {
     res.status(500).json({ error: "Server error occurred" });
   }
 });
+
+
+router.get("/my-stats", async (req, res) => {
+  try {
+    const allAttempts = await ExamAttempt.find({
+      user: req.user.id,
+      type: "ranked",
+    }).select("obtainedMarks percentage");
+
+    const scoredAttempts = allAttempts.filter((attempt) => 
+      attempt.percentage !== null && attempt.percentage !== undefined);
+
+    const completedCount = scoredAttempts.length;
+
+    let bestScore = 0;
+    scoredAttempts.forEach((attempt) => {
+      if (attempt.obtainedMarks > bestScore) bestScore = attempt.obtainedMarks;
+    });
+
+    res.json({ bestScore, completedCount });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error occurred" });
+  }
+});
+
+router.get("/leaderboard", async (req, res) => {
+  try {
+    const leaderboard = await ExamAttempt.aggregate([
+      { $match: { type: "ranked", percentage: { $ne: null } } },
+      { $sort: { percentage: -1 } },
+      {
+        $group: {
+          _id: "$user",
+          bestPercentage: { $first: "$percentage" },
+        },
+      },
+      { $sort: { bestPercentage: -1 } },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      { $unwind: "$userInfo" },
+      {
+        $project: {
+          _id: 0,
+          displayName: "$userInfo.displayName",
+          percentage: "$bestPercentage",
+        },
+      },
+    ]);
+
+    res.json({ leaderboard });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error occurred" });
+  }
+});
+
 
 export default router;
