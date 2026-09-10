@@ -86,8 +86,6 @@ const ExamCard = () => {
     axios
       .get("/api/questions")
       .then((res) => {
-        // const sliced = res.data.slice(0, Number(quesCount) || 10);
-        // setQuestions(sliced);
         setQuestions(res.data);
         setQuestionsLoaded(true);
       })
@@ -98,7 +96,7 @@ const ExamCard = () => {
   }, []);
 
   function handleFinish() {
-    navigate(`/result/${type}/${attemptId}`);
+    navigate(`/result/${type}/${attemptId}`, { replace: true });
   }
 
   if (loading) return <div className="load-error">লোড হচ্ছে...</div>;

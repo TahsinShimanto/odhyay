@@ -4,8 +4,11 @@ import { X } from 'lucide-react'
 import { useNavigate, NavLink } from 'react-router'
 import { useState } from 'react'
 import axios from 'axios'
+import { useAuth } from '../context/AuthContext'
+import { useEffect } from 'react'
 const Register = () => {
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
     const [serverError, setServerError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -58,6 +61,14 @@ const Register = () => {
             });
         }
     });
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/', { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
+
+    if (isAuthenticated) return null;
 
   return (
     <div className="register-overlay">

@@ -18,7 +18,7 @@ const UnrankedSimulator = () => {
       secondTime,
     })
 
-    navigate(`/exam/unranked/${res.data.attemptId}`);
+    navigate(`/exam/unranked/${res.data.attemptId}`, { replace: true });
   }
 
   return (
