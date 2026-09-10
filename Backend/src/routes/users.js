@@ -12,9 +12,6 @@ import {
 const router = Router();
 
 
-// get all users
-router.get("/", getAllUsers);      // TODO: remove this later
-
 // get user profile information
 router.get("/profile", verifyToken, getProfile);
 

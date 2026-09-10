@@ -2,18 +2,6 @@ import { hashPassword } from '../utils/helpers.js'
 import User from "../models/User.js"
 
 
-// TODO: delete this later
-export const getAllUsers = async (req, res) => {
-  try {
-    const allUsers = await User.find().select(["-password", "-__v"]);
-    return res.status(200).json(allUsers);
-  }
-  catch (err) {
-    return res.status(500).json({ error: "Server error occurred" });
-  }
-};
-
-
 // Fetches the user info from database
 // It searches the user inside the database using user id
 // -__v tells Mongoose to exclude the internal version (__v) field from your query results.

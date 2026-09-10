@@ -8,7 +8,7 @@ import { useState } from 'react';
 import {Bookmark, ShieldAlert, Eye, Star} from 'lucide-react'
 import '../styles/McqQuestion.css'
 
-function MCQ({question, current, total, save}) {
+function MCQ({question, current, total, saved}) {
     const [showExplaination, setShowExplaination] = useState(false);
 
     return (
@@ -25,7 +25,7 @@ function MCQ({question, current, total, save}) {
                     ))}
                 </div>
                 <div className="question-info-type">নির্বাচনী প্রশ্ন</div>
-                <button className="question-info-save" onClick={save}><Bookmark className="save-fill" size={16}/></button>
+                <button className="question-info-save" onClick={saved}><Bookmark className="save-fill" size={16}/></button>
                 <button className="question-info-flag"><ShieldAlert className="flag-fill" size={16}/></button>
             </div>
 
@@ -59,8 +59,8 @@ function MCQ({question, current, total, save}) {
                     {showExplaination ? (
                         <>
                             <div className="hide-explanation-button" onClick={(e) => { e.stopPropagation(); setShowExplaination(false)}}>ব্যাখ্যা লুকান</div>
-                            <div className="explanation-text">{question.explanationText}</div>
-                            <div className="explanation-image">{question.explanationImage}</div>
+                            <div className="explanation-text">{question.explanationOrAnswerText}</div>
+                            <div className="explanation-image">{question.explanationOrAnswerImage}</div>
                         </>
 
                     ) : (
