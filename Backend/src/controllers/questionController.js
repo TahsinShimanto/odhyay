@@ -189,7 +189,6 @@ export const getQuestions = async (req, res) => {
       topic,
       type,
       module,
-      importance,
     } = req.query;
 
     const filter = {};
@@ -230,10 +229,6 @@ export const getQuestions = async (req, res) => {
 
     if(module) {
       filter.module = module;
-    }
-
-    if(importance) {
-      filter.importance = importance;
     }
 
     // Pagination

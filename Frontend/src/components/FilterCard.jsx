@@ -1,10 +1,79 @@
 /* TODO:
- * Make the filters work
+ * add functionality for the remaining filters
  */
 
+import { useEffect, useState } from 'react';
 import '../styles/FilterCard.css';
 
-export default function FilterCard() {
+const ALL = '';
+
+export default function FilterCard({ filters, setFilters }) {
+    const [subjects, setSubjects] = useState([]);
+    const [chapters, setChapters] = useState([]);
+    const [topics, setTopics] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/taxonomy/subjects')
+            .then((res) => res.json())
+            .then((data) => setSubjects(data.data || []))
+            .catch(console.error);
+    }, []);
+
+    useEffect(() => {
+        if (!filters.subjectId) {
+            setChapters([]);
+            setTopics([]);
+            return;
+        }
+
+        fetch(`/api/taxonomy/chapters?subjectId=${filters.subjectId}`)
+            .then((res) => res.json())
+            .then((data) => setChapters(data.data || []))
+            .catch(console.error);
+    }, [filters.subjectId]);
+
+    useEffect(() => {
+        if (!filters.chapterId) {
+            setTopics([]);
+            return;
+        }
+
+        fetch(`/api/taxonomy/topics?chapterId=${filters.chapterId}`)
+            .then((res) => res.json())
+            .then((data) => setTopics(data.data || []))
+            .catch(console.error);
+    }, [filters.chapterId]);
+
+    const handleSubjectChange = (e) => {
+        const value = e.target.value;
+        setFilters((prev) => ({
+            ...prev,
+            subjectId: value,
+            chapterId: ALL,
+            topicId: ALL,
+        }));
+    };
+
+    const handleChapterChange = (e) => {
+        const value = e.target.value;
+        setFilters((prev) => ({
+            ...prev,
+            chapterId: value,
+            topicId: ALL,
+        }));
+    };
+
+    const handleTopicChange = (e) => {
+        setFilters((prev) => ({ ...prev, topicId: e.target.value }));
+    };
+
+    const handleModuleChange = (e) => {
+        setFilters((prev) => ({ ...prev, module: e.target.value }));
+    };
+
+
+
+
     return (
         <div className="filters-div">
             <div className="title">প্রশ্ন ফিল্টার ও অনুসন্ধান</div>
@@ -13,7 +82,8 @@ export default function FilterCard() {
             <div className="all-filter-categories">
                 <div className="filter-grid-child">
                     <label htmlFor="module">প্রস্তুতির ধরণ</label>
-                    <select id="module">
+                    <select id="module" value={filters.module} onChange={handleModuleChange}>
+                        <option value="">সকল ধরণ</option>
                         <option>Engineering University Preparation</option>
                         <option>Medical Preparation</option>
                         <option>Varsity Preparation</option>
@@ -42,32 +112,31 @@ export default function FilterCard() {
 
                 <div className="filter-grid-child">
                     <label htmlFor="subject">বিষয়</label>
-                    <select id="subject">
-                        <option>সকল বিষয়</option>
-                        <option>পদার্থবিজ্ঞান</option>
-                        <option>রসায়ন</option>
-                        <option>উচ্চতর গণিত</option>
-                        <option>জীববিজ্ঞান</option>
+                    <select id="subject" value={filters.subjectId} onChange={handleSubjectChange}>
+                        <option value={ALL}>সকল বিষয়</option>
+                        {subjects.map((subject) => (
+                            <option key={subject._id} value={subject._id}>{subject.name}</option>
+                        ))}
                     </select>
                 </div>
 
                 <div className="filter-grid-child">
                     <label htmlFor="chapter">অধ্যায়</label>
-                    <select id="chapter">
-                        <option>সকল অধ্যায়</option>
-                        <option>Chapter 1</option>
-                        <option>Chapter 2</option>
-                        <option>Chapter 3</option>
+                    <select id="chapter" value={filters.chapterId} onChange={handleChapterChange} disabled={!filters.subjectId}>
+                        <option value={ALL}>সকল অধ্যায়</option>
+                        {chapters.map((chapter) => (
+                            <option key={chapter._id} value={chapter._id}>{chapter.name}</option>
+                        ))}
                     </select>
                 </div>
 
                 <div className="filter-grid-child">
                     <label htmlFor="topic">টপিক</label>
-                    <select id="topic">
-                        <option>সকল টপিক</option>
-                        <option>Topic 1</option>
-                        <option>Topic 2</option>
-                        <option>Topic 3</option>
+                    <select id="topic" value={filters.topicId} onChange={handleTopicChange} disabled={!filters.chapterId}>
+                        <option value={ALL}>সকল টপিক</option>
+                        {topics.map((topic) => (
+                            <option key={topic._id} value={topic._id}>{topic.name}</option>
+                        ))}
                     </select>
                 </div>
             </div>
