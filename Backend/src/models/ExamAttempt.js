@@ -16,7 +16,7 @@ const examAttemptSchema = new mongoose.Schema({
     chapterId: { type: mongoose.Schema.Types.ObjectId, ref: "Chapter" },
     topicId: { type: mongoose.Schema.Types.ObjectId, ref: "Topic" },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-});
+},{ timestamps: true });
 
 const examAttempt = mongoose.model("ExamAttempt", examAttemptSchema);
 export default examAttempt

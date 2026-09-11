@@ -22,12 +22,19 @@
 }
 
 .profile-img{
-    padding: 1rem;
+    width: 3rem;
+    height: 3rem;
     background-color: var(--accent);
     color: var(--bg-color);
     font-weight: bold;
     border-radius: 0.3rem;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+
 
 .name-email-section p{
     color: var(--text-muted);

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import ExamAttempt from "../models/ExamAttempt.js";
 import Question from "../models/Question.js";
+import Subject from "../models/Subject.js";
 
 export const startExam = async (req, res) => {
   try {
@@ -247,9 +248,14 @@ export const getExamQuestions = async (req, res) => {
   }
 };
 
+const VALID_EXAM_TYPES = ["engineering", "medical", "varsity"];
+
 export const getMyStats = async (req, res) => {
   try {
     const { examType } = req.query;
+    if (examType && !VALID_EXAM_TYPES.includes(examType)) 
+      return res.status(400).json({ error: "Invalid exam type" });
+    
     const query = { user: req.user.id, type: "ranked" };
     if (examType) 
       query.examType = examType;
@@ -279,6 +285,9 @@ export const getMyStats = async (req, res) => {
 export const getLeaderboard = async (req, res) => {
   try {
     const { examType } = req.query;
+    if (examType && !VALID_EXAM_TYPES.includes(examType)) 
+      return res.status(400).json({ error: "Invalid exam type" });
+    
     const matchStage = { type: "ranked", percentage: { $ne: null } };
     if (examType)
        matchStage.examType = examType;
@@ -313,6 +322,65 @@ export const getLeaderboard = async (req, res) => {
     ]);
 
     res.json({ leaderboard });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error occurred" });
+  }
+};
+
+
+export const getProfileStats = async (req, res) => {
+  try {
+    const attempts = await ExamAttempt.find({
+      user: req.user.id,
+      percentage: { $ne: null },
+    })
+      .select("percentage subjectId createdAt answers")
+      .sort({ createdAt: 1 });
+
+    const completedExams = attempts.length;
+    
+    const solvedQuestionIds = new Set();
+    attempts.forEach((attempt) => {
+      const answers = attempt.answers || {};
+      Object.keys(answers).forEach((qId) => solvedQuestionIds.add(qId));
+    });
+    const questionsSolved = solvedQuestionIds.size;
+
+    const recentAttempts = attempts.slice(-10);
+    const scoreHistory = recentAttempts.map((attempt, index) => ({
+      test: String(index + 1),
+      score: attempt.percentage,
+    }));
+
+    const subjects = await Subject.find({ isActive: true }).select("name");
+
+    const subjectProgress = subjects.map((subject) => {
+      const subjectAttempts = attempts.filter(
+        (attempt) =>
+          attempt.subjectId &&
+          attempt.subjectId.toString() === subject._id.toString(),
+      );
+
+      const attemptCount = subjectAttempts.length;
+
+      let progress = 0;
+      if (attemptCount > 0) {
+        const totalPercentage = subjectAttempts.reduce(
+          (sum, attempt) => sum + attempt.percentage,
+          0,
+        );
+        progress = Math.round(totalPercentage / attemptCount);
+      }
+
+      return {
+        name: subject.name,
+        progress,
+        attempts: attemptCount,
+      };
+    });
+
+    res.json({ completedExams, questionsSolved, scoreHistory, subjectProgress });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error occurred" });
