@@ -29,26 +29,26 @@ const RankedSimulator = () => {
       type: "ranked",
       questionCount: 10,
       minutes: 10,
-      exam: selectedExamType || undefined,
+      examType: selectedExamType || undefined,
     });
 
-    useEffect(() => {
+    navigate(`/exam/ranked/${res.data.attemptId}`);
+  }
+
+  useEffect(() => {
       axios
-        .get("/api/exam/leaderboard")
+        .get("/api/exam/leaderboard", { params: { examType: selectedExamType || undefined } })
         .then((res) => setLeaderboard(res.data.leaderboard))
         .catch(() => {});
 
       axios
-        .get("/api/exam/my-stats")
+        .get("/api/exam/my-stats", { params: { examType: selectedExamType || undefined } })
         .then((res) => {
           setBestScore(res.data.bestScore);
           setCompletedCount(res.data.completedCount);
         })
         .catch(() => {});
-    }, []);
-
-    navigate(`/exam/ranked/${res.data.attemptId}`);
-  }
+  }, [selectedExamType]);
 
   return (
     <div>

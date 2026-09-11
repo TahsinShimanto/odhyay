@@ -249,10 +249,13 @@ export const getExamQuestions = async (req, res) => {
 
 export const getMyStats = async (req, res) => {
   try {
-    const allAttempts = await ExamAttempt.find({
-      user: req.user.id,
-      type: "ranked",
-    }).select("obtainedMarks percentage");
+    const { examType } = req.query;
+    const query = { user: req.user.id, type: "ranked" };
+    if (examType) 
+      query.examType = examType;
+
+    const allAttempts = await ExamAttempt.find(query)
+      .select("obtainedMarks percentage");
 
     const scoredAttempts = allAttempts.filter(
       (attempt) =>
@@ -275,8 +278,13 @@ export const getMyStats = async (req, res) => {
 
 export const getLeaderboard = async (req, res) => {
   try {
+    const { examType } = req.query;
+    const matchStage = { type: "ranked", percentage: { $ne: null } };
+    if (examType)
+       matchStage.examType = examType;
+
     const leaderboard = await ExamAttempt.aggregate([
-      { $match: { type: "ranked", percentage: { $ne: null } } },
+      { $match: matchStage },
       { $sort: { percentage: -1 } },
       {
         $group: {
