@@ -94,6 +94,10 @@ a {
   color: var(--text-primary);
 }
 
+.non-active-sign-in{
+  display: none;
+}
+
 .modules-container {
   flex-direction: column;
   display: flex;
