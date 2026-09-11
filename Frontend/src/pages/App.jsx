@@ -11,6 +11,7 @@ import UnrankedSimulator from './UnrankedSimulator.jsx'
 import RankedSimulator from './RankedSimulator.jsx'
 import ExamCard from './ExamCard'
 import Result from './Result'
+import ErrorPage from './ErrorPage.jsx'
 
 function App() {
 
@@ -58,14 +59,14 @@ function App() {
       </div>
     },
     {
-      path: "/exam/:type",
+      path: "/exam/:type/:attemptId",
       element: <div>
         <Navbar/>
         <ExamCard/>
       </div>
     },
     {
-      path: "/result/:type",
+      path: "/result/:type/:attemptId",
       element: <div>
         <Navbar/>
         <Result/>
@@ -92,6 +93,10 @@ function App() {
         <Register/>
       </div>
     },
+    {
+      path: "*",             
+      element: <ErrorPage/>
+    }
   ])
 
   return (

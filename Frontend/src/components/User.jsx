@@ -1,24 +1,30 @@
-import React from 'react'
 import '../styles/User.css'
 import { Award, Bookmark, BookOpen, Clock2, Zap } from 'lucide-react'
 import Chart from './Chart.jsx'
 import ProgressCard from './ProgressCard.jsx'
 import { useAuth } from '../context/AuthContext'
+import axios from 'axios'
+import  { useEffect, useState } from 'react'
 
 const User = () => {
-  const { user, loading } = useAuth();
-  if (loading) {
-    return <div className='user-container'>লোড হচ্ছে...</div>;
-  }
-  if (!user) {
-    return <div className='user-container'>আপনি সাইন ইন করেননি</div>;
-  }
+  const { user, loading, isAuthenticated } = useAuth();
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    axios.get("/api/exam/profile-stats")
+      .then((res) => setStats(res.data))
+      .catch(() => {});
+  }, []);
+
+  if (loading) return <div className='user-container'>লোড হচ্ছে...</div>;
+  if (!user) return <div className='user-container'>আপনি সাইন ইন করেননি</div>;
+
   return (
     <div className='user-container'>
       <div className="user-details-card">
         <div className="profile-section">
           <div className="profile-img">
-            PS
+            { (isAuthenticated) ? Array.from(user.displayName)[0] : null }
           </div>
           <div className="name-email-section">
             <h3>{user.displayName}</h3>
@@ -91,7 +97,7 @@ const User = () => {
             <BookOpen size={16} color='#8a8890'/>
           </div>
           
-          <h3>৩৪</h3>
+          <h3>{stats ? stats.questionsSolved : 0}</h3>
           <p>অনন্য জমাদান</p>
         </div>
 
@@ -111,17 +117,17 @@ const User = () => {
             <Award size={16} color='#8a8890'/>
           </div>
           
-          <h3>৪</h3>
+          <h3>{stats ? stats.completedExams : 0}</h3>
           <p>সম্পন্ন সেশন</p>
         </div>
       </div>
 
       <div className="performance-container">
         <div className="graph-card">
-          <Chart/>
+          <Chart data={stats ? stats.scoreHistory : []}/>
         </div>
         <div className="progress-card">
-          <ProgressCard/>
+          <ProgressCard subjects={stats ? stats.subjectProgress : []}/>
         </div>
       </div>
     </div>

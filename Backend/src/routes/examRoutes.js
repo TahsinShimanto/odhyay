@@ -1,57 +1,27 @@
 import express from "express";
-import ExamAttempt from "../models/ExamAttempt.js";
+import verifyToken from "../middlewares/verifyToken.js";
+import {
+  startExam,
+  updateProgress,
+  getAttempt,
+  getResult,
+  getExamQuestions,
+  getMyStats,
+  getLeaderboard,
+  getProfileStats
+} from "../controllers/examAttemptController.js";
 
 const router = express.Router();
+router.use(verifyToken);
 
-router.post("/start", async (req, res) => {
-    const { type, questionCount, minutes, secondTime } = req.body;
+router.get("/leaderboard", getLeaderboard);
+router.get("/my-stats", getMyStats);
+router.get("/profile-stats", getProfileStats);
 
-    const endTime = new Date(Date.now() + (minutes || 10) * 60 * 1000);
+router.post("/start", startExam);
+router.patch("/:attemptId/progress", updateProgress);
+router.get("/:attemptId", getAttempt);
+router.get("/:attemptId/result", getResult);
+router.get("/:attemptId/questions", getExamQuestions);
 
-    const attempt = await ExamAttempt.create({
-        type, 
-        questionCount,
-        minutes,
-        secondTime,
-        endTime,
-
-        answers: {},
-        flagged: [],
-    });
-
-    res.json({
-        attemptId: attempt._id,
-        endTime: attempt.endTime,
-    });
-});
-
-router.patch("/:attemptId/progress", async (req, res) => {
-    const { answers, flagged, currentIndex  } = req.body;
-
-    const attempt = await ExamAttempt.findById(req.params.attemptId);
-    if (!attempt) 
-        return res.status(404).json({ error: "Attempt not found" });
-
-    attempt.answers = answers;
-    attempt.flagged = flagged;
-    attempt.currentIndex = currentIndex;
-    await attempt.save();
-
-    res.json({ ok: true, endTime: attempt.endTime });
-});
-
-router.get("/:attemptId", async (req, res) => {
-    const attempt = await ExamAttempt.findById(req.params.attemptId);
-    if (!attempt) 
-        return res.status(404).json({ error: "Attempt not found" });
-
-    res.json({
-        answers: attempt.answers,
-        flagged: attempt.flagged,
-        currentIndex: attempt.currentIndex,
-        secondTime: attempt.secondTime,
-        endTime: attempt.endTime,
-    })
-});
-
-export default router
+export default router;

@@ -6,6 +6,7 @@ import questionsRouter from './src/routes/questions.js'
 import authRouter from './src/routes/auth.js'
 import usersRouter from './src/routes/users.js'
 import examRoutes from './src/routes/examRoutes.js'
+import curriculumRoutes from './src/routes/curriculum.js'
 import dns from 'dns'
 
 dns.setServers(['8.8.8.8', '1.1.1.1']);
@@ -39,6 +40,7 @@ app.use('/api/users', usersRouter)
 
 // Question related APIs
 app.use('/api/questions', questionsRouter)
+app.use("/api/curriculum", curriculumRoutes);
 
 //Exam related APis
 app.use("/api/exam", examRoutes)

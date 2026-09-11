@@ -2,11 +2,11 @@ import '../styles/SignIn.css'
 import { X } from 'lucide-react'
 import { useFormik } from 'formik'
 import { useNavigate, NavLink } from 'react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 const SignIn = () => {
     const navigate = useNavigate();
-    const { signin } = useAuth();
+    const { signin, isAuthenticated  } = useAuth();
     const [serverError, setServerError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -33,7 +33,7 @@ const SignIn = () => {
 
             signin(values)
                 .then(() => {
-                    navigate('/');
+                    navigate('/', { replace: true });
                 })
                 .catch((err) => {
                     const message = err.response?.data?.error || 'কিছু একটা সমস্যা হয়েছে';
@@ -45,6 +45,13 @@ const SignIn = () => {
         }
     });
 
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/', { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
+    
+    if (isAuthenticated) return null;
 
     return (
         <div className="sign-in-overlay">

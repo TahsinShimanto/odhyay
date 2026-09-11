@@ -8,16 +8,8 @@ import {
   Tooltip,
 } from "recharts";
 import '../styles/Chart.css'
-const data = [
-  { test: "1", score: 30 },
-  { test: "2", score: 45 },
-  { test: "3", score: 50 },
-  { test: "4", score: 65 },
-  { test: "5", score: 60 },
-  { test: "6", score: 75 },
-];
 
-const Chart = () => {
+const Chart = ({data}) => {
   return (
     <div className="chart-card">
       <p>পরীক্ষার ফলাফলের ধারাবাহিকতা</p>

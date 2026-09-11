@@ -1,7 +1,6 @@
 import { Router } from "express";
 import verifyToken from '../middlewares/verifyToken.js';
 import {
-    getAllUsers,
     getProfile,
     createUser,
     updateUser,

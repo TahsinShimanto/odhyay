@@ -19,7 +19,7 @@ const SavedQuestions = () => {
                 const res = await fetch('/api/questions')
                 if (!res.ok) throw new Error(`Request failed: ${res.status}`)
                 const data = await res.json()
-                setQuestions(data)
+                setQuestions(data.data.questions)
             } catch (err) {
                 setError(err.message)
             } finally {

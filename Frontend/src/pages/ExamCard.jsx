@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import "../styles/ExamCard.css";
 import { ArrowLeft, ArrowRight, Clock, Flag, Send } from "lucide-react";
 import axios from "axios";
 import Countdown from "react-countdown";
 const ExamCard = () => {
   const navigate = useNavigate();
-  const { type } = useParams(); //ranked or unranked
-  const location = useLocation();
-
-  const { attemptId } = location.state || {};
+  const { type, attemptId } = useParams(); //ranked or unranked
 
   useEffect(() => {
   if (!attemptId) 
@@ -86,22 +83,22 @@ const ExamCard = () => {
 
 
   useEffect(() => {
-    axios
-      .get("/api/questions")
-      .then((res) => {
-        // const sliced = res.data.slice(0, Number(quesCount) || 10);
-        // setQuestions(sliced);
-        setQuestions(res.data);
-        setQuestionsLoaded(true);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setQuestionsLoaded(true);
-      });
-  }, []);
+      if (!attemptId) return;
+  
+      axios
+        .get(`/api/exam/${attemptId}/questions`)
+        .then((res) => {
+          setQuestions(res.data.questions);
+          setQuestionsLoaded(true);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setQuestionsLoaded(true);
+        });
+  }, [attemptId]);
 
   function handleFinish() {
-    navigate(`/result/${type}`);
+    navigate(`/result/${type}/${attemptId}`, { replace: true });
   }
 
   if (loading) return <div className="load-error">লোড হচ্ছে...</div>;
@@ -206,12 +203,12 @@ const ExamCard = () => {
             <div className="option-section">
               {currentQuestion.type === "mcq" ? (
                 currentQuestion.options.map((opt, index) => {
-                  const isSelected = answers[currentQuestion._id] === opt.id;
+                  const isSelected = answers[currentQuestion._id] === index;
                   return (
                     <div
                       className={isSelected ? "selected-option" : "option"}
-                      key={opt.id}
-                      onClick={() => selectOption(currentQuestion._id, opt.id)}
+                      key={index}
+                      onClick={() => selectOption(currentQuestion._id, index)}
                     >
                       <div className={isSelected ? "selected-option-num" : "option-num"}>{index + 1}</div>
                       {opt.text}

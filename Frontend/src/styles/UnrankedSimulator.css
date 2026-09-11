@@ -178,6 +178,11 @@
     margin-bottom: 0.5rem;
 }
 
+.form-error{
+    align-self: center;
+    font-size: 0.8rem;
+    color: #ef4444;
+}
 .checkbox-container{
     display: flex;
     align-items: center;

@@ -1,9 +1,7 @@
-import React from "react";
 import "../styles/HomePage.css";
 import {
   Pen,
   BookOpen,
-  ArrowLeft,
   ArrowRight,
   Layers,
   ClipboardList,
@@ -12,7 +10,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import { NavLink } from "react-router";
+import { useAuth } from '../context/AuthContext'
 const HomePage = () => {
+
+  const {isAuthenticated} = useAuth();
   return (
     <div className="home-page-container">
       <div className="hero-card">
@@ -39,7 +40,7 @@ const HomePage = () => {
               নিজের পরীক্ষা তৈরি করুন
             </NavLink>
 
-            <NavLink to={"/"} className="sign-in">
+            <NavLink to={"/signin"} className={isAuthenticated ? "non-active-sign-in":"sign-in"}>
               স্ট্রিক দেখতে সাইন ইন করুন
               <ArrowRight size={15} />
             </NavLink>

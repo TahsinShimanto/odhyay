@@ -81,29 +81,35 @@
     margin: 1rem 0; 
     display: flex;
     gap: 1rem;
-    
+    flex-direction: column;
 }
-.c1{
-    flex: 1;
-    color: var(--text-muted);
-}
+
 .selection-card{
     background-color: var(--surface-hover);
     border-radius: 0.3rem;
     border: 1px solid var(--border-subtle);
     display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    justify-content: center;
-    gap: 0.3rem;
+    padding: 0.7rem;
+    gap: 1rem;
+    align-items: center;
 }
-
+.sel-card-text-sec{
+    display: flex;
+    flex-direction: column;
+    
+}
+.selection-card p{
+    padding: 0;
+    margin: 0;
+}
 .c1:hover{
     border-color: var(--accent);
     cursor: pointer;
     color: var(--text-primary);
 }
-
+.c2{
+    background-color: rgb(20, 20, 20);
+}
 .leaderboard-card{
     border: 1px solid var(--border-subtle);
     padding: 1rem;
@@ -114,6 +120,11 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+.selection-card.c1.active {
+  border-color: var(--accent);
+  background-color: rgba(192, 193, 255, 0.1);
 }
 
 .name-card{

@@ -6,7 +6,7 @@ import pagination from "../middlewares/pagination.js"
 const router = Router()
 
 // public routes
-router.get("/", pagination, getQuestions);
+router.get("/", pagination(), getQuestions);
 
 
 // admin routes

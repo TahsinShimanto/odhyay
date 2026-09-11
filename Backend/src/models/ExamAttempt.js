@@ -9,7 +9,15 @@ const examAttemptSchema = new mongoose.Schema({
     currentIndex: { type: Number, default: 0 },
     answers: Object,
     flagged: [String],
-});
+    obtainedMarks: Number,
+    percentage: Number,
+
+    subjectId: { type: mongoose.Schema.Types.ObjectId, ref: "Subject" },
+    chapterId: { type: mongoose.Schema.Types.ObjectId, ref: "Chapter" },
+    topicId: { type: mongoose.Schema.Types.ObjectId, ref: "Topic" },
+    questionIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+},{ timestamps: true });
 
 const examAttempt = mongoose.model("ExamAttempt", examAttemptSchema);
 export default examAttempt

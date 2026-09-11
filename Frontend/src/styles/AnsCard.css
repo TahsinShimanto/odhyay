@@ -14,9 +14,17 @@
 
 .ans-tag{
     padding: 0.3rem 1rem;
+    border-radius: 5px;
+}
+
+.ans-tag.correct{
     background-color: #191f1c;
     color: #34D399;
-    border-radius: 5px;
+}
+
+.ans-tag.wrong{
+    background-color: #24191a;
+    color: #F87171;
 }
 
 .explain-card{
@@ -40,8 +48,28 @@
     color: #34D399;
 }
 
+.user-ans.wrong p{
+    color: #F87171;
+}
+
 .correct-ans p{
     color: var(--text-primary);
+}
+
+.detailed-explain p{
+    color: var(--text-primary);
+}
+
+.ques-section img{
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+}
+
+.detailed-explain img{
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 0.3rem;
 }
 
 .result-nav{
