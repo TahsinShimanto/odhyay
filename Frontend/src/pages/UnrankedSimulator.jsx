@@ -71,10 +71,11 @@ const UnrankedSimulator = () => {
     }
     setFormError("");
 
+    try {
     const res = await axios.post("/api/exam/start", {
       type: "unranked",
-      questionCount: Number(quesCount) || 10,
-      minutes: Number(minutes) || 10,
+      questionCount: count,
+      minutes: time,
       secondTime,
       subjectId: selectedSubjectId || undefined,
       chapterId: selectedChapterId || undefined,
@@ -82,6 +83,9 @@ const UnrankedSimulator = () => {
     });
 
     navigate(`/exam/unranked/${res.data.attemptId}`, { replace: true });
+    } catch (err) {
+      setFormError(err.response?.data?.error || "পরীক্ষা শুরু করা যায়নি");
+    }
   }
 
   if (curriculumLoading) return <div className="load-error">লোড হচ্ছে...</div>;

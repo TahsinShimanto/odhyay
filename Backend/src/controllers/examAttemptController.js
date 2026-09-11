@@ -3,6 +3,10 @@ import ExamAttempt from "../models/ExamAttempt.js";
 import Question from "../models/Question.js";
 import Subject from "../models/Subject.js";
 
+const VALID_EXAM_TYPES = ["engineering", "medical", "varsity"];
+const CORRECT_MARK = 1;
+const WRONG_MARK = -0.25;
+
 export const startExam = async (req, res) => {
   try {
     const {
@@ -13,7 +17,11 @@ export const startExam = async (req, res) => {
       subjectId,
       chapterId,
       topicId,
+      examType,
     } = req.body;
+
+    if (examType && !VALID_EXAM_TYPES.includes(examType)) 
+      return res.status(400).json({ error: "Invalid exam type" });
 
     if(questionCount !== undefined){
       if (questionCount <= 0 || questionCount >= 100)
@@ -37,18 +45,37 @@ export const startExam = async (req, res) => {
       return res.status(400).json({ error: "Invalid topic ID" });
     }
 
+    const filter = { type: "mcq" };
+    if (subjectId) filter.subjectId = new mongoose.Types.ObjectId(subjectId);
+    if (chapterId) filter.chapterId = new mongoose.Types.ObjectId(chapterId);
+    if (topicId) filter.topicId = new mongoose.Types.ObjectId(topicId);
+    if (examType) filter.examType = examType;
+
+    const sampledQuestions = await Question.aggregate([
+      { $match: filter },
+      { $sample: { size: questionCount || 10 } },
+      { $project: { _id: 1 } },
+    ]);
+
+    const questionIds = sampledQuestions.map((q) => q._id);
+
+    if (questionIds.length === 0) 
+      return res.status(400).json({ error: "এই ফিল্টারে কোনো প্রশ্ন পাওয়া যায়নি" })
+
     const endTime = new Date(Date.now() + (minutes || 10) * 60 * 1000);
 
     const attempt = await ExamAttempt.create({
       user: req.user.id,
       type,
-      questionCount,
+      questionCount: questionIds.length,
       minutes,
       secondTime,
       endTime,
       subjectId: subjectId || undefined,
       chapterId: chapterId || undefined,
       topicId: topicId || undefined,
+      examType: examType || undefined,
+      questionIds,
 
       answers: {},
       flagged: [],
@@ -59,6 +86,7 @@ export const startExam = async (req, res) => {
       endTime: attempt.endTime,
     });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error occurred" });
   }
 };
@@ -109,15 +137,13 @@ export const getAttempt = async (req, res) => {
       subjectId: attempt.subjectId,
       chapterId: attempt.chapterId,
       topicId: attempt.topicId,
+      examType: attempt.examType,
     });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error occurred" });
   }
 };
-
-const CORRECT_MARK = 1;
-const WRONG_MARK = -0.25;
 
 export const getResult = async (req, res) => {
   try {
@@ -221,34 +247,22 @@ export const getExamQuestions = async (req, res) => {
     if (attempt.user.toString() !== req.user.id)
       return res.status(403).json({ error: "আপনার এই কাজটি করার অনুমতি নেই" });
 
-    const filter = { type: "mcq" };
+    const questions = await Question.find({ _id: { $in: attempt.questionIds } })
+      .select("-options.isCorrect -answerOrExplanationText -answerOrExplanationImage");
 
-    if (attempt.subjectId) filter.subjectId = attempt.subjectId;
-    if (attempt.chapterId) filter.chapterId = attempt.chapterId;
-    if (attempt.topicId) filter.topicId = attempt.topicId;
+    const questionMap = {};
+    questions.forEach((q) => { questionMap[q._id.toString()] = q; });
 
-    const questionCount = attempt.questionCount || 10;
+    const orderedQuestions = attempt.questionIds
+      .map((id) => questionMap[id.toString()])
 
-    const questions = await Question.aggregate([
-      { $match: filter },
-      { $sample: { size: questionCount } },
-      {
-        $project: {
-          "options.isCorrect": 0,
-          answerOrExplanationText: 0,
-          answerOrExplanationImage: 0,
-        },
-      },
-    ]);
-
-    res.json({ questions });
+    res.json({ questions: orderedQuestions });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error occurred" });
   }
 };
 
-const VALID_EXAM_TYPES = ["engineering", "medical", "varsity"];
 
 export const getMyStats = async (req, res) => {
   try {
