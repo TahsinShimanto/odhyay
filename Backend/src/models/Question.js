@@ -16,6 +16,7 @@ const optionSchema = new mongoose.Schema(
     isCorrect: {
       type: Boolean,
       default: false,
+      required: true
     },
   },
   {
@@ -50,7 +51,7 @@ const questionSchema = new mongoose.Schema(
       required: true,
     },
 
-    examType: {
+    module: {
       type: String,
       trim: true,
     },
@@ -115,31 +116,6 @@ const questionSchema = new mongoose.Schema(
   }
 );
 
-
-
-// Main filtering index
-questionSchema.index({
-  subjectId: 1,
-  chapterId: 1,
-  topicId: 1,
-});
-
-
-// Useful for exam-based filtering
-questionSchema.index({
-  subjectId: 1,
-  chapterId: 1,
-  topicId: 1,
-  examType: 1,
-});
-
-// Useful for question type filtering
-questionSchema.index({
-  subjectId: 1,
-  chapterId: 1,
-  topicId: 1,
-  type: 1,
-});
 
 const Question = mongoose.model("Question", questionSchema);
 

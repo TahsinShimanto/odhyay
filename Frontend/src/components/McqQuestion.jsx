@@ -11,12 +11,14 @@ import '../styles/McqQuestion.css'
 function MCQ({question, current, total, saved}) {
     const [showExplaination, setShowExplaination] = useState(false);
 
+    const importanceStars = { low: 1, medium: 2, high: 3 }[question.importance] || 0;
+
     return (
         <div className="question-card">
             <div className="question-card-info">
                 <div className="question-info-count">প্রশ্ন {current}/{total}</div>
                 <div className="question-info-importance">
-                    {Array.from({ length: question.importance }).map((_, index) => (
+                    {Array.from({ length: importanceStars }).map((_, index) => (
                         <Star
                             key={index}
                             size={14}
@@ -32,12 +34,12 @@ function MCQ({question, current, total, saved}) {
             <div className="question-card-main">
                 <div className="question-statement-container">
                     <span className="question-statement">{question.questionText}</span>
-                    <span className="question-image">{question.questionimage}</span>
+                    {question.questionImage && <img className="question-statement-image" src={question.questionImage} alt="" />}
                 </div>
 
                 <div className="question-occurrences">
-                    {question.appearances.map((object) =>
-                        <div key={object.id} className="appearance-tag">
+                    {question.appearances.map((object, index) =>
+                        <div key={index} className="appearance-tag">
                             <span className="bullet"></span> {object.university} {object.year}
                         </div>
                     )}
@@ -45,10 +47,10 @@ function MCQ({question, current, total, saved}) {
 
                 <div className="question-options-container">
                     {question.options.map((option, index) =>
-                    <div key={option.id} className="single-option-div">
+                    <div key={index} className="single-option-div">
                         <div className="option-count">{index+1}</div>
                         <span className="option-text">{option.text}</span>
-                        <span className="option-image">{option.image}</span>
+                        {option.image && <img className="option-image" src={option.image} alt="" />}
                     </div>
                 )}
                 </div>
@@ -59,8 +61,8 @@ function MCQ({question, current, total, saved}) {
                     {showExplaination ? (
                         <>
                             <div className="hide-explanation-button" onClick={(e) => { e.stopPropagation(); setShowExplaination(false)}}>ব্যাখ্যা লুকান</div>
-                            <div className="explanation-text">{question.explanationOrAnswerText}</div>
-                            <div className="explanation-image">{question.explanationOrAnswerImage}</div>
+                            {question.answerOrExplanationText && <div className="explanation-text">{question.answerOrExplanationText}</div>}
+                            {question.answerOrExplanationImage && <img className="explanation-image" src={question.answerOrExplanationImage} alt="" />}
                         </>
 
                     ) : (

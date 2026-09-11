@@ -49,7 +49,7 @@ export const startExam = async (req, res) => {
     if (subjectId) filter.subjectId = new mongoose.Types.ObjectId(subjectId);
     if (chapterId) filter.chapterId = new mongoose.Types.ObjectId(chapterId);
     if (topicId) filter.topicId = new mongoose.Types.ObjectId(topicId);
-    if (examType) filter.examType = examType;
+    if (examType) filter.module = examType;
 
     const sampledQuestions = await Question.aggregate([
       { $match: filter },

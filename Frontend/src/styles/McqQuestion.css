@@ -107,7 +107,11 @@
 }
 
 /* TODO: support images later */
-.question-statement-image {}
+.question-statement-image {
+    display: block;
+    margin-top: 0.8rem;
+    max-width: 100%;
+}
 
 .question-occurrences {
     display: flex;
@@ -173,7 +177,10 @@
 }
 
 /* TODO: support images later */
-.option-image {}
+.option-image {
+    max-width: 100%;
+    margin-left: auto;
+}
 
 .divider {
     border-top: 1px solid var(--border-subtle);
@@ -219,7 +226,12 @@
 }
 
 /* TODO: change font later */
-.explanation-text {}
+.explanation-text {
+    white-space: pre-wrap;
+}
 
 /* TODO: support images later */
-.explanation-image {}
+.explanation-image {
+    max-width: 100%;
+    margin-top: 0.8rem;
+}

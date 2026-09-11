@@ -6,7 +6,7 @@ export const createQuestion = async (req, res) => {
   try {
     const {
       type,
-      examType,
+      module,
       subjectId,
       chapterId,
       topicId,
@@ -48,7 +48,7 @@ export const createQuestion = async (req, res) => {
 
     const question = await Question.create({
       type,
-      examType,
+      module,
       subjectId,
       chapterId,
       topicId,
@@ -160,6 +160,26 @@ export const deleteQuestion = async (req, res) => {
   }
 };
 
+// delete all questions
+export const deleteAllQuestions = async (req, res) => {
+  try {
+    const result = await Question.deleteMany({});
+
+    return res.status(200).json({
+      success: true,
+      message: `${result.deletedCount} question(s) deleted successfully`,
+      data: { deletedCount: result.deletedCount },
+    });
+  } catch (error) {
+    console.error("deleteAllQuestions error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete questions",
+    });
+  }
+};
+
 // get questions
 export const getQuestions = async (req, res) => {
   try {
@@ -168,7 +188,7 @@ export const getQuestions = async (req, res) => {
       chapter,
       topic,
       type,
-      examType,
+      module,
       importance,
     } = req.query;
 
@@ -208,8 +228,8 @@ export const getQuestions = async (req, res) => {
       filter.type = type;
     }
 
-    if(examType) {
-      filter.examType = examType;
+    if(module) {
+      filter.module = module;
     }
 
     if(importance) {
@@ -222,7 +242,6 @@ export const getQuestions = async (req, res) => {
     // Query
     const [questions, total] = await Promise.all([
       Question.find(filter)
-        .select("-options.isCorrect -answerOrExplanationText -answerOrExplanationImage")
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)

@@ -1,6 +1,6 @@
 import { Router } from "express"
 import Question from "../models/Question.js"
-import { createQuestion, deleteQuestion, getQuestions, updateQuestion } from "../controllers/questionController.js"
+import { createQuestion, deleteAllQuestions, deleteQuestion, getQuestions, updateQuestion } from "../controllers/questionController.js"
 import pagination from "../middlewares/pagination.js"
 
 const router = Router()
@@ -12,6 +12,7 @@ router.get("/", pagination(), getQuestions);
 // admin routes
 router.post("/", createQuestion);
 router.patch("/:id", updateQuestion);
+router.delete("/all", deleteAllQuestions);
 router.delete("/:id", deleteQuestion);
 
 
