@@ -136,7 +136,13 @@
     background-color: var(--surface-hover);
     border-radius: 0.3rem;
 }
-
+.form-error{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #ef4444;
+}
 .name-rank{
     display: flex;
     gap: 0.5rem;

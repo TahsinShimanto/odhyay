@@ -3,7 +3,7 @@ import ExamAttempt from "../models/ExamAttempt.js";
 import Question from "../models/Question.js";
 import Subject from "../models/Subject.js";
 
-const VALID_EXAM_TYPES = ["engineering", "medical", "varsity"];
+const VALID_EXAM_TYPES = ["Engineering", "Medical", "Varsity"];
 const CORRECT_MARK = 1;
 const WRONG_MARK = -0.25;
 
@@ -17,11 +17,15 @@ export const startExam = async (req, res) => {
       subjectId,
       chapterId,
       topicId,
-      examType,
+      module,
     } = req.body;
 
-    if (examType && !VALID_EXAM_TYPES.includes(examType)) 
+    if (module && !VALID_EXAM_TYPES.includes(module)) 
       return res.status(400).json({ error: "Invalid exam type" });
+
+    if (type === "ranked" && !module) {
+      return res.status(400).json({ error: "পরীক্ষার বিভাগ নির্বাচন করুন" });
+    }
 
     if(questionCount !== undefined){
       if (questionCount <= 0 || questionCount >= 100)
@@ -33,6 +37,7 @@ export const startExam = async (req, res) => {
         return res.status(400).json({ error: "Invalid exam duration" });
     }
 
+    
     if (subjectId && !mongoose.Types.ObjectId.isValid(subjectId)) {
       return res.status(400).json({ error: "Invalid subject ID" });
     }
@@ -49,7 +54,7 @@ export const startExam = async (req, res) => {
     if (subjectId) filter.subjectId = new mongoose.Types.ObjectId(subjectId);
     if (chapterId) filter.chapterId = new mongoose.Types.ObjectId(chapterId);
     if (topicId) filter.topicId = new mongoose.Types.ObjectId(topicId);
-    if (examType) filter.module = examType;
+    if (module) filter.module = module;
 
     const sampledQuestions = await Question.aggregate([
       { $match: filter },
@@ -74,7 +79,7 @@ export const startExam = async (req, res) => {
       subjectId: subjectId || undefined,
       chapterId: chapterId || undefined,
       topicId: topicId || undefined,
-      examType: examType || undefined,
+      module: module || undefined,
       questionIds,
 
       answers: {},
@@ -137,7 +142,7 @@ export const getAttempt = async (req, res) => {
       subjectId: attempt.subjectId,
       chapterId: attempt.chapterId,
       topicId: attempt.topicId,
-      examType: attempt.examType,
+      module: attempt.module,
     });
   } catch (err) {
     console.error(err);
@@ -266,13 +271,13 @@ export const getExamQuestions = async (req, res) => {
 
 export const getMyStats = async (req, res) => {
   try {
-    const { examType } = req.query;
-    if (examType && !VALID_EXAM_TYPES.includes(examType)) 
+    const { module } = req.query;
+    if (module && !VALID_EXAM_TYPES.includes(module)) 
       return res.status(400).json({ error: "Invalid exam type" });
     
     const query = { user: req.user.id, type: "ranked" };
-    if (examType) 
-      query.examType = examType;
+    if (module) 
+      query.module = module;
 
     const allAttempts = await ExamAttempt.find(query)
       .select("obtainedMarks percentage");
@@ -298,13 +303,13 @@ export const getMyStats = async (req, res) => {
 
 export const getLeaderboard = async (req, res) => {
   try {
-    const { examType } = req.query;
-    if (examType && !VALID_EXAM_TYPES.includes(examType)) 
+    const { module } = req.query;
+    if (module && !VALID_EXAM_TYPES.includes(module)) 
       return res.status(400).json({ error: "Invalid exam type" });
     
     const matchStage = { type: "ranked", percentage: { $ne: null } };
-    if (examType)
-       matchStage.examType = examType;
+    if (module)
+       matchStage.module = module;
 
     const leaderboard = await ExamAttempt.aggregate([
       { $match: matchStage },
