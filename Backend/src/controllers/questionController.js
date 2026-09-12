@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+import pLimit from "p-limit";
+import fs from "fs";
+
+import cloudinary from "../config/cloudinary.js";
 import Question from "../models/Question.js";
 import Module from "../models/Modules.js";
 import Subject from "../models/Subject.js";
@@ -6,6 +10,82 @@ import Chapter from "../models/Chapters.js";
 import Topic from "../models/Topics.js";
 import University from "../models/university.js";
 import SavedQuestion from "../models/SavedQuestion.js";
+
+
+const plimit = pLimit(10);
+
+
+const uploadImageSource = (value, file, folder = "questions") => {
+  if (file) {
+    return plimit(async () => {
+      try {
+        const result = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder },
+            (error, uploadResult) => {
+              if (error) return reject(error);
+              resolve(uploadResult);
+            }
+          );
+          stream.on("error", reject);
+          fs.createReadStream(file.path).on("error", reject).pipe(stream);
+        });
+        return { url: result.secure_url, publicId: result.public_id };
+      } finally {
+        fs.unlink(file.path, () => {});
+      }
+    });
+  }
+  if (typeof value === "string" && value.trim()) {
+    return plimit(async () => {
+      const result = await cloudinary.uploader.upload(value.trim(), { folder });
+      return { url: result.secure_url, publicId: result.public_id };
+    });
+  }
+  return value;
+};
+
+const processOptions = (options, optionFiles = []) => {
+  if (!Array.isArray(options)) return [];
+  return Promise.all(
+    options.map((option, index) =>
+      uploadImageSource(option?.image, optionFiles[index]).then((image) => ({
+        ...option,
+        image,
+      }))
+    )
+  );
+};
+
+const destroyImages = async (publicIds) => {
+  if (publicIds.length === 0) return;
+  await Promise.all(
+    publicIds.map((publicId) =>
+      plimit(() =>
+        cloudinary.uploader.destroy(publicId).catch((error) => {
+          console.error(`Failed to delete image from Cloudinary: ${publicId}`, error);
+        })
+      )
+    )
+  );
+};
+
+const collectImagePublicIds = (question) => {
+  const publicIds = [];
+  if (question.questionImage?.publicId) {
+    publicIds.push(question.questionImage.publicId);
+  }
+  if (question.answerOrExplanationImage?.publicId) {
+    publicIds.push(question.answerOrExplanationImage.publicId);
+  }
+  for (const option of question.options || []) {
+    if (option.image?.publicId) {
+      publicIds.push(option.image.publicId);
+    }
+  }
+  return publicIds;
+};
+
 
 // Create Questions
 export const createQuestion = async (req, res) => {
@@ -38,6 +118,30 @@ export const createQuestion = async (req, res) => {
         success: false,
         message: "Module, Subject, chapter and topic are required",
       });
+    }
+
+    let parsedOptions = options;
+    if (typeof options === "string") {
+      try {
+        parsedOptions = JSON.parse(options);
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid options format",
+        });
+      }
+    }
+
+    let parsedAppearances = appearances;
+    if (typeof appearances === "string") {
+      try {
+        parsedAppearances = JSON.parse(appearances);
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid appearances format",
+        });
+      }
     }
 
     if (!mongoose.Types.ObjectId.isValid(subjectId) ||
@@ -106,15 +210,15 @@ export const createQuestion = async (req, res) => {
       });
     }
 
-    if (appearances !== undefined) {
-      if (!Array.isArray(appearances)) {
+    if (parsedAppearances !== undefined) {
+      if (!Array.isArray(parsedAppearances)) {
         return res.status(400).json({
           success: false,
           message: "Appearances must be an array",
         });
       }
 
-      const universityIds = appearances
+      const universityIds = parsedAppearances
         .map((appearance) => appearance?.university)
         .filter((id) => id);
 
@@ -127,7 +231,7 @@ export const createQuestion = async (req, res) => {
         }
       }
 
-      for (const appearance of appearances) {
+      for (const appearance of parsedAppearances) {
         if (
           appearance?.year !== undefined &&
           appearance.year !== null &&
@@ -160,6 +264,15 @@ export const createQuestion = async (req, res) => {
     }
 
 
+    const optionFiles = req.files?.optionsImage || [];
+
+    const [uploadedQuestionImage, uploadedOptions, uploadedAnswerImage] =
+      await Promise.all([
+        uploadImageSource(questionImage, req.files?.questionImage?.[0]),
+        processOptions(parsedOptions, optionFiles),
+        uploadImageSource(answerOrExplanationImage, req.files?.answerOrExplanationImage?.[0]),
+      ]);
+
     const question = await Question.create({
       type,
       moduleId,
@@ -168,11 +281,11 @@ export const createQuestion = async (req, res) => {
       topicId,
       importance,
       questionText,
-      questionImage,
-      options,
+      questionImage: uploadedQuestionImage,
+      options: uploadedOptions,
       answerOrExplanationText,
-      answerOrExplanationImage,
-      appearances,
+      answerOrExplanationImage: uploadedAnswerImage,
+      appearances: parsedAppearances,
     });
 
     return res.status(201).json({
@@ -251,7 +364,7 @@ export const deleteQuestion = async (req, res) => {
       });
     }
 
-    const question = await Question.findByIdAndDelete(id);
+    const question = await Question.findById(id);
 
     if (!question) {
       return res.status(404).json({
@@ -260,6 +373,9 @@ export const deleteQuestion = async (req, res) => {
       });
     }
 
+    await destroyImages(collectImagePublicIds(question));
+
+    await Question.findByIdAndDelete(id);
     await SavedQuestion.deleteMany({ questionId: id });
 
     return res.status(200).json({
@@ -275,6 +391,7 @@ export const deleteQuestion = async (req, res) => {
     });
   }
 };
+
 
 // delete all questions
 export const deleteAllQuestions = async (req, res) => {
@@ -296,6 +413,8 @@ export const deleteAllQuestions = async (req, res) => {
     });
   }
 };
+
+
 
 // get questions
 export const getQuestions = async (req, res) => {

@@ -45,7 +45,7 @@ const Footer = () => {
           <a href="https://www.facebook.com">
             <FaFacebook size={33}/>
           </a>
-          <a href="https://www.github.com">
+          <a href="https://github.com">
             <FaGithub size={33}/>
           </a>
 

@@ -1,6 +1,17 @@
 import mongoose from "mongoose";
 
 
+
+const imageSchema = new mongoose.Schema(
+  {
+    url: String,
+    publicId: String
+  },
+  {
+    _id: false
+  }
+)
+
 const optionSchema = new mongoose.Schema(
   {
     text: {
@@ -9,8 +20,7 @@ const optionSchema = new mongoose.Schema(
     },
 
     image: {
-      type: String,
-      trim: true,
+      type: imageSchema
     },
 
     isCorrect: {
@@ -84,8 +94,7 @@ const questionSchema = new mongoose.Schema(
     },
 
     questionImage: {
-      type: String,
-      trim: true,
+      type: imageSchema
     },
 
     options: {
@@ -99,8 +108,7 @@ const questionSchema = new mongoose.Schema(
     },
 
     answerOrExplanationImage: {
-      type: String,
-      trim: true,
+      type: imageSchema
     },
 
     appearances: {
