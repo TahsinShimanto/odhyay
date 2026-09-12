@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import "../styles/ExamCard.css";
 import { ArrowLeft, ArrowRight, Clock, Flag, Send } from "lucide-react";
-import axios from "axios";
+import axios from "../services/axios.js";
 import Countdown from "react-countdown";
 const ExamCard = () => {
   const navigate = useNavigate();

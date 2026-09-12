@@ -10,10 +10,13 @@ import {
 import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
+import axios from "../services/axios.js";
+import { useAuth } from "../context/AuthContext";
 
 const RankedSimulator = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, loading } = useAuth();
+  
   const [leaderboard, setLeaderboard] = useState([]);
   const [bestScore, setBestScore] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
@@ -36,18 +39,22 @@ const RankedSimulator = () => {
   }
 
   useEffect(() => {
-      axios
-        .get("/api/exam/leaderboard", { params: { examType: selectedExamType || undefined } })
-        .then((res) => setLeaderboard(res.data.leaderboard))
-        .catch(() => {});
+    axios
+      .get("/api/exam/leaderboard", {
+        params: { examType: selectedExamType || undefined },
+      })
+      .then((res) => setLeaderboard(res.data.leaderboard))
+      .catch(() => {});
 
-      axios
-        .get("/api/exam/my-stats", { params: { examType: selectedExamType || undefined } })
-        .then((res) => {
-          setBestScore(res.data.bestScore);
-          setCompletedCount(res.data.completedCount);
-        })
-        .catch(() => {});
+    axios
+      .get("/api/exam/my-stats", {
+        params: { examType: selectedExamType || undefined },
+      })
+      .then((res) => {
+        setBestScore(res.data.bestScore);
+        setCompletedCount(res.data.completedCount);
+      })
+      .catch(() => {});
   }, [selectedExamType]);
 
   return (

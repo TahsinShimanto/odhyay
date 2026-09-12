@@ -3,15 +3,21 @@ import { Award, Play, TriangleAlert } from "lucide-react";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
+import axios from "../services/axios.js";
+import { useAuth } from "../context/AuthContext";
 const UnrankedSimulator = () => {
   const navigate = useNavigate();
+  const {isAuthenticated} = useAuth();
+    
   const [quesCount, setQuesCount] = useState("");
   const [minutes, setMinutes] = useState("");
   const [secondTime, setSecondTime] = useState(false);
 
-  const [curriculum, setCurriculum] = useState([]);
-  const [curriculumLoading, setCurriculumLoading] = useState(true);
+  const [subjects, setSubjects] = useState([]);
+  const [chapters, setChapters] = useState([]);
+  const [topics, setTopics] = useState([]);
+
+  const [subjectsLoading, setSubjectsLoading] = useState(true);
   const [curriculumError, setCurriculumError] = useState(null);
 
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
@@ -22,24 +28,38 @@ const UnrankedSimulator = () => {
 
   useEffect(() => {
     axios
-      .get("/api/curriculum")
+      .get("/api/taxonomy/subjects")
       .then((res) => {
-        setCurriculum(res.data.data);
-        setCurriculumLoading(false);
+        setSubjects(res.data.data);
+        setSubjectsLoading(false);
       })
       .catch((err) => {
         setCurriculumError(err.message);
-        setCurriculumLoading(false);
+        setSubjectsLoading(false);
       });
   }, []);
 
-  const selectedSubject = curriculum.find((s) => s._id === selectedSubjectId);
-  const chapterOptions = selectedSubject ? selectedSubject.chapters : [];
+  useEffect(() => {
+    if (!selectedSubjectId) {
+      setChapters([]);
+      return;
+    }
+    axios
+      .get("/api/taxonomy/chapters", { params: { subjectId: selectedSubjectId } })
+      .then((res) => setChapters(res.data.data))
+      .catch((err) => setCurriculumError(err.message));
+  }, [selectedSubjectId]);
 
-  const selectedChapter = chapterOptions.find(
-    (c) => c._id === selectedChapterId,
-  );
-  const topicOptions = selectedChapter ? selectedChapter.topics : [];
+  useEffect(() => {
+    if (!selectedChapterId) {
+      setTopics([]);
+      return;
+    }
+    axios
+      .get("/api/taxonomy/topics", { params: { chapterId: selectedChapterId } })
+      .then((res) => setTopics(res.data.data))
+      .catch((err) => setCurriculumError(err.message));
+  }, [selectedChapterId]);
 
   function handleSubjectChange(e) {
     setSelectedSubjectId(e.target.value);
@@ -88,9 +108,8 @@ const UnrankedSimulator = () => {
     }
   }
 
-  if (curriculumLoading) return <div className="load-error">লোড হচ্ছে...</div>;
-  if (curriculumError)
-    return <div className="load-error">ত্রুটি: {curriculumError}</div>;
+  if (subjectsLoading) return <div className="load-error">লোড হচ্ছে...</div>;
+  if (curriculumError) return <div className="load-error">ত্রুটি: {curriculumError}</div>;
 
   return (
     <div>
@@ -129,7 +148,7 @@ const UnrankedSimulator = () => {
                     onChange={handleSubjectChange}
                   >
                     <option value="">সকল বিষয়</option>
-                    {curriculum.map((subject) => (
+                    {subjects.map((subject) => (
                       <option key={subject._id} value={subject._id}>
                         {subject.name}
                       </option>
@@ -148,7 +167,7 @@ const UnrankedSimulator = () => {
                     disabled={!selectedSubjectId}
                   >
                     <option value="">সকল অধ্যায়</option>
-                    {chapterOptions.map((chapter) => (
+                    {chapters.map((chapter) => (
                       <option key={chapter._id} value={chapter._id}>
                         {chapter.name}
                       </option>
@@ -165,7 +184,7 @@ const UnrankedSimulator = () => {
                     disabled={!selectedChapterId}
                   >
                     <option value="">সকল টপিক</option>
-                    {topicOptions.map((topic) => (
+                    {topics.map((topic) => (
                       <option key={topic._id} value={topic._id}>
                         {topic.name}
                       </option>

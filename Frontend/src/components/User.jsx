@@ -3,7 +3,7 @@ import { Award, Bookmark, BookOpen, Clock2, Zap } from 'lucide-react'
 import Chart from './Chart.jsx'
 import ProgressCard from './ProgressCard.jsx'
 import { useAuth } from '../context/AuthContext'
-import axios from 'axios'
+import axios from "../services/axios.js";
 import  { useEffect, useState } from 'react'
 
 const User = () => {

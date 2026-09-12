@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { X } from 'lucide-react'
 import { useNavigate, NavLink } from 'react-router'
 import { useState } from 'react'
-import axios from 'axios'
+import axios from "../services/axios.js";
 import { useAuth } from '../context/AuthContext'
 import { useEffect } from 'react'
 const Register = () => {
