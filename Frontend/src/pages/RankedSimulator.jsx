@@ -10,44 +10,60 @@ import {
 import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
+import axios from "../services/axios.js";
 
 const RankedSimulator = () => {
   const navigate = useNavigate();
+
   const [leaderboard, setLeaderboard] = useState([]);
   const [bestScore, setBestScore] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
+  const [formError, setFormError] = useState("");
 
-  const [selectedExamType, setSelectedExamType] = useState("");
+  const [selectedExamType, setSelectedExamType] = useState("Engineering");
 
   function handleSelectExamType(examType) {
     setSelectedExamType(examType);
   }
 
   async function handleStartRank() {
-    const res = await axios.post("/api/exam/start", {
-      type: "ranked",
-      questionCount: 10,
-      minutes: 10,
-      examType: selectedExamType || undefined,
-    });
+    if (!selectedExamType) {
+      setFormError("পরীক্ষার বিভাগ নির্বাচন করুন");
+      return;
+    }
+    setFormError("");
 
-    navigate(`/exam/ranked/${res.data.attemptId}`);
+    try {
+      const res = await axios.post("/api/exam/start", {
+        type: "ranked",
+        questionCount: 10,
+        minutes: 10,
+        module: selectedExamType || undefined,
+      });
+
+      navigate(`/exam/ranked/${res.data.attemptId}`);
+    } catch (err) {
+      setFormError(err.response?.data?.error || "পরীক্ষা শুরু করা যায়নি");
+    }
   }
 
   useEffect(() => {
-      axios
-        .get("/api/exam/leaderboard", { params: { examType: selectedExamType || undefined } })
-        .then((res) => setLeaderboard(res.data.leaderboard))
-        .catch(() => {});
+    axios
+      .get("/api/exam/leaderboard", {
+        params: { module: selectedExamType || undefined },
+      })
+      .then((res) => setLeaderboard(res.data.leaderboard))
+      .catch(() => {});
 
-      axios
-        .get("/api/exam/my-stats", { params: { examType: selectedExamType || undefined } })
-        .then((res) => {
-          setBestScore(res.data.bestScore);
-          setCompletedCount(res.data.completedCount);
-        })
-        .catch(() => {});
+    axios
+      .get("/api/exam/my-stats", {
+        params: { module: selectedExamType || undefined },
+      })
+      .then((res) => {
+        setBestScore(res.data.bestScore);
+        setCompletedCount(res.data.completedCount);
+      })
+      .catch(() => {});
   }, [selectedExamType]);
 
   return (
@@ -87,11 +103,11 @@ const RankedSimulator = () => {
             <div className="selection-card-container">
               <div
                 className={
-                  selectedExamType === "engineering"
+                  selectedExamType === "Engineering"
                     ? "selection-card c1 active"
                     : "selection-card c1"
                 }
-                onClick={() => handleSelectExamType("engineering")}
+                onClick={() => handleSelectExamType("Engineering")}
               >
                 <Settings size={23} color="#c0c1ff" />
                 <div className="sel-card-text-sec">
@@ -101,11 +117,11 @@ const RankedSimulator = () => {
               </div>
               <div
                 className={
-                  selectedExamType === "medical"
+                  selectedExamType === "Medical"
                     ? "selection-card c1 active"
                     : "selection-card c1"
                 }
-                onClick={() => handleSelectExamType("medical")}
+                onClick={() => handleSelectExamType("Medical")}
               >
                 <Stethoscope size={23} color="#c0c1ff" />
                 <div className="sel-card-text-sec">
@@ -115,11 +131,11 @@ const RankedSimulator = () => {
               </div>
               <div
                 className={
-                  selectedExamType === "varsity"
+                  selectedExamType === "Varsity"
                     ? "selection-card c1 active"
                     : "selection-card c1"
                 }
-                onClick={() => handleSelectExamType("varsity")}
+                onClick={() => handleSelectExamType("Varsity")}
               >
                 <School size={23} color="#c0c1ff" />
                 <div className="sel-card-text-sec">
@@ -135,13 +151,14 @@ const RankedSimulator = () => {
                 সময় শেষ হলে স্বয়ংক্রিয়ভাবে উত্তরপত্র জমা হয়ে যাবে।
               </p>
             </div>
+            {formError && <span className="form-error">{formError}</span>}
             <button onClick={handleStartRank} className="start-button">
               পরীক্ষায় অংশ নিন
             </button>
           </div>
           <div className="leaderboard-card">
             <p>
-              <Users size={15} /> গ্লোবাল লিডারবোর্ড
+              <Users size={15} /> গ্লোবাল লিডারবোর্ড ({selectedExamType})
             </p>
             <div className="top-names">
               {leaderboard.map((entry, index) => (

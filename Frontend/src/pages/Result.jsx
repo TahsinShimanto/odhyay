@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router'
 import { useEffect, useState } from "react";
 import '../styles/Result.css'
 import AnsCard from '../components/AnsCard'
-import axios from "axios";
+import axios from "../services/axios.js";
 const Result = () => {
 
   const navigate = useNavigate();

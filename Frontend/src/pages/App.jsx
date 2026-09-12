@@ -12,6 +12,7 @@ import RankedSimulator from './RankedSimulator.jsx'
 import ExamCard from './ExamCard'
 import Result from './Result'
 import ErrorPage from './ErrorPage.jsx'
+import ProtectedRoute from '../components/ProtectedRoute.jsx'
 
 function App() {
 
@@ -47,7 +48,9 @@ function App() {
       path: "/unrankedexam",
       element: <div>
         <Navbar/>
-        <UnrankedSimulator/>
+        <ProtectedRoute>
+          <UnrankedSimulator/>
+        </ProtectedRoute>
       </div>
     },
 
@@ -55,28 +58,37 @@ function App() {
       path: "/rankedexam",
       element: <div>
         <Navbar/>
-        <RankedSimulator/>
+        <ProtectedRoute>
+          <RankedSimulator/>
+        </ProtectedRoute>
+        
       </div>
     },
     {
       path: "/exam/:type/:attemptId",
       element: <div>
         <Navbar/>
-        <ExamCard/>
+        <ProtectedRoute>
+          <ExamCard/>
+        </ProtectedRoute>
       </div>
     },
     {
       path: "/result/:type/:attemptId",
       element: <div>
         <Navbar/>
-        <Result/>
+        <ProtectedRoute>
+          <Result/>
+        </ProtectedRoute>
       </div>
     },
     {
       path: "/profile",
       element: <div>
         <Navbar/>
-        <Profile/>
+        <ProtectedRoute>
+          <Profile/>
+        </ProtectedRoute>
       </div>
     },
     {
