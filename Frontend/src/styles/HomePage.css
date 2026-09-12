@@ -16,12 +16,13 @@
 }
 
 .hero-badge {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   width: fit-content;
   display: flex;
   align-items: center;
   gap: 7px;
-  padding: 5px 12px;
+  padding: 3px 8px;
+  border-radius: 8px;
   background-color: var(--surface);
   border: 1px solid var(--border-subtle);
   color: #acaab3;
@@ -142,7 +143,7 @@ a {
 }
 
 .card-title {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--text-primary);
 }
 
@@ -174,17 +175,6 @@ a {
   .hero-page-links {
     justify-content: center;
   }
-}
-
-
-.instruction-text{
-    color: var(--text-primary);
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-.instruction-description{
-    font-size: 0.85rem;
 }
 
 .card-icons{

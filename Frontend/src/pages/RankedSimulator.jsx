@@ -20,14 +20,17 @@ const RankedSimulator = () => {
   const [completedCount, setCompletedCount] = useState(0);
   const [formError, setFormError] = useState("");
 
-  const [selectedExamType, setSelectedExamType] = useState("Engineering");
+  const [modules, setModules] = useState([]);
+  const [selectedModule, setSelectedModule] = useState("Engineering");
 
-  function handleSelectExamType(examType) {
-    setSelectedExamType(examType);
+  const selectedModuleId = modules.find((m) => m.name === selectedModule)?._id;
+
+  function handleSelectModule(module) {
+    setSelectedModule(module);
   }
 
   async function handleStartRank() {
-    if (!selectedExamType) {
+    if (!selectedModule) {
       setFormError("পরীক্ষার বিভাগ নির্বাচন করুন");
       return;
     }
@@ -38,7 +41,7 @@ const RankedSimulator = () => {
         type: "ranked",
         questionCount: 10,
         minutes: 10,
-        module: selectedExamType || undefined,
+        moduleId: selectedModuleId || undefined,
       });
 
       navigate(`/exam/ranked/${res.data.attemptId}`);
@@ -46,25 +49,33 @@ const RankedSimulator = () => {
       setFormError(err.response?.data?.error || "পরীক্ষা শুরু করা যায়নি");
     }
   }
+  useEffect(() => {
+    axios
+      .get("/api/taxonomy/modules")
+      .then((res) => setModules(res.data.data))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     axios
       .get("/api/exam/leaderboard", {
-        params: { module: selectedExamType || undefined },
+        params: { moduleId: selectedModuleId },
       })
       .then((res) => setLeaderboard(res.data.leaderboard))
       .catch(() => {});
 
     axios
       .get("/api/exam/my-stats", {
-        params: { module: selectedExamType || undefined },
+        params: { moduleId: selectedModuleId },
       })
       .then((res) => {
         setBestScore(res.data.bestScore);
         setCompletedCount(res.data.completedCount);
       })
       .catch(() => {});
-  }, [selectedExamType]);
+  }, [selectedModule]);
+
+
 
   return (
     <div>
@@ -103,11 +114,11 @@ const RankedSimulator = () => {
             <div className="selection-card-container">
               <div
                 className={
-                  selectedExamType === "Engineering"
+                  selectedModule === "Engineering"
                     ? "selection-card c1 active"
                     : "selection-card c1"
                 }
-                onClick={() => handleSelectExamType("Engineering")}
+                onClick={() => handleSelectModule("Engineering")}
               >
                 <Settings size={23} color="#c0c1ff" />
                 <div className="sel-card-text-sec">
@@ -117,11 +128,11 @@ const RankedSimulator = () => {
               </div>
               <div
                 className={
-                  selectedExamType === "Medical"
+                  selectedModule === "Medical"
                     ? "selection-card c1 active"
                     : "selection-card c1"
                 }
-                onClick={() => handleSelectExamType("Medical")}
+                onClick={() => handleSelectModule("Medical")}
               >
                 <Stethoscope size={23} color="#c0c1ff" />
                 <div className="sel-card-text-sec">
@@ -131,11 +142,11 @@ const RankedSimulator = () => {
               </div>
               <div
                 className={
-                  selectedExamType === "Varsity"
+                  selectedModule === "University"
                     ? "selection-card c1 active"
                     : "selection-card c1"
                 }
-                onClick={() => handleSelectExamType("Varsity")}
+                onClick={() => handleSelectModule("University")}
               >
                 <School size={23} color="#c0c1ff" />
                 <div className="sel-card-text-sec">
@@ -158,7 +169,7 @@ const RankedSimulator = () => {
           </div>
           <div className="leaderboard-card">
             <p>
-              <Users size={15} /> গ্লোবাল লিডারবোর্ড ({selectedExamType})
+              <Users size={15} /> গ্লোবাল লিডারবোর্ড ({selectedModule})
             </p>
             <div className="top-names">
               {leaderboard.map((entry, index) => (

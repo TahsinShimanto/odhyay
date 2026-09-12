@@ -4,22 +4,24 @@ import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "../services/axios.js";
-import { useAuth } from "../context/AuthContext";
+
 const UnrankedSimulator = () => {
   const navigate = useNavigate();
-  const {isAuthenticated} = useAuth();
-    
+
   const [quesCount, setQuesCount] = useState("");
   const [minutes, setMinutes] = useState("");
   const [secondTime, setSecondTime] = useState(false);
 
+  const [modules, setModules] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [topics, setTopics] = useState([]);
 
+  const [modulesLoaded, setModulesLoaded] = useState(false);
   const [subjectsLoading, setSubjectsLoading] = useState(true);
   const [curriculumError, setCurriculumError] = useState(null);
 
+  const [selectedModuleId, setSelectedModuleId] = useState("");
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
   const [selectedChapterId, setSelectedChapterId] = useState("");
   const [selectedTopicId, setSelectedTopicId] = useState("");
@@ -28,7 +30,27 @@ const UnrankedSimulator = () => {
 
   useEffect(() => {
     axios
-      .get("/api/taxonomy/subjects")
+      .get("/api/taxonomy/modules")
+      .then((res) => {
+        setModules(res.data.data);
+        if (res.data.data.length > 0) {
+          setSelectedModuleId(res.data.data[0]._id);
+          setModulesLoaded(true);
+        }
+      })
+      .catch(() => {setModulesLoaded(true)});
+  }, []);
+
+  useEffect(() => {
+    if (!modulesLoaded) return; 
+    if (!selectedModuleId) {
+      setSubjects([]);
+      setSubjectsLoading(false);
+      return;
+    }
+    setSubjectsLoading(true);
+    axios
+      .get("/api/taxonomy/subjects", { params: { moduleId: selectedModuleId } })
       .then((res) => {
         setSubjects(res.data.data);
         setSubjectsLoading(false);
@@ -37,7 +59,7 @@ const UnrankedSimulator = () => {
         setCurriculumError(err.message);
         setSubjectsLoading(false);
       });
-  }, []);
+  }, [selectedModuleId, modulesLoaded]);
 
   useEffect(() => {
     if (!selectedSubjectId) {
@@ -45,7 +67,9 @@ const UnrankedSimulator = () => {
       return;
     }
     axios
-      .get("/api/taxonomy/chapters", { params: { subjectId: selectedSubjectId } })
+      .get("/api/taxonomy/chapters", {
+        params: { subjectId: selectedSubjectId },
+      })
       .then((res) => setChapters(res.data.data))
       .catch((err) => setCurriculumError(err.message));
   }, [selectedSubjectId]);
@@ -60,6 +84,13 @@ const UnrankedSimulator = () => {
       .then((res) => setTopics(res.data.data))
       .catch((err) => setCurriculumError(err.message));
   }, [selectedChapterId]);
+
+  function handleModuleChange(e) {
+    setSelectedModuleId(e.target.value);
+    setSelectedSubjectId("");
+    setSelectedChapterId("");
+    setSelectedTopicId("");
+  }
 
   function handleSubjectChange(e) {
     setSelectedSubjectId(e.target.value);
@@ -92,24 +123,26 @@ const UnrankedSimulator = () => {
     setFormError("");
 
     try {
-    const res = await axios.post("/api/exam/start", {
-      type: "unranked",
-      questionCount: count,
-      minutes: time,
-      secondTime,
-      subjectId: selectedSubjectId || undefined,
-      chapterId: selectedChapterId || undefined,
-      topicId: selectedTopicId || undefined,
-    });
+      const res = await axios.post("/api/exam/start", {
+        type: "unranked",
+        questionCount: count,
+        minutes: time,
+        secondTime,
+        moduleId: selectedModuleId || undefined,
+        subjectId: selectedSubjectId || undefined,
+        chapterId: selectedChapterId || undefined,
+        topicId: selectedTopicId || undefined,
+      });
 
-    navigate(`/exam/unranked/${res.data.attemptId}`, { replace: true });
+      navigate(`/exam/unranked/${res.data.attemptId}`, { replace: true });
     } catch (err) {
       setFormError(err.response?.data?.error || "পরীক্ষা শুরু করা যায়নি");
     }
   }
 
   if (subjectsLoading) return <div className="load-error">লোড হচ্ছে...</div>;
-  if (curriculumError) return <div className="load-error">ত্রুটি: {curriculumError}</div>;
+  if (curriculumError)
+    return <div className="load-error">ত্রুটি: {curriculumError}</div>;
 
   return (
     <div>
@@ -133,10 +166,16 @@ const UnrankedSimulator = () => {
               <div className="input-line">
                 <div className="input-container">
                   <label htmlFor="exam">পরীক্ষার বিভাগ</label>
-                  <select id="exam">
-                    <option>Engineering University Preparation</option>
-                    <option>Medical Preparation</option>
-                    <option>Varsity Preparation</option>
+                  <select
+                    id="exam"
+                    value={selectedModuleId}
+                    onChange={handleModuleChange}
+                  >
+                    {modules.map((mod) => (
+                      <option key={mod._id} value={mod._id}>
+                        {mod.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 

@@ -32,15 +32,17 @@
 }
 
 .support-container{
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
-
+.app-description{
+    font-size: 0.95rem;
+}
 a {
     text-decoration: none;
 }
 
 .footer-link, .support-link{
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #d8d7dc;
     transition: all 0.2s ease;
 }

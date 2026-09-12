@@ -8,7 +8,8 @@ import {
   getExamQuestions,
   getMyStats,
   getLeaderboard,
-  getProfileStats
+  getProfileStats,
+  getStreak
 } from "../controllers/examAttemptController.js";
 
 const router = express.Router();
@@ -17,11 +18,13 @@ router.use(verifyToken);
 router.get("/leaderboard", getLeaderboard);
 router.get("/my-stats", getMyStats);
 router.get("/profile-stats", getProfileStats);
+router.get("/streak", getStreak);
 
 router.post("/start", startExam);
 router.patch("/:attemptId/progress", updateProgress);
 router.get("/:attemptId", getAttempt);
 router.get("/:attemptId/result", getResult);
 router.get("/:attemptId/questions", getExamQuestions);
+
 
 export default router;
