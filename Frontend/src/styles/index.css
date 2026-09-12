@@ -37,3 +37,9 @@ body {
     font-family: var(--font-text);
     min-height: 100vh;
 }
+
+.load-error{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}

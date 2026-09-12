@@ -3,7 +3,6 @@ import ExamAttempt from "../models/ExamAttempt.js";
 import Question from "../models/Question.js";
 import Subject from "../models/Subject.js";
 
-const VALID_EXAM_TYPES = ["Engineering", "Medical", "Varsity"];
 const CORRECT_MARK = 1;
 const WRONG_MARK = -0.25;
 
@@ -17,27 +16,26 @@ export const startExam = async (req, res) => {
       subjectId,
       chapterId,
       topicId,
-      module,
+      moduleId,
     } = req.body;
 
-    if (module && !VALID_EXAM_TYPES.includes(module)) 
-      return res.status(400).json({ error: "Invalid exam type" });
-
-    if (type === "ranked" && !module) {
+    if (type === "ranked" && !moduleId) {
       return res.status(400).json({ error: "পরীক্ষার বিভাগ নির্বাচন করুন" });
     }
 
-    if(questionCount !== undefined){
+    if (questionCount !== undefined) {
       if (questionCount <= 0 || questionCount >= 100)
         return res.status(400).json({ error: "Invalid question count" });
     }
 
-    if(minutes !== undefined){
+    if (minutes !== undefined) {
       if (minutes <= 0 || minutes >= 100)
         return res.status(400).json({ error: "Invalid exam duration" });
     }
 
-    
+    if (moduleId && !mongoose.Types.ObjectId.isValid(moduleId)) 
+      return res.status(400).json({ error: "Invalid moduleId ID" });
+
     if (subjectId && !mongoose.Types.ObjectId.isValid(subjectId)) {
       return res.status(400).json({ error: "Invalid subject ID" });
     }
@@ -51,21 +49,24 @@ export const startExam = async (req, res) => {
     }
 
     const filter = { type: "mcq" };
+    if(moduleId) filter.moduleId = new mongoose.Types.ObjectId(moduleId);
     if (subjectId) filter.subjectId = new mongoose.Types.ObjectId(subjectId);
     if (chapterId) filter.chapterId = new mongoose.Types.ObjectId(chapterId);
     if (topicId) filter.topicId = new mongoose.Types.ObjectId(topicId);
-    if (module) filter.module = module;
+    
 
     const sampledQuestions = await Question.aggregate([
       { $match: filter },
       { $sample: { size: questionCount || 10 } },
-      { $project: { _id: 1 } },
+      { $project: { _id: 1 } }, //1 = include
     ]);
 
     const questionIds = sampledQuestions.map((q) => q._id);
 
-    if (questionIds.length === 0) 
-      return res.status(400).json({ error: "এই ফিল্টারে কোনো প্রশ্ন পাওয়া যায়নি" })
+    if (questionIds.length === 0)
+      return res
+        .status(400)
+        .json({ error: "এই ফিল্টারে কোনো প্রশ্ন পাওয়া যায়নি" });
 
     const endTime = new Date(Date.now() + (minutes || 10) * 60 * 1000);
 
@@ -79,7 +80,7 @@ export const startExam = async (req, res) => {
       subjectId: subjectId || undefined,
       chapterId: chapterId || undefined,
       topicId: topicId || undefined,
-      module: module || undefined,
+      moduleId: moduleId || undefined,
       questionIds,
 
       answers: {},
@@ -142,7 +143,7 @@ export const getAttempt = async (req, res) => {
       subjectId: attempt.subjectId,
       chapterId: attempt.chapterId,
       topicId: attempt.topicId,
-      module: attempt.module,
+      moduleId: attempt.moduleId,
     });
   } catch (err) {
     console.error(err);
@@ -252,14 +253,20 @@ export const getExamQuestions = async (req, res) => {
     if (attempt.user.toString() !== req.user.id)
       return res.status(403).json({ error: "আপনার এই কাজটি করার অনুমতি নেই" });
 
-    const questions = await Question.find({ _id: { $in: attempt.questionIds } })
-      .select("-options.isCorrect -answerOrExplanationText -answerOrExplanationImage");
+    const questions = await Question.find({
+      _id: { $in: attempt.questionIds },
+    }).select(
+      "-options.isCorrect -answerOrExplanationText -answerOrExplanationImage",
+    );
 
     const questionMap = {};
-    questions.forEach((q) => { questionMap[q._id.toString()] = q; });
+    questions.forEach((q) => {
+      questionMap[q._id.toString()] = q;
+    });
 
-    const orderedQuestions = attempt.questionIds
-      .map((id) => questionMap[id.toString()])
+    const orderedQuestions = attempt.questionIds.map(
+      (id) => questionMap[id.toString()],
+    );
 
     res.json({ questions: orderedQuestions });
   } catch (err) {
@@ -268,19 +275,19 @@ export const getExamQuestions = async (req, res) => {
   }
 };
 
-
 export const getMyStats = async (req, res) => {
   try {
-    const { module } = req.query;
-    if (module && !VALID_EXAM_TYPES.includes(module)) 
-      return res.status(400).json({ error: "Invalid exam type" });
-    
-    const query = { user: req.user.id, type: "ranked" };
-    if (module) 
-      query.module = module;
+    const { moduleId } = req.query;
+    if (moduleId && !mongoose.Types.ObjectId.isValid(moduleId))
+      return res.status(400).json({ error: "Invalid module ID" });
 
-    const allAttempts = await ExamAttempt.find(query)
-      .select("obtainedMarks percentage");
+    const query = { user: req.user.id, type: "ranked" };
+
+    if (moduleId) query.moduleId = moduleId;
+
+    const allAttempts = await ExamAttempt.find(query).select(
+      "obtainedMarks percentage",
+    );
 
     const scoredAttempts = allAttempts.filter(
       (attempt) =>
@@ -303,13 +310,12 @@ export const getMyStats = async (req, res) => {
 
 export const getLeaderboard = async (req, res) => {
   try {
-    const { module } = req.query;
-    if (module && !VALID_EXAM_TYPES.includes(module)) 
-      return res.status(400).json({ error: "Invalid exam type" });
-    
+    const { moduleId } = req.query;
+    if (moduleId && !mongoose.Types.ObjectId.isValid(moduleId))
+      return res.status(400).json({ error: "Invalid module ID" });
+
     const matchStage = { type: "ranked", percentage: { $ne: null } };
-    if (module)
-       matchStage.module = module;
+    if (moduleId) matchStage.moduleId = new mongoose.Types.ObjectId(moduleId);
 
     const leaderboard = await ExamAttempt.aggregate([
       { $match: matchStage },
@@ -347,18 +353,21 @@ export const getLeaderboard = async (req, res) => {
   }
 };
 
-
 export const getProfileStats = async (req, res) => {
   try {
+    const { moduleId } = req.query;
+    if (moduleId && !mongoose.Types.ObjectId.isValid(moduleId))
+      return res.status(400).json({ error: "Invalid module ID" });
+
     const attempts = await ExamAttempt.find({
       user: req.user.id,
       percentage: { $ne: null },
     })
-      .select("percentage subjectId createdAt answers")
-      .sort({ createdAt: 1 });
+    .select("percentage subjectId createdAt answers")
+    .sort({ createdAt: 1 });
 
     const completedExams = attempts.length;
-    
+
     const solvedQuestionIds = new Set();
     attempts.forEach((attempt) => {
       const answers = attempt.answers || {};
@@ -372,7 +381,22 @@ export const getProfileStats = async (req, res) => {
       score: attempt.percentage,
     }));
 
-    const subjects = await Subject.find({ isActive: true }).select("name");
+    let totalScore = 0;
+    let bestScore = 0;
+
+    scoreHistory.forEach((entry) => {
+      totalScore += entry.score;
+      bestScore = Math.max(bestScore, entry.score);
+    });
+
+    const avgScore =
+      scoreHistory.length > 0
+        ? Math.round(totalScore / scoreHistory.length)
+        : 0;
+
+    const subjectFilter = { isActive: true };
+    if (moduleId) subjectFilter.moduleId = moduleId;
+    const subjects = await Subject.find(subjectFilter).select("name");
 
     const subjectProgress = subjects.map((subject) => {
       const subjectAttempts = attempts.filter(
@@ -399,7 +423,48 @@ export const getProfileStats = async (req, res) => {
       };
     });
 
-    res.json({ completedExams, questionsSolved, scoreHistory, subjectProgress });
+    res.json({
+      completedExams,
+      questionsSolved,
+      scoreHistory,
+      subjectProgress,
+      bestScore,
+      avgScore,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error occurred" });
+  }
+};
+
+export const getStreak = async (req, res) => {
+  try {
+    const attempts = await ExamAttempt.find({ user: req.user.id })
+      .select("createdAt")
+      .sort({ createdAt: -1 })
+      .limit(300); 
+
+    const activeDates = new Set(
+      attempts.map((attempt) => attempt.createdAt.toISOString().slice(0, 10)),
+    );
+
+    let streak = 0;
+    let cursor = new Date();
+
+    for (let i = 0; i < 7; i++) {
+      const dateStr = cursor.toISOString().slice(0, 10);
+      if (!activeDates.has(dateStr)) 
+        break;
+
+      streak += 1;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+
+    if (streak === 7) {
+      streak = 0;
+    }
+
+    res.json({ streak, activeDates: Array.from(activeDates) });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error occurred" });

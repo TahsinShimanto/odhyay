@@ -1,10 +1,9 @@
-import React from 'react'
 import '../styles/ProgressCard.css'
 
 const ProgressCard = ({ subjects }) => {
   return (
     <div className='progress-card-container'>
-      <p id='card-heading'>বিষয়ভিত্তিক অগ্রগতি</p>
+      <p id='card-heading'>বিষয়ভিত্তিক অগ্রগতি (মডেল টেস্ট)</p>
       <div className="subject-list">
         {
             subjects.map((elem) => (

@@ -83,7 +83,8 @@
 }
 
 .days-card{
-    padding: 0.5rem 1rem;
+    width: 3rem;
+    height: 3rem;
     border: 1px solid var(--border-subtle);
     color: var(--accent);
     font-weight: bold;
@@ -180,12 +181,35 @@
     width: 80%;
     gap: 2rem;
 }
-
+.module-tabs{
+    display: flex;
+    padding: 1.2rem 0;
+    justify-content: space-around;
+}
+.module-tab{
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    border: 1px solid transparent;
+}
+.module-tab.active{
+    background-color: var(--surface);
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+.module-tab.not-active{
+    background-color: var(--surface-hover);
+    color: var(--text-muted);
+}
+.module-tab.not-active:hover{
+    color: var(--text-primary);
+}
 .graph-card{
     flex: 2;
 }
 .progress-card{
     flex: 1;
+    border: 1px solid var(--border-subtle);
 }
 
 @media (max-width: 800px){

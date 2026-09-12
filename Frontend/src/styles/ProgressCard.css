@@ -1,5 +1,4 @@
 .progress-card-container{
-    border: 1px solid var(--border-subtle);
     width: 100%;
     padding: 1rem;
     display: flex;

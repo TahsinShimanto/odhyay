@@ -8,6 +8,9 @@ import {
   Lightbulb,
   BarChart,
   Sparkles,
+  School,
+  Settings,
+  Stethoscope,
 } from "lucide-react";
 import { NavLink } from "react-router";
 import { useAuth } from '../context/AuthContext'
@@ -19,7 +22,7 @@ const HomePage = () => {
       <div className="hero-card">
         <div className="left">
           <div className="hero-badge">
-            <Pen size={15} />
+            <BookOpen size={12} />
             শেখার নতুন অভিজ্ঞতা
           </div>
 
@@ -60,7 +63,7 @@ const HomePage = () => {
         <div className="module-cards">
 
           <div className="card-module">
-            <p>বিষয়</p>
+            <div className="card-icons"><Settings size={18} color="#c0c1ff"/></div>
             <p className="card-title">ইঞ্জিনিয়ারিং প্রস্তুতি</p>
             <p>৩টি বিষয় · ৫০০+ প্রশ্ন</p>
             <NavLink to={"/unrankedexam"} className="enter-practice">
@@ -70,7 +73,7 @@ const HomePage = () => {
           </div>
 
           <div className="card-module">
-            <p>বিষয়</p>
+           <div className="card-icons"><School size={18} color="#c0c1ff"/></div>
             <p className="card-title">ভার্সিটি প্রস্তুতি</p>
             <p>৬টি বিষয় · ১০০০+ প্রশ্ন</p>
             <NavLink to={"/unrankedexam"} className="enter-practice">
@@ -80,7 +83,7 @@ const HomePage = () => {
           </div>
 
           <div className="card-module">
-            <p>বিষয়</p>
+            <div className="card-icons"><Stethoscope size={18} color="#c0c1ff"/></div>
             <p className="card-title">মেডিকেল প্রস্তুতি</p>
             <p>৩টি বিষয় · ৬০০+ প্রশ্ন</p>
             <NavLink to={"/unrankedexam"} className="enter-practice">
@@ -106,8 +109,8 @@ const HomePage = () => {
             </div>
             
             <p className="step-text">ধাপ ০১</p>
-            <p className="instruction-text">অধ্যায় বেছে নিন</p>
-            <p className="instruction-description">প্রশ্নব্যাংক থেকে বিষয়, অধ্যায় বা টপিক বেছে নিন।</p>
+            <p className="card-title">অধ্যায় বেছে নিন</p>
+            <p>প্রশ্নব্যাংক থেকে বিষয়, অধ্যায় বা টপিক বেছে নিন।</p>
           </div>
 
           <div className="card-module">
@@ -116,8 +119,8 @@ const HomePage = () => {
             </div>
             
             <p className="step-text">ধাপ ০২</p>
-            <p className="instruction-text">সমাধান করুন, শিখুন</p>
-            <p className="instruction-description">প্রশ্নের উত্তর দিন এবং সঙ্গে সঙ্গে ব্যাখ্যা দেখুন।</p>
+            <p className="card-title">সমাধান করুন, শিখুন</p>
+            <p>প্রশ্নের উত্তর দিন এবং সঙ্গে সঙ্গে ব্যাখ্যা দেখুন।</p>
           </div>
 
           <div className="card-module">
@@ -126,8 +129,8 @@ const HomePage = () => {
             </div>
             
             <p className="step-text">ধাপ ০৩</p>
-            <p className="instruction-text">আপনার স্ট্রিক দেখুন</p>
-            <p className="instruction-description">সময়ের সঙ্গে আপনার সঠিক উত্তরের হার, অবস্থান ও অগ্রগতি দেখুন।</p>
+            <p className="card-title">আপনার স্ট্রিক দেখুন</p>
+            <p>সময়ের সঙ্গে আপনার সঠিক উত্তরের হার, অবস্থান ও অগ্রগতি দেখুন।</p>
           </div>
         </div>
       </div>
