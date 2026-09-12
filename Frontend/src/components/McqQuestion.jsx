@@ -40,7 +40,7 @@ function MCQ({question, current, total, saved}) {
                 <div className="question-occurrences">
                     {question.appearances.map((object, index) =>
                         <div key={index} className="appearance-tag">
-                            <span className="bullet"></span> {object.university} {object.year}
+                            <span className="bullet"></span> {object.university?.slug || object.university} {object.year}
                         </div>
                     )}
                 </div>

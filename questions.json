@@ -1,7 +1,6 @@
 [
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -11,15 +10,15 @@
     "answerOrExplanationText": "অভিকর্ষীয় বিভব হলো একটি একক ভরের বস্তুকে অভিকর্ষীয় বলের বিপরীতে এক নির্দিষ্ট স্থানে নিয়ে যেতে যে পরিমাণ কাজ করতে হয়",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "medium"
+    "importance": "medium",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e1",
@@ -29,15 +28,15 @@
     "answerOrExplanationText": "১ম সূত্র: কক্ষপথের উপবৃত্ত সূত্র (Law of Ellipses)\r\n\r\n\"প্রত্যেক গ্রহ সূর্যকে কেন্দ্র করে উপবৃত্তাকার কক্ষপথে পরিভ্রমণ করে, যেখানে সূর্য উপবৃত্তের একটি স্থিরবিন্দুতে (ফোকাসে) অবস্থান করে।\"\r\n\r\n\r\n\r\n২য় সূত্র: সমদ্বিবাহু ক্ষেত্রফল সূত্র (Law of Equal Areas)\r\n\r\n\"কোনো গ্রহ এবং সূর্যের মধ্যবর্তী রেখা সমান সময়ে সমান ক্ষেত্রফল অতিক্রম করে।\"\r\n\r\n\r\n৩য় সূত্র: সমকালানুপাতিক সূত্র (Law of Harmonies)\r\n\r\n\"যে কোনো গ্রহের কক্ষপথের গমনকাল (T) এর বর্গ তার অক্ষের বৃহৎ অর্ধদৈর্ঘ্য (R) এর ঘনের সমানুপাতিক।\"",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "medium"
+    "importance": "medium",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4753052191bb090a987e2",
@@ -47,15 +46,15 @@
     "answerOrExplanationText": "",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "low"
+    "importance": "low",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -65,15 +64,15 @@
     "answerOrExplanationText": "",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "low"
+    "importance": "low",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -83,15 +82,15 @@
     "answerOrExplanationText": "",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "high"
+    "importance": "high",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -101,15 +100,15 @@
     "answerOrExplanationText": "",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "low"
+    "importance": "low",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4753052191bb090a987e3",
@@ -119,15 +118,15 @@
     "answerOrExplanationText": "",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "high"
+    "importance": "high",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -137,15 +136,15 @@
     "answerOrExplanationText": "",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "high"
+    "importance": "high",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "written",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -155,15 +154,15 @@
     "answerOrExplanationText": "",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "low"
+    "importance": "low",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4753052191bb090a987e4",
@@ -190,15 +189,15 @@
     "answerOrExplanationText": "জেনে রাখো: বুধ ও শুক্রের কোনো উপগ্রহ নেই।[তপন স্যার: সংস্করণ-২০২৩; পৃষ্ঠা-৭৯১]",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "low"
+    "importance": "low",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -225,15 +224,15 @@
     "answerOrExplanationText": "T=(2u)/g=(2×4.9)/9.8=1 sec",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "medium"
+    "importance": "medium",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e1",
@@ -260,15 +259,15 @@
     "answerOrExplanationText": "Is-445;গ্রহের গতি সম্পর্কিত কেপলারের সূত্র ৩টি- উপবৃত্ত সূত্র (Law of ellipse), ক্ষেত্রফল সূত্র (Law of area), সময়ের সূত্র (Law of time)",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "high"
+    "importance": "high",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4753052191bb090a987e2",
@@ -295,15 +294,15 @@
     "answerOrExplanationText": "Is(1)-473;পৃথিবী → 11.2 km s−1; চাঁদ → 2.4 km s−1; বুধ → 4.3 km s−1; মঙ্গল → 5.0 km s−1",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "low"
+    "importance": "low",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -330,15 +329,15 @@
     "answerOrExplanationText": "Is – 458; জানা আছে, কোনো বস্তু পৃথিবী পৃষ্ঠ হতে নিচে অবস্থিত হলে,  gh=g×(1−h/R) = g×(1−R/R) {∵ h = R}  = g × (1-1) = g × 0=0",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "medium"
+    "importance": "medium",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e1",
@@ -365,15 +364,15 @@
     "answerOrExplanationText": "Is-445; কেপলারের 3টি সূত্র : 1st: উপবৃত্ত সূত্র (Law of ellipse); 2nd: ক্ষেত্রফল সূত্র (Law of area); 3rd: সময়ের সূত্র (Law of time) → T2 ∝ a3",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "medium"
+    "importance": "medium",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e1",
@@ -400,15 +399,15 @@
     "answerOrExplanationText": "Is-183; স্থির অবস্থান থেকে সমত্বরণে গতিশীল কোনো বস্তুর শেষ বেগ, v∝√s",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "high"
+    "importance": "high",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e0",
@@ -435,15 +434,15 @@
     "answerOrExplanationText": "Is-456; ৩টি কারণে অভিকর্ষজ ত্বরণের পরিবর্তন ঘটে \n১. উচ্চতার ক্রিয়া, ২. অক্ষাংশ বা আকৃতি ক্রিয়া, ৩. পৃথিবীর ঘূর্ণন বা আহ্নিক গতি ক্রিয়া।",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "medium"
+    "importance": "medium",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4753052191bb090a987e5",
@@ -470,15 +469,15 @@
     "answerOrExplanationText": "Is-447; F∝1/d2 ⇒ 1/(1/2)2 = 1/(1/4) = 4 ∴ দূরত্ব অর্ধেক হলে মহাকর্ষ বল 4 গুণ হবে।",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "high"
+    "importance": "high",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4753052191bb090a987e2",
@@ -505,15 +504,15 @@
     "answerOrExplanationText": "Is-473; মুক্তিবেগ =  sqrt(2gR)=sqrt(2xx9.8xx64xx10^5)=10.20xx10^3 ms^(-1)=11.2 kms^(-1)",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "medium"
+    "importance": "medium",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   },
   {
     "type": "mcq",
-    "module": "Engineering",
     "subjectId": "6aa470ec1e3e8396fe660dc0",
     "chapterId": "6aa473a852191bb090a987df",
     "topicId": "6aa4752f52191bb090a987e1",
@@ -540,10 +539,11 @@
     "answerOrExplanationText": "Topon-421; এটি কেপলার এর গ্রহ সম্পর্কীয় ‘উপবৃত্ত সূত্র’, আরো দু’টি সূত্র ক্ষেত্রফল সূত্র ও সময়ের সূত্র",
     "appearances": [
       {
-        "university": "DU",
+        "university": "6aa50485cf0d2466e5629d15",
         "year": 2023
       }
     ],
-    "importance": "low"
+    "importance": "low",
+    "moduleId": "6aa50485cf0d2466e5629d14"
   }
 ]

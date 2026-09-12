@@ -1,14 +1,8 @@
 import mongoose from "mongoose";
 
 
-const subjectSchema = new mongoose.Schema(
+const moduleSchema = new mongoose.Schema(
   {
-    moduleId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Module",
-      required: true,
-    },
-
     name: {
       type: String,
       required: true,
@@ -30,10 +24,10 @@ const subjectSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    collection: "subjects",
+    collection: "modules",
   }
 );
 
-const Subject = mongoose.model("Subject", subjectSchema);
+const Module = mongoose.model("Module", moduleSchema);
 
-export default Subject;
+export default Module;

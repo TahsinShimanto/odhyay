@@ -28,17 +28,14 @@ const optionSchema = new mongoose.Schema(
 const appearanceSchema = new mongoose.Schema(
   {
     university: {
-      type: String,
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "University",
     },
 
     year: {
       type: Number,
     },
   },
-  {
-    _id: false,
-  }
 );
 
 
@@ -51,9 +48,10 @@ const questionSchema = new mongoose.Schema(
       required: true,
     },
 
-    module: {
-      type: String,
-      trim: true,
+    moduleId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Module",
+      required: true,
     },
 
     subjectId: {

@@ -188,10 +188,22 @@ export const getQuestions = async (req, res) => {
       chapter,
       topic,
       type,
-      module,
+      moduleId,
+      university,
+      year,
     } = req.query;
 
     const filter = {};
+
+    if(moduleId) {
+      if(!mongoose.Types.ObjectId.isValid(moduleId)) {
+        return res.status(400).json({
+          messege: "Invalid module ID"
+        });
+      }
+
+      filter.moduleId = moduleId;
+    }
 
     if(subject) {
       if(!mongoose.Types.ObjectId.isValid(subject)) {
@@ -227,8 +239,25 @@ export const getQuestions = async (req, res) => {
       filter.type = type;
     }
 
-    if(module) {
-      filter.module = module;
+    if(university) {
+      if(!mongoose.Types.ObjectId.isValid(university)) {
+        return res.status(400).json({
+          messege: "Invalid university ID"
+        });
+      }
+
+      filter["appearances.university"] = university;
+    }
+
+    if(year) {
+      const numericYear = Number(year);
+      if(!Number.isInteger(numericYear)) {
+        return res.status(400).json({
+          messege: "Invalid year"
+        });
+      }
+
+      filter["appearances.year"] = numericYear;
     }
 
     // Pagination
@@ -237,6 +266,7 @@ export const getQuestions = async (req, res) => {
     // Query
     const [questions, total] = await Promise.all([
       Question.find(filter)
+        .populate("appearances.university", "name slug")
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)

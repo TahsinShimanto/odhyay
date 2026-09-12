@@ -1,14 +1,8 @@
 import mongoose from "mongoose";
 
 
-const subjectSchema = new mongoose.Schema(
+const universitySchema = new mongoose.Schema(
   {
-    moduleId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Module",
-      required: true,
-    },
-
     name: {
       type: String,
       required: true,
@@ -19,7 +13,7 @@ const subjectSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true,
+      uppercase: true,
       trim: true,
     },
 
@@ -30,10 +24,10 @@ const subjectSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    collection: "subjects",
+    collection: "universities",
   }
 );
 
-const Subject = mongoose.model("Subject", subjectSchema);
+const University = mongoose.model("University", universitySchema);
 
-export default Subject;
+export default University;
