@@ -1,7 +1,5 @@
 /* TODO:
-* checking the correctness of mcq
 * supporting latex symbols
-* supporting images
 */
 
 import { useState } from 'react';
@@ -10,8 +8,24 @@ import '../styles/McqQuestion.css'
 
 function MCQ({question, current, total, isSaved = false, isSaving = false, onToggleSave}) {
     const [showExplaination, setShowExplaination] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(null);
 
     const importanceStars = { low: 1, medium: 2, high: 3 }[question.importance] || 0;
+
+    // after answering, further clicks are ignored and the answer is revealed
+    const answered = selectedIndex !== null;
+
+    const handleSelect = (index) => {
+        if (answered) return;
+        setSelectedIndex(index);
+    };
+
+    const optionClass = (option, index) => {
+        if (!answered) return "single-option-div";
+        if (option.isCorrect) return "single-option-div correct";
+        if (index === selectedIndex) return "single-option-div wrong";
+        return "single-option-div";
+    };
 
     return (
         <div className="question-card">
@@ -55,7 +69,11 @@ function MCQ({question, current, total, isSaved = false, isSaving = false, onTog
 
                 <div className="question-options-container">
                     {question.options.map((option, index) =>
-                    <div key={index} className="single-option-div">
+                    <div
+                        key={index}
+                        className={optionClass(option, index)}
+                        onClick={() => handleSelect(index)}
+                    >
                         <div className="option-count">{index+1}</div>
                         <span className="option-text">{option.text}</span>
                         {option.image?.url && <img className="option-image" src={option.image.url} alt="" />}
