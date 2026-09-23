@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import MCQ from './McqQuestion.jsx';
 import Written from './WrittenQuestion.jsx';
 import axios from '../services/axios.js';
 import '../styles/FilterCard.css';
 
 const ALL = '';
-const PAGE_SIZE = '40';
+const PAGE_SIZE = '10';
 
 const QUESTION_TYPES = { mcq: MCQ, written: Written };
 
@@ -278,12 +279,14 @@ export default function FilterCard({ saved = false, emptyMessage = 'কোনো
                             const QuestionComponent = QUESTION_TYPES[question.type];
                             if (!QuestionComponent) return null;
 
+                            const globalNumber = (pagination.page - 1) * pagination.limit + index + 1;
+
                             return (
                                 <QuestionComponent
                                     key={question._id}
                                     question={question}
-                                    current={index + 1}
-                                    total={questions.length}
+                                    current={globalNumber}
+                                    total={pagination.total}
                                     isSaved={question.saved}
                                     isSaving={savingIds.has(question._id)}
                                     onToggleSave={() => handleToggleSave(question)}
@@ -291,24 +294,26 @@ export default function FilterCard({ saved = false, emptyMessage = 'কোনো
                             );
                         })}
 
-                        {pagination && pagination.totalPages > 1 && (
-                            <div className="pagination-controls">
+                        {pagination && (
+                            <div className="next-prev-ques">
                                 <button
-                                    className="pagination-button"
+                                    className="prev-button"
                                     onClick={() => setPage((prev) => prev - 1)}
                                     disabled={!pagination.hasPreviousPage}
                                 >
-                                    পূর্ববর্তী
+                                    <ArrowLeft size={15} /> পূর্ববর্তী প্রশ্ন
                                 </button>
+
                                 <span className="pagination-info">
                                     পৃষ্ঠা {pagination.page} / {pagination.totalPages}
                                 </span>
+
                                 <button
-                                    className="pagination-button"
+                                    className="next-button"
                                     onClick={() => setPage((prev) => prev + 1)}
                                     disabled={!pagination.hasNextPage}
                                 >
-                                    পরবর্তী
+                                    পরবর্তী প্রশ্ন <ArrowRight size={15} />
                                 </button>
                             </div>
                         )}
