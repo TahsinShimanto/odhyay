@@ -70,6 +70,16 @@
     }
 }
 
+.question-info-save.saved .save-fill {
+    fill: #facc15;
+    stroke: #facc15;
+}
+
+.question-info-save:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
 .question-info-flag {
     background-color: #1b1b1b;
     border: none;

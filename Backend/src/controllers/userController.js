@@ -1,7 +1,5 @@
-import mongoose from "mongoose";
 import { hashPassword } from '../utils/helpers.js'
 import User from "../models/User.js"
-import Question from "../models/Question.js"
 
 const VALID_ROLES = ["student", "admin"];
 
@@ -9,12 +7,9 @@ const VALID_ROLES = ["student", "admin"];
 // Fetches the user info from database
 // It searches the user inside the database using user id
 // -__v tells Mongoose to exclude the internal version (__v) field from your query results.
-// savedQuestions is populated so the frontend knows which questions the user has saved
 export const getProfile = async (req, res) => {
   try {
-    const userInfo = await User.findById(req.user.id)
-      .select(["-password", "-__v"])
-      .populate("savedQuestions");
+    const userInfo = await User.findById(req.user.id).select(["-password", "-__v"]);
     return res.status(200).json(userInfo);
   }
   catch(err) {
@@ -148,90 +143,6 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
     return res.status(200).json({ message: "User deleted" });
-  }
-  catch(err) {
-    return res.status(500).json({ error: "Server error occurred" });
-  }
-};
-
-
-// Returns the authenticated user's saved questions, fully populated
-// Stale ids (questions deleted by an admin) are filtered out
-export const getSavedQuestions = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("savedQuestions");
-    const savedQuestions = await Question.find({
-      _id: { $in: user.savedQuestions },
-    });
-
-    return res.status(200).json(savedQuestions);
-  }
-  catch(err) {
-    return res.status(500).json({ error: "Server error occurred" });
-  }
-};
-
-
-// Saves a question to the authenticated user's savedQuestions array
-// $addToSet keeps the operation idempotent — saving twice is not an error
-export const saveQuestion = async (req, res) => {
-  const { questionId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(questionId)) {
-    return res.status(400).json({ error: "Invalid question ID" });
-  }
-
-  try {
-    const questionExists = await Question.exists({ _id: questionId });
-    if (!questionExists) {
-      return res.status(404).json({ error: "Question not found" });
-    }
-
-    const user = await User.findByIdAndUpdate(
-      req.user.id,
-      { $addToSet: { savedQuestions: questionId } },
-      { new: true },
-    ).select("savedQuestions");
-
-    return res.status(201).json({
-      message: "Question saved",
-      savedQuestions: user.savedQuestions,
-    });
-  }
-  catch(err) {
-    return res.status(500).json({ error: "Server error occurred" });
-  }
-};
-
-
-// Removes a question from the authenticated user's savedQuestions array
-export const unsaveQuestion = async (req, res) => {
-  const { questionId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(questionId)) {
-    return res.status(400).json({ error: "Invalid question ID" });
-  }
-
-  try {
-    const user = await User.findById(req.user.id).select("savedQuestions");
-    const isSaved = user.savedQuestions.some(
-      (id) => id.toString() === questionId
-    );
-
-    if (!isSaved) {
-      return res.status(404).json({ error: "Question is not saved" });
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,
-      { $pull: { savedQuestions: questionId } },
-      { new: true },
-    ).select("savedQuestions");
-
-    return res.status(200).json({
-      message: "Question removed from saved",
-      savedQuestions: updatedUser.savedQuestions,
-    });
   }
   catch(err) {
     return res.status(500).json({ error: "Server error occurred" });

@@ -8,7 +8,7 @@ import { useState } from 'react';
 import {Bookmark, ShieldAlert, Eye, Star} from 'lucide-react'
 import '../styles/McqQuestion.css'
 
-function MCQ({question, current, total, saved}) {
+function MCQ({question, current, total, isSaved = false, isSaving = false, onToggleSave}) {
     const [showExplaination, setShowExplaination] = useState(false);
 
     const importanceStars = { low: 1, medium: 2, high: 3 }[question.importance] || 0;
@@ -27,14 +27,22 @@ function MCQ({question, current, total, saved}) {
                     ))}
                 </div>
                 <div className="question-info-type">নির্বাচনী প্রশ্ন</div>
-                <button className="question-info-save" onClick={saved}><Bookmark className="save-fill" size={16}/></button>
+                <button
+                    className={`question-info-save ${isSaved ? "saved" : ""}`}
+                    onClick={onToggleSave}
+                    disabled={isSaving}
+                    aria-pressed={isSaved}
+                    aria-label="সংরক্ষণ"
+                >
+                    <Bookmark className="save-fill" size={16}/>
+                </button>
                 <button className="question-info-flag"><ShieldAlert className="flag-fill" size={16}/></button>
             </div>
 
             <div className="question-card-main">
                 <div className="question-statement-container">
                     <span className="question-statement">{question.questionText}</span>
-                    {question.questionImage && <img className="question-statement-image" src={question.questionImage} alt="" />}
+                    {question.questionImage?.url && <img className="question-statement-image" src={question.questionImage.url} alt="" />}
                 </div>
 
                 <div className="question-occurrences">
@@ -50,7 +58,7 @@ function MCQ({question, current, total, saved}) {
                     <div key={index} className="single-option-div">
                         <div className="option-count">{index+1}</div>
                         <span className="option-text">{option.text}</span>
-                        {option.image && <img className="option-image" src={option.image} alt="" />}
+                        {option.image?.url && <img className="option-image" src={option.image.url} alt="" />}
                     </div>
                 )}
                 </div>
@@ -62,7 +70,7 @@ function MCQ({question, current, total, saved}) {
                         <>
                             <div className="hide-explanation-button" onClick={(e) => { e.stopPropagation(); setShowExplaination(false)}}>ব্যাখ্যা লুকান</div>
                             {question.answerOrExplanationText && <div className="explanation-text">{question.answerOrExplanationText}</div>}
-                            {question.answerOrExplanationImage && <img className="explanation-image" src={question.answerOrExplanationImage} alt="" />}
+                            {question.answerOrExplanationImage?.url && <img className="explanation-image" src={question.answerOrExplanationImage.url} alt="" />}
                         </>
 
                     ) : (

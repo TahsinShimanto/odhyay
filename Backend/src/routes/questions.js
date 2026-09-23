@@ -1,16 +1,26 @@
 import { Router } from "express"
-import Question from "../models/Question.js"
-import { createQuestion, deleteAllQuestions, deleteQuestion, getQuestions, updateQuestion } from "../controllers/questionController.js"
-import verifyToken from "../middlewares/verifyToken.js"
+import {
+  createQuestion,
+  deleteAllQuestions,
+  deleteQuestion,
+  getQuestions,
+  saveQuestion,
+  unsaveQuestion,
+  updateQuestion
+} from "../controllers/questionController.js"
+import verifyToken, { optionalVerifyToken } from "../middlewares/verifyToken.js"
 import requireRole from "../middlewares/requireRole.js"
 import pagination from "../middlewares/pagination.js"
 import { questionUpload, handleUploadErrors } from "../middlewares/upload.js"
 
 const router = Router()
 
-// public routes
-router.get("/", pagination(), getQuestions);
+// public — optional auth so signed-in users get a `saved` flag on each question
+router.get("/", pagination(), optionalVerifyToken, getQuestions);
 
+// save / unsave (signed-in users)
+router.post("/:id/save", verifyToken, saveQuestion);
+router.delete("/:id/save", verifyToken, unsaveQuestion);
 
 // admin routes
 router.post("/", verifyToken, requireRole("admin"), questionUpload, handleUploadErrors, createQuestion);

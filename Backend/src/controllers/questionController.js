@@ -9,11 +9,38 @@ import Subject from "../models/Subject.js";
 import Chapter from "../models/Chapters.js";
 import Topic from "../models/Topics.js";
 import University from "../models/university.js";
-import SavedQuestion from "../models/SavedQuestion.js";
 import User from "../models/User.js";
 
 
 const plimit = pLimit(10);
+
+const QUESTION_TYPES = ["mcq", "written"];
+const IMPORTANCE_LEVELS = ["low", "medium", "high"];
+
+// Fields an admin may change — anything else in the body is ignored
+const UPDATABLE_FIELDS = [
+  "type",
+  "moduleId",
+  "subjectId",
+  "chapterId",
+  "topicId",
+  "importance",
+  "questionText",
+  "questionImage",
+  "options",
+  "answerOrExplanationText",
+  "answerOrExplanationImage",
+  "appearances",
+];
+
+// [query param, filter field, error message] for the ObjectId filters in getQuestions
+const OBJECT_ID_FILTERS = [
+  ["moduleId", "moduleId", "Invalid module ID"],
+  ["subject", "subjectId", "Invalid subject ID"],
+  ["chapter", "chapterId", "Invalid chapter ID"],
+  ["topic", "topicId", "Invalid topic ID"],
+  ["university", "appearances.university", "Invalid university ID"],
+];
 
 
 const uploadImageSource = (value, file, folder = "questions") => {
@@ -46,7 +73,7 @@ const uploadImageSource = (value, file, folder = "questions") => {
   return value;
 };
 
-const processOptions = (options, optionFiles = []) => {
+const processOptions = async (options, optionFiles = []) => {
   if (!Array.isArray(options)) return [];
   return Promise.all(
     options.map((option, index) =>
@@ -88,205 +115,130 @@ const collectImagePublicIds = (question) => {
 };
 
 
-// Create Questions
+// Multipart forms send arrays as JSON strings
+const parseJsonField = (value, name) => {
+  if (typeof value !== "string") return { value };
+  try {
+    return { value: JSON.parse(value) };
+  } catch {
+    return { error: `Invalid ${name} format` };
+  }
+};
+
+
+// Shared validation for create and update
+// Returns an error message string when the payload is invalid, otherwise null
+const validateQuestionPayload = async (data, { partial = false } = {}) => {
+  const { type, importance, questionText, options, appearances } = data;
+
+  if (!partial || questionText !== undefined) {
+    if (typeof questionText !== "string" || !questionText.trim()) {
+      return "Question text is required";
+    }
+  }
+
+  if (type !== undefined && type !== null && !QUESTION_TYPES.includes(type)) {
+    return "Invalid question type";
+  }
+
+  if (importance !== undefined && importance !== null && !IMPORTANCE_LEVELS.includes(importance)) {
+    return "Invalid importance level";
+  }
+
+  if (options !== undefined && !Array.isArray(options)) {
+    return "Options must be an array";
+  }
+
+  const referenceErrors = await Promise.all(
+    [
+      ["moduleId", "Module", Module],
+      ["subjectId", "Subject", Subject],
+      ["chapterId", "Chapter", Chapter],
+      ["topicId", "Topic", Topic],
+    ].map(async ([field, label, Model]) => {
+      const value = data[field];
+      if (partial && value === undefined) return null;
+      if (!value) return `${label} is required`;
+      if (!mongoose.Types.ObjectId.isValid(value)) return `Invalid ${label} ID`;
+      return (await Model.exists({ _id: value })) ? null : `${label} not found`;
+    })
+  );
+
+  const referenceError = referenceErrors.find(Boolean);
+  if (referenceError) return referenceError;
+
+  if (appearances !== undefined) {
+    if (!Array.isArray(appearances)) {
+      return "Appearances must be an array";
+    }
+
+    const universityIds = appearances.map((appearance) => appearance?.university).filter(Boolean);
+
+    for (const universityId of universityIds) {
+      if (!mongoose.Types.ObjectId.isValid(universityId)) {
+        return "Invalid university ID in appearances";
+      }
+    }
+
+    for (const appearance of appearances) {
+      if (
+        appearance?.year !== undefined &&
+        appearance.year !== null &&
+        !Number.isInteger(Number(appearance.year))
+      ) {
+        return "Invalid year in appearances";
+      }
+    }
+
+    if (universityIds.length > 0) {
+      const foundUniversities = await University.find({
+        _id: { $in: universityIds },
+      })
+        .select("_id")
+        .lean();
+
+      if (foundUniversities.length !== new Set(universityIds.map(String)).size) {
+        return "One or more universities not found";
+      }
+    }
+  }
+
+  return null;
+};
+
+
+// Create Questions (admin)
 export const createQuestion = async (req, res) => {
   try {
-    const {
-      type,
-      moduleId,
-      subjectId,
-      chapterId,
-      topicId,
-      importance,
-      questionText,
-      questionImage,
-      options,
-      answerOrExplanationText,
-      answerOrExplanationImage,
-      appearances,
-    } = req.body;
+    const body = { ...req.body };
 
-
-    if (!questionText?.trim()) {
-      return res.status(400).json({
-        success: false,
-        message: "Question text is required",
-      });
-    }
-
-    if (!moduleId || !subjectId || !chapterId || !topicId) {
-      return res.status(400).json({
-        success: false,
-        message: "Module, Subject, chapter and topic are required",
-      });
-    }
-
-    let parsedOptions = options;
-    if (typeof options === "string") {
-      try {
-        parsedOptions = JSON.parse(options);
-      } catch (error) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid options format",
-        });
+    // Multipart forms send arrays as JSON strings
+    for (const field of ["options", "appearances"]) {
+      const parsed = parseJsonField(body[field], field);
+      if (parsed.error) {
+        return res.status(400).json({ success: false, message: parsed.error });
       }
+      body[field] = parsed.value;
     }
 
-    let parsedAppearances = appearances;
-    if (typeof appearances === "string") {
-      try {
-        parsedAppearances = JSON.parse(appearances);
-      } catch (error) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid appearances format",
-        });
-      }
+    const validationError = await validateQuestionPayload(body, { partial: false });
+    if (validationError) {
+      return res.status(400).json({ success: false, message: validationError });
     }
-
-    if (!mongoose.Types.ObjectId.isValid(subjectId) ||
-        !mongoose.Types.ObjectId.isValid(moduleId) ||
-        !mongoose.Types.ObjectId.isValid(chapterId) ||
-        !mongoose.Types.ObjectId.isValid(topicId)
-      ) {
-
-      return res.status(400).json({
-        success: false,
-        message: "Invalid module, subject, chapter or topic ID",
-      });
-    }
-
-    if (type !== undefined && type !== null && !["mcq", "written"].includes(type)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid question type",
-      });
-    }
-
-    if (
-      importance !== undefined &&
-      importance !== null &&
-      !["low", "medium", "high"].includes(importance)
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid importance level",
-      });
-    }
-
-    const [existingModule, existingSubject, existingChapter, existingTopic] =
-      await Promise.all([
-        Module.exists({ _id: moduleId }),
-        Subject.exists({ _id: subjectId }),
-        Chapter.exists({ _id: chapterId }),
-        Topic.exists({ _id: topicId }),
-      ]);
-
-    if (!existingModule) {
-      return res.status(404).json({
-        success: false,
-        message: "Module not found",
-      });
-    }
-
-    if (!existingSubject) {
-      return res.status(404).json({
-        success: false,
-        message: "Subject not found",
-      });
-    }
-
-    if (!existingChapter) {
-      return res.status(404).json({
-        success: false,
-        message: "Chapter not found",
-      });
-    }
-
-    if (!existingTopic) {
-      return res.status(404).json({
-        success: false,
-        message: "Topic not found",
-      });
-    }
-
-    if (parsedAppearances !== undefined) {
-      if (!Array.isArray(parsedAppearances)) {
-        return res.status(400).json({
-          success: false,
-          message: "Appearances must be an array",
-        });
-      }
-
-      const universityIds = parsedAppearances
-        .map((appearance) => appearance?.university)
-        .filter((id) => id);
-
-      for (const universityId of universityIds) {
-        if (!mongoose.Types.ObjectId.isValid(universityId)) {
-          return res.status(400).json({
-            success: false,
-            message: "Invalid university ID in appearances",
-          });
-        }
-      }
-
-      for (const appearance of parsedAppearances) {
-        if (
-          appearance?.year !== undefined &&
-          appearance.year !== null &&
-          !Number.isInteger(Number(appearance.year))
-        ) {
-          return res.status(400).json({
-            success: false,
-            message: "Invalid year in appearances",
-          });
-        }
-      }
-
-      if (universityIds.length > 0) {
-        const foundUniversities = await University.find({
-          _id: { $in: universityIds },
-        })
-          .select("_id")
-          .lean();
-
-        if (
-          foundUniversities.length !==
-          new Set(universityIds.map(String)).size
-        ) {
-          return res.status(404).json({
-            success: false,
-            message: "One or more universities not found",
-          });
-        }
-      }
-    }
-
 
     const optionFiles = req.files?.optionsImage || [];
 
-    const [uploadedQuestionImage, uploadedOptions, uploadedAnswerImage] =
-      await Promise.all([
-        uploadImageSource(questionImage, req.files?.questionImage?.[0]),
-        processOptions(parsedOptions, optionFiles),
-        uploadImageSource(answerOrExplanationImage, req.files?.answerOrExplanationImage?.[0]),
-      ]);
+    const [questionImage, options, answerOrExplanationImage] = await Promise.all([
+      uploadImageSource(body.questionImage, req.files?.questionImage?.[0]),
+      processOptions(body.options, optionFiles),
+      uploadImageSource(body.answerOrExplanationImage, req.files?.answerOrExplanationImage?.[0]),
+    ]);
 
     const question = await Question.create({
-      type,
-      moduleId,
-      subjectId,
-      chapterId,
-      topicId,
-      importance,
-      questionText,
-      questionImage: uploadedQuestionImage,
-      options: uploadedOptions,
-      answerOrExplanationText,
-      answerOrExplanationImage: uploadedAnswerImage,
-      appearances: parsedAppearances,
+      ...body,
+      questionImage,
+      options,
+      answerOrExplanationImage,
     });
 
     return res.status(201).json({
@@ -307,7 +259,8 @@ export const createQuestion = async (req, res) => {
 
 
 
-// patch question
+// Update a question (admin) — only UPDATABLE_FIELDS from the body are applied
+// Runs the same validation as create, skipping fields that are not provided
 export const updateQuestion = async (req, res) => {
   try {
     const { id } = req.params;
@@ -319,9 +272,47 @@ export const updateQuestion = async (req, res) => {
       });
     }
 
+    const updates = Object.fromEntries(
+      UPDATABLE_FIELDS
+        .filter((field) => field in req.body)
+        .map((field) => [field, req.body[field]])
+    );
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No updatable fields provided",
+      });
+    }
+
+    for (const field of ["options", "appearances"]) {
+      if (!(field in updates)) continue;
+      const parsed = parseJsonField(updates[field], field);
+      if (parsed.error) {
+        return res.status(400).json({ success: false, message: parsed.error });
+      }
+      updates[field] = parsed.value;
+    }
+
+    const validationError = await validateQuestionPayload(updates, { partial: true });
+    if (validationError) {
+      return res.status(400).json({ success: false, message: validationError });
+    }
+
+    // pass image fields through the same upload helper as create
+    if (updates.questionImage !== undefined) {
+      updates.questionImage = (await uploadImageSource(updates.questionImage)) || null;
+    }
+    if (updates.answerOrExplanationImage !== undefined) {
+      updates.answerOrExplanationImage = (await uploadImageSource(updates.answerOrExplanationImage)) || null;
+    }
+    if (updates.options !== undefined) {
+      updates.options = await processOptions(updates.options);
+    }
+
     const question = await Question.findByIdAndUpdate(
       id,
-      req.body,
+      updates,
       {
         new: true,
         runValidators: true,
@@ -353,7 +344,7 @@ export const updateQuestion = async (req, res) => {
 
 
 
-// Delete question
+// Delete question (admin) — also cleans the question out of every user's saved list
 export const deleteQuestion = async (req, res) => {
   try {
     const { id } = req.params;
@@ -365,7 +356,7 @@ export const deleteQuestion = async (req, res) => {
       });
     }
 
-    const question = await Question.findById(id);
+    const question = await Question.findByIdAndDelete(id);
 
     if (!question) {
       return res.status(404).json({
@@ -375,9 +366,6 @@ export const deleteQuestion = async (req, res) => {
     }
 
     await destroyImages(collectImagePublicIds(question));
-
-    await Question.findByIdAndDelete(id);
-    await SavedQuestion.deleteMany({ questionId: id });
     await User.updateMany(
       { savedQuestions: id },
       { $pull: { savedQuestions: id } }
@@ -398,11 +386,10 @@ export const deleteQuestion = async (req, res) => {
 };
 
 
-// delete all questions
+// delete all questions (admin)
 export const deleteAllQuestions = async (req, res) => {
   try {
     const result = await Question.deleteMany({});
-    await SavedQuestion.deleteMany({});
     await User.updateMany({}, { $set: { savedQuestions: [] } });
 
     return res.status(200).json({
@@ -423,83 +410,62 @@ export const deleteAllQuestions = async (req, res) => {
 
 
 // get questions
+// One endpoint serves both the full question bank and, with ?saved=true,
+// a signed-in user's saved questions — same filters, same pagination
+// Signed-in users always get a `saved` flag on every question
 export const getQuestions = async (req, res) => {
   try {
-    const {
-      subject,
-      chapter,
-      topic,
-      type,
-      moduleId,
-      university,
-      year,
-    } = req.query;
+    const { type, year } = req.query;
 
     const filter = {};
 
-    if(moduleId) {
-      if(!mongoose.Types.ObjectId.isValid(moduleId)) {
+    for (const [param, field, message] of OBJECT_ID_FILTERS) {
+      const value = req.query[param];
+      if (!value) continue;
+
+      if (!mongoose.Types.ObjectId.isValid(value)) {
         return res.status(400).json({
-          message: "Invalid module ID"
+          success: false,
+          message,
         });
       }
 
-      filter.moduleId = moduleId;
+      filter[field] = value;
     }
 
-    if(subject) {
-      if(!mongoose.Types.ObjectId.isValid(subject)) {
-        return res.status(400).json({
-          message: "Invalid subject ID"
-        });
-      }
-
-      filter.subjectId = subject;
-    }
-
-    if(chapter) {
-      if(!mongoose.Types.ObjectId.isValid(chapter)) {
-        return res.status(400).json({
-          message: "Invalid chapter ID"
-        });
-      }
-
-      filter.chapterId = chapter;
-    }
-
-    if(topic) {
-      if(!mongoose.Types.ObjectId.isValid(topic)) {
-        return res.status(400).json({
-          message: "Invalid topic ID"
-        });
-      }
-
-      filter.topicId = topic;
-    }
-
-    if(type) {
+    if (type) {
       filter.type = type;
     }
 
-    if(university) {
-      if(!mongoose.Types.ObjectId.isValid(university)) {
-        return res.status(400).json({
-          message: "Invalid university ID"
-        });
-      }
-
-      filter["appearances.university"] = university;
-    }
-
-    if(year) {
+    if (year) {
       const numericYear = Number(year);
-      if(!Number.isInteger(numericYear)) {
+      if (!Number.isInteger(numericYear)) {
         return res.status(400).json({
-          message: "Invalid year"
+          success: false,
+          message: "Invalid year",
         });
       }
 
       filter["appearances.year"] = numericYear;
+    }
+
+    // Resolve the user's saved ids once — used both for the saved-only
+    // mode and for the `saved` flag on each returned question
+    let savedIds = new Set();
+    if (req.user) {
+      const user = await User.findById(req.user.id).select("savedQuestions");
+      if (user) savedIds = new Set(user.savedQuestions.map(String));
+    }
+
+    if (req.query.saved) {
+      if (!req.user) {
+        return res.status(401).json({
+          success: false,
+          message: "Authentication required for saved questions",
+        });
+      }
+
+      filter._id = { $in: [...savedIds] };
     }
 
     // Pagination
@@ -520,8 +486,12 @@ export const getQuestions = async (req, res) => {
     const totalPages = Math.ceil(total / limit);
 
     return res.status(200).json({
+      success: true,
       data: {
-        questions,
+        questions: questions.map((question) => ({
+          ...question,
+          saved: savedIds.has(String(question._id)),
+        })),
 
         pagination: {
           page,
@@ -536,10 +506,65 @@ export const getQuestions = async (req, res) => {
 
   }
   catch(error) {
-    console.error("Couldn't fetch Quesitons: ", error);
+    console.error("Couldn't fetch questions: ", error);
 
     return res.status(500).json({
+      success: false,
       message: "Failed to fetch questions",
     });
+  }
+};
+
+
+
+// Save a question to the authenticated user's saved list
+export const saveQuestion = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: "Invalid question ID" });
+    }
+
+    if (!(await Question.exists({ _id: id }))) {
+      return res.status(404).json({ success: false, message: "Question not found" });
+    }
+
+    // $addToSet keeps saving idempotent
+    await User.updateOne({ _id: req.user.id }, { $addToSet: { savedQuestions: id } });
+
+    return res.status(200).json({ success: true, message: "Question saved" });
+  } catch (error) {
+    console.error("saveQuestion error:", error);
+
+    return res.status(500).json({ success: false, message: "Failed to save question" });
+  }
+};
+
+
+// Remove a question from the authenticated user's saved list
+export const unsaveQuestion = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: "Invalid question ID" });
+    }
+
+    // matchedCount 0 means the id wasn't in the user's saved list
+    const result = await User.updateOne(
+      { _id: req.user.id, savedQuestions: id },
+      { $pull: { savedQuestions: id } }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ success: false, message: "Question is not saved" });
+    }
+
+    return res.status(200).json({ success: true, message: "Question removed from saved" });
+  } catch (error) {
+    console.error("unsaveQuestion error:", error);
+
+    return res.status(500).json({ success: false, message: "Failed to unsave question" });
   }
 };

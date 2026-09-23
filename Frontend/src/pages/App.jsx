@@ -39,7 +39,9 @@ function App() {
       path: "/savedquestions",
       element: <div>
         <Navbar/>
-        <SavedQuestions/>
+        <ProtectedRoute>
+          <SavedQuestions/>
+        </ProtectedRoute>
         <Footer/>
       </div>
     },

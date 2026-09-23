@@ -4,10 +4,7 @@ import {
     getProfile,
     createUser,
     updateUser,
-    deleteUser,
-    getSavedQuestions,
-    saveQuestion,
-    unsaveQuestion
+    deleteUser
 } from "../controllers/userController.js"
 
 
@@ -19,15 +16,6 @@ router.get("/profile", verifyToken, getProfile);
 
 // creates an user
 router.post("/", createUser);
-
-// get the authenticated user's saved questions
-router.get("/saved-questions", verifyToken, getSavedQuestions);
-
-// save a question
-router.post("/saved-questions/:questionId", verifyToken, saveQuestion);
-
-// unsave a question
-router.delete("/saved-questions/:questionId", verifyToken, unsaveQuestion);
 
 // updates user information
 router.put("/:id", verifyToken, updateUser);
