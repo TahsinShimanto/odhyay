@@ -19,6 +19,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    role: {
+        type: String,
+        enum: ["student", "admin"],
+        default: "student"
+    },
+    savedQuestions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Question"
+    }],
     createdAt: {
         type: Date,
         default: Date.now,

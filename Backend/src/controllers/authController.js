@@ -41,7 +41,7 @@ export const login = async (req, res) => {
     }
 
 
-    const accessToken = generateAccessToken(user.id, user.username);
+    const accessToken = generateAccessToken(user.id, user.username, user.role);
     const refreshToken = generateRefreshToken(user.id);
 
     const refreshTokenDoc = new RefreshToken({
@@ -82,14 +82,14 @@ export const refresh = async (req, res) => {
       return res.status(401).json({ error: "Invalid or expired refresh token" });
     }
 
-    const user = await User.findById(payload.id).select("username");
+    const user = await User.findById(payload.id).select("username role");
     if (!user) {
       return res.status(401).json({ error: "User not found" });
     }
 
     await RefreshToken.deleteOne({ _id: stored._id });
 
-    const newAccessToken = generateAccessToken(user.id, user.username);
+    const newAccessToken = generateAccessToken(user.id, user.username, user.role);
     const newRefreshToken = generateRefreshToken(user.id);
 
     const newRefreshTokenDoc = new RefreshToken({

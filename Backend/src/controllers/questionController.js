@@ -10,6 +10,7 @@ import Chapter from "../models/Chapters.js";
 import Topic from "../models/Topics.js";
 import University from "../models/university.js";
 import SavedQuestion from "../models/SavedQuestion.js";
+import User from "../models/User.js";
 
 
 const plimit = pLimit(10);
@@ -377,6 +378,10 @@ export const deleteQuestion = async (req, res) => {
 
     await Question.findByIdAndDelete(id);
     await SavedQuestion.deleteMany({ questionId: id });
+    await User.updateMany(
+      { savedQuestions: id },
+      { $pull: { savedQuestions: id } }
+    );
 
     return res.status(200).json({
       success: true,
@@ -398,6 +403,7 @@ export const deleteAllQuestions = async (req, res) => {
   try {
     const result = await Question.deleteMany({});
     await SavedQuestion.deleteMany({});
+    await User.updateMany({}, { $set: { savedQuestions: [] } });
 
     return res.status(200).json({
       success: true,

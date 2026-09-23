@@ -40,9 +40,9 @@ export const ACCESS_COOKIE_MAXAGE = 15 * 60 * 1000;       // 15 minutes
 export const REFRESH_COOKIE_MAXAGE = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 // Signs a short-lived access token (15 min)
-export const generateAccessToken = (userId, username) => {
+export const generateAccessToken = (userId, username, role) => {
   return jwt.sign(
-    { id: userId, username },
+    { id: userId, username, role },
     process.env.JWT_SECRET,
     { expiresIn: ACCESS_TOKEN_EXPIRY }
   );
