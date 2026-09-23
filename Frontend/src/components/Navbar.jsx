@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import '../styles/Navbar.css'
 import { NavLink } from 'react-router'
-import {Menu, X, HomeIcon, FileText, Bookmark, Lock, Award, BarChart3, LogIn, ChevronDown, User, LogOut} from 'lucide-react'
+import {Menu, X, HomeIcon, FileText, Bookmark, Award, BarChart3, LogIn, ChevronDown, User, LogOut} from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
  const Navbar = () => {
@@ -13,8 +13,6 @@ import { useAuth } from '../context/AuthContext'
 
   const { user, isAuthenticated, signout } = useAuth();
   
-  const isSignedIn = (user);
-
   const handleSignOut = () => {
       signout();
       SetIsProfileMenuOpen(false);
@@ -123,8 +121,7 @@ import { useAuth } from '../context/AuthContext'
               <span className="profile-avatar">{ (isAuthenticated) ? Array.from(user.displayName)[0] : null }</span>
               <span className="active-profile">
                 { (isAuthenticated) ? user.displayName : "null" }
-                {/* <span className="role">{ (user && user.user.role) ? user.user.role : "Student" }</span> */}
-                <span className="role">Student</span>
+                <span className="role">{ isAuthenticated ? user.role : "" }</span>
               </span>
               <ChevronDown className="profile-chevron" size={14}/>
             </button>

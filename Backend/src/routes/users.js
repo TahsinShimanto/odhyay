@@ -1,5 +1,5 @@
 import { Router } from "express";
-import verifyToken from '../middlewares/verifyToken.js';
+import verifyToken, { optionalVerifyToken } from '../middlewares/verifyToken.js';
 import {
     getProfile,
     createUser,
@@ -14,8 +14,8 @@ const router = Router();
 // get user profile information
 router.get("/profile", verifyToken, getProfile);
 
-// creates an user
-router.post("/", createUser);
+// creates an user — public, but only an authenticated admin may assign a role
+router.post("/", optionalVerifyToken, createUser);
 
 // updates user information
 router.put("/:id", verifyToken, updateUser);

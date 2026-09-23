@@ -23,12 +23,21 @@ export const getProfile = async (req, res) => {
 // The new user object contains name, email and the hashed password
 // Then it searches the database for the provided username to see if it already exists
 // If the username is unique then saves the new user object in the server
-// The role is always "student" here — only an admin can grant the admin role (via updateUser)
+// The role defaults to "student" — an authenticated admin may pass an explicit role
 export const createUser = async (req, res) => {
-  const { username, displayName, email, password } = req.body;
+  const { username, displayName, email, password, role } = req.body;
 
   if (!username || !displayName || !email || !password) {
     return res.status(400).json({ error: "Username, display name, email and password are required" });
+  }
+
+  if (role !== undefined && !VALID_ROLES.includes(role)) {
+    return res.status(400).json({ error: `Role must be one of: ${VALID_ROLES.join(", ")}` });
+  }
+
+  // Only an authenticated admin may assign a role on creation
+  if (role !== undefined && req.user?.role !== "admin") {
+    return res.status(403).json({ error: "Only admins can create users with a role" });
   }
 
   try {
@@ -49,7 +58,7 @@ export const createUser = async (req, res) => {
       displayName,
       email,
       password: hashedPassword,
-      role: "student",
+      role: role || "student",
     });
 
     await newUser.save();
