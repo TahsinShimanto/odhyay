@@ -1,11 +1,10 @@
-import {createBrowserRouter, RouterProvider} from 'react-router'
+import {createBrowserRouter, Outlet, RouterProvider} from 'react-router'
 import Navbar from '../components/Navbar'
 import HomePage from './HomePage'
 import QuestionSolving from './QuestionSolving.jsx'
 import SavedQuestions from './SavedQuestions.jsx'
 import SignIn from "./SignIn.jsx"
 import Footer from '../components/Footer'
-import Profile from './Profile.jsx'
 import Register from './Register.jsx'
 import UnrankedSimulator from './UnrankedSimulator.jsx'
 import RankedSimulator from './RankedSimulator.jsx'
@@ -13,104 +12,79 @@ import ExamCard from './ExamCard'
 import Result from './Result'
 import ErrorPage from './ErrorPage.jsx'
 import ProtectedRoute from '../components/ProtectedRoute.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
+import AdminProtectedRoute from '../components/AdminProtectedRoute.jsx'
+import User from './User.jsx'
+import AdminSidebar from '../components/AdminSidebar.jsx'
+import AdminDashboard from '../components/AdminDashboard.jsx'
+
+const StudentLayout = () => {
+  const { isAdmin, loading } = useAuth();
+  if (loading) return <div className='load-error'>লোড হচ্ছে...</div>;
+  if (isAdmin) return <Navigate to="/admin" replace />;
+  return (
+    <div>
+      <Navbar/>
+      <Outlet/>
+      <Footer/>
+    </div>
+  );
+} 
+
+const StudentBareLayout = () => {
+  const { isAdmin, loading } = useAuth();
+  if (loading) return <div className='load-error'>লোড হচ্ছে...</div>;
+  if (isAdmin) return <Navigate to="/admin" replace />;
+  return (
+    <div>
+      <Navbar/>
+      <Outlet/>
+    </div>
+  );
+};
+
+const AdminLayout = () => (
+  <div>
+    <AdminSidebar/>
+    <Outlet/>
+  </div>
+);
 
 function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
-      element: <div>
-        <Navbar/>
-        <HomePage/>
-        <Footer/>
-      </div>
+      element: <StudentLayout/>,
+      children: [
+        { path: "/", element: <HomePage/> },
+        { path: "/questionsolving", element: <QuestionSolving/> },
+        { path: "/savedquestions", element: <ProtectedRoute><SavedQuestions/></ProtectedRoute> },
+        { path: "/result/:type/:attemptId", element: <ProtectedRoute><Result/></ProtectedRoute> },
+        { path: "/profile", element: <ProtectedRoute><User/></ProtectedRoute> },
+        { path: "/signin", element: <SignIn/> },
+        { path: "/register", element: <Register/> },
+      ]
     },
 
     {
-      path: "/questionsolving",
-      element: <div>
-        <Navbar/>
-        <QuestionSolving/>
-        <Footer/>
-      </div>
+      element: <StudentBareLayout/>,
+      children: [
+          { path: "/unrankedexam", element: <ProtectedRoute><UnrankedSimulator/></ProtectedRoute> },
+          { path: "/rankedexam", element: <ProtectedRoute><RankedSimulator/></ProtectedRoute> },
+          { path: "/exam/:type/:attemptId", element: <ProtectedRoute><ExamCard/></ProtectedRoute> },
+        ]
     },
 
     {
-      path: "/savedquestions",
-      element: <div>
-        <Navbar/>
-        <ProtectedRoute>
-          <SavedQuestions/>
-        </ProtectedRoute>
-        <Footer/>
-      </div>
-    },
-
-    {
-      path: "/unrankedexam",
-      element: <div>
-        <Navbar/>
-        <ProtectedRoute>
-          <UnrankedSimulator/>
-        </ProtectedRoute>
-      </div>
-    },
-
-    {
-      path: "/rankedexam",
-      element: <div>
-        <Navbar/>
-        <ProtectedRoute>
-          <RankedSimulator/>
-        </ProtectedRoute>
+      path: "/admin",
+      element: <AdminProtectedRoute><AdminLayout/></AdminProtectedRoute>,
+      children: [
+        { element: <AdminDashboard/>, index: true },
         
-      </div>
+      ]
     },
-    {
-      path: "/exam/:type/:attemptId",
-      element: <div>
-        <Navbar/>
-        <ProtectedRoute>
-          <ExamCard/>
-        </ProtectedRoute>
-      </div>
-    },
-    {
-      path: "/result/:type/:attemptId",
-      element: <div>
-        <Navbar/>
-        <ProtectedRoute>
-          <Result/>
-        </ProtectedRoute>
-      </div>
-    },
-    {
-      path: "/profile",
-      element: <div>
-        <Navbar/>
-        <ProtectedRoute>
-          <Profile/>
-        </ProtectedRoute>
-      </div>
-    },
-    {
-      path: "/signin",
-      element: <div>
-        <Navbar/>
-        <SignIn/>
-      </div>
-    },
-    {
-      path: "/register",
-      element: <div>
-        <Navbar/>
-        <Register/>
-      </div>
-    },
-    {
-      path: "*",             
-      element: <ErrorPage/>
-    }
+
+    { path: "*", element: <ErrorPage/> }
   ])
 
   return (

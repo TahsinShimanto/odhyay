@@ -4,9 +4,9 @@ import ErrorPage from '../pages/ErrorPage'
 const ProtectedRoute = ({ children }) => {
   const { role, loading, isAuthenticated } = useAuth();
 
-  if (loading) return <div>Loading</div>;
+  if (loading) return <div className="load-error">লোড হচ্ছে...</div>;
   if (!isAuthenticated) return <Navigate to="/signin" replace />;
-  if (role !== "student") return <ErrorPage />;
+  if (role !== "student") return <Navigate to="/admin" replace />;
 
   return children;
 }
