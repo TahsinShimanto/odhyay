@@ -1,6 +1,5 @@
 import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router";
-import ErrorPage from '../pages/ErrorPage'
 const ProtectedRoute = ({ children }) => {
   const { role, loading, isAuthenticated } = useAuth();
 

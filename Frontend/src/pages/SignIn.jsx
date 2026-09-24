@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 const SignIn = () => {
     const navigate = useNavigate();
-    const { signin, isAuthenticated  } = useAuth();
+    const { signin, isAuthenticated, role  } = useAuth();
     const [serverError, setServerError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -32,9 +32,7 @@ const SignIn = () => {
             setLoading(true);
 
             signin(values)
-                .then(() => {
-                    navigate('/', { replace: true });
-                })
+                .then(() => {})
                 .catch((err) => {
                     const message = err.response?.data?.error || 'কিছু একটা সমস্যা হয়েছে';
                     setServerError(message);
@@ -46,10 +44,10 @@ const SignIn = () => {
     });
 
     useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/', { replace: true });
+        if (isAuthenticated && user) {
+            navigate(role === 'admin' ? '/admin' : '/', { replace: true });
         }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, user]);
     
     if (isAuthenticated) return null;
 
