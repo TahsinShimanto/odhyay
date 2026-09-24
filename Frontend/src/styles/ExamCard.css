@@ -253,7 +253,26 @@
 .selected-option-num{
     color: var(--accent);
 }
+.ques img {
+    width: 100%;
+    max-width: 500px;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    margin-top: 0.5rem;
+    background-color: var(--surface);
+}
 
+.option img, .selected-option img {
+    max-width: 120px;
+    max-height: 90px;
+    object-fit: contain;
+    border-radius: 5px;
+    border: 1px solid var(--border-subtle);
+    background-color: var(--bg-color);
+    margin-left: auto;
+}
 .written-answer-section textarea {
   width: 100%;
   min-height: 160px;
@@ -328,5 +347,13 @@
     }
     .question-card-container{
         width: 100%;
+    }
+    .ques img {
+        max-width: 100%;
+        max-height: 220px;
+    }
+    .option img, .selected-option img {
+        max-width: 80px;
+        max-height: 60px;
     }
 }

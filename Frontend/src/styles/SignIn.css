@@ -49,11 +49,12 @@
 }
 
 .input-label {
-    color: var(--text-muted);
-    font-family: monospace;
-    font-weight: bold;
+    display: none;
+}
+
+.error-text{
     font-size: 0.7rem;
-    text-transform: uppercase;
+    color: #ef4444;
 }
 
 .input-field {
@@ -62,7 +63,7 @@
     border: 1px solid var(--border-subtle);
     border-radius: 4px;
     padding: 0.7rem;
-    margin-bottom: 0.6rem;
+    margin: 0.5rem 0;
     color: var(--text-primary);
 }
 
@@ -70,12 +71,13 @@
     color: var(--text-muted);
 }
 
-.input-field.error {
-    border: 1px solid #ef4444;
+.input-field:hover{
+    border-color: var(--text-primary);
 }
 
-.input-field.error::placeholder {
-    color: #ef4444;
+
+.input-field.error {
+    border: 1px solid #ef4444;
 }
 
 
@@ -90,7 +92,7 @@
     background-color: var(--accent);
     border: 1px solid var(--border-subtle);
     border-radius: 4px;
-    margin-top: 0.6rem;
+    margin-top: 1rem;
     margin-bottom: 1.4rem;
 }
 
@@ -107,6 +109,11 @@
     font-size: 0.7rem;
     text-transform: uppercase;
     color: var(--text-muted);
+}
+
+.forgot-password{
+    margin-top: 1rem;
+    justify-self: flex-end;
 }
 
 .register-now {

@@ -62,33 +62,35 @@ const SignIn = () => {
                 {serverError && <p className="server-error">{serverError}</p>}
                 <form onSubmit={formik.handleSubmit}>
                     <label className="input-label" htmlFor="email">ইমেইল অ্যাড্রেস</label>
-                    <br/>
+                     
                     <input
                         className={formik.touched.email && formik.errors.email ? 'input-field error' : 'input-field'}
                         id="email"
                         name="email"
                         type="text"
-                        placeholder={formik.touched.email && formik.errors.email ? formik.errors.email : 'ইমেইল অ্যাড্রেস'}
+                        placeholder='ইমেইল অ্যাড্রেস'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.email}
                     />
-                    <br/>
+                    
+                    <p className='error-text'>{formik.touched.email && formik.errors.email ? formik.errors.email : ''}</p>
                     <label className="input-label" htmlFor="password">পাসওয়ার্ড</label>
-                    <br/>
+                    
                     <input
                         className={formik.touched.password && formik.errors.password ? 'input-field error' : 'input-field'}
                         id="password"
                         name="password"
                         type="password"
-                        placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : 'পাসওয়ার্ড'}
+                        placeholder='পাসওয়ার্ড'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
                     />
-                    <br/>
-                    <p className="query-text">পাসওয়ার্ড ভুলে গেছেন?</p>
-                    <br/>
+                    
+                    <p className='error-text'>{formik.touched.password && formik.errors.password ? formik.errors.password : ''}</p>
+                    <p className="query-text forgot-password">পাসওয়ার্ড ভুলে গেছেন?</p>
+                    
                     <button className="submit-button" type="submit" disabled={loading}>
                         {loading ? 'অপেক্ষা করুন...' : 'সাইন ইন'}
                     </button>

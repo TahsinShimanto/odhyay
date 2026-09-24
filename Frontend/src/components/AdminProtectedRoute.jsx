@@ -1,14 +1,14 @@
 import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router";
 import ErrorPage from '../pages/ErrorPage'
-const ProtectedRoute = ({ children }) => {
-  const { role, loading, isAuthenticated } = useAuth();
+
+const AdminProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading, isAdmin } = useAuth();
 
   if (loading) return <div>Loading</div>;
   if (!isAuthenticated) return <Navigate to="/signin" replace />;
-  if (role !== "student") return <ErrorPage />;
-
+  if (!isAdmin) return <ErrorPage />;
   return children;
 }
 
-export default ProtectedRoute
+export default AdminProtectedRoute
