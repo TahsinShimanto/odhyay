@@ -75,7 +75,7 @@
     font-family: var(--font-headlink);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
     .admin-sidebar {
         position: fixed;
         top: 0;

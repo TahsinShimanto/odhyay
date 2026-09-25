@@ -16,9 +16,11 @@ import { useAuth } from '../context/AuthContext.jsx'
 import AdminProtectedRoute from '../components/AdminProtectedRoute.jsx'
 import User from './User.jsx'
 import AdminLayout from '../components/AdminLayout.jsx'
-import AdminSidebar from '../components/AdminSidebar.jsx'
-import AdminDashboard from '../components/AdminDashboard.jsx'
+import AdminDashboard from './AdminDashboard.jsx'
+import AdminQuestions from './AdminQuestions.jsx'
+import AdminTaxonomy from './AdminTaxonomy.jsx'
 import { Navigate } from "react-router";
+
 
 
 const StudentLayout = () => {
@@ -76,7 +78,8 @@ function App() {
       element: <AdminProtectedRoute><AdminLayout/></AdminProtectedRoute>,
       children: [
         { element: <AdminDashboard/>, index: true },
-        
+        { path: "questions", element: <AdminQuestions/> },
+        { path: "taxonomy", element: <AdminTaxonomy/> },
       ]
     },
 

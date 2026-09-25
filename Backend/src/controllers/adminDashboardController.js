@@ -99,11 +99,11 @@ export const getStudentGrowth = async (req, res) => {
       { $match: { role: "student" } },
       {
         $group: {
-          _id: { year: { $year: "$createdAt" }, month: { $month: "$createdAt" } },
+          _id: { year: { $year: "$createdAt" }, month: { $month: "$createdAt" }, day: { $dayOfMonth: "$createdAt" }, },
           newStudents: { $sum: 1 },
         },
       },
-      { $sort: { "_id.year": 1, "_id.month": 1 } },
+      { $sort: { "_id.year": 1, "_id.month": 1, "_id.day": 1 } },
     ]);
 
     let running = 0;
@@ -112,6 +112,7 @@ export const getStudentGrowth = async (req, res) => {
       return {
         year: entry._id.year,
         month: entry._id.month,
+        day: entry._id.day,
         newStudents: entry.newStudents,
         totalStudents: running,
       };

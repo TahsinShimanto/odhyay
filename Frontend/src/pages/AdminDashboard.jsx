@@ -1,24 +1,9 @@
 import "../styles/AdminDashboard.css";
 import { BookOpen, Users, Layers, BookMarked } from "lucide-react";
-import Chart from "./Chart.jsx";
-import ProgressCard from "./ProgressCard.jsx";
+import Chart from "../components/Chart.jsx";
+import ProgressCard from "../components/ProgressCard.jsx";
 import axios from "../services/axios.js";
 import { useEffect, useState } from "react";
-
-const MONTH_LABELS = [
-  "জান",
-  "ফেব",
-  "মার্চ",
-  "এপ্রিল",
-  "মে",
-  "জুন",
-  "জুলাই",
-  "আগস্ট",
-  "সেপ্ট",
-  "অক্টো",
-  "নভে",
-  "ডিসে",
-];
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
@@ -51,7 +36,7 @@ const AdminDashboard = () => {
   }, []);
 
   const chartData = growth.map((point) => ({
-    month: MONTH_LABELS[point.month - 1],
+    day: `${point.day}/${point.month}`, 
     total: point.totalStudents,
   }));
   const maxStudents = chartData.length
@@ -109,10 +94,10 @@ const AdminDashboard = () => {
         <div className="chart-section">
           <Chart
             data={chartData}
-            title="শিক্ষার্থী বৃদ্ধি (মাসভিত্তিক)"
-            xKey="month"
+            title="শিক্ষার্থী বৃদ্ধি (দৈনিক)"
+            xKey="day"
             dataKey="total"
-            xLabel="মাস"
+            xLabel="তারিখ"
             yLabel="শিক্ষার্থী"
             domain={[0, Math.ceil(maxStudents * 1.1)]}
           />
