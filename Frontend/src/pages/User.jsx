@@ -8,9 +8,9 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
-import Chart from "./Chart.jsx";
-import ProgressCard from "./ProgressCard.jsx";
-import { useAuth } from "../context/AuthContext";
+import Chart from "../components/Chart.jsx";
+import ProgressCard from "../components/ProgressCard.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 import axios from "../services/axios.js";
 import { useEffect, useState } from "react";
 

@@ -87,64 +87,69 @@ const Register = () => {
                         id="displayName"
                         name="displayName"
                         type="text"
-                        placeholder={formik.touched.displayName && formik.errors.displayName ? formik.errors.displayName : 'আপনার নাম'}
+                        placeholder='আপনার নাম'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.displayName}
                     />
                     <br/>
+                    <p className='error-text'>{formik.touched.displayName && formik.errors.displayName ? formik.errors.displayName : ''}</p>
                     <label className="input-label" htmlFor="username">ইউজারনেম</label>
-                    <br/>
+                    
                     <input
                         className={formik.touched.username && formik.errors.username ? 'input-field error' : 'input-field'}
                         id="username"
                         name="username"
                         type="text"
-                        placeholder={formik.touched.username && formik.errors.username ? formik.errors.username : 'ইউজারনেম'}
+                        placeholder='ইউজারনেম'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.username}
                     />
-                    <br/>
+                    
+                    <p className='error-text'>{formik.touched.username && formik.errors.username ? formik.errors.username : ''}</p>
                     <label className="input-label" htmlFor="email">ইমেইল অ্যাড্রেস</label>
-                    <br/>
+                    
                     <input
                         className={formik.touched.email && formik.errors.email ? 'input-field error' : 'input-field'}
                         id="email"
                         name="email"
                         type="text"
-                        placeholder={formik.touched.email && formik.errors.email ? formik.errors.email : 'ইমেইল অ্যাড্রেস'}
+                        placeholder='ইমেইল অ্যাড্রেস'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.email}
                     />
-                    <br/>
+                    
+                    <p className='error-text'>{formik.touched.email && formik.errors.email ? formik.errors.email : ''}</p>
                     <label className="input-label" htmlFor="password">পাসওয়ার্ড</label>
-                    <br/>
+                    
                     <input
                         className={formik.touched.password && formik.errors.password ? 'input-field error' : 'input-field'}
                         id="password"
                         name="password"
                         type="password"
-                        placeholder={formik.touched.password && formik.errors.password ? formik.errors.password : 'পাসওয়ার্ড'}
+                        placeholder='পাসওয়ার্ড'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
                     />
-                    <br/>
+                    
+                    <p className='error-text'>{formik.touched.password && formik.errors.password ? formik.errors.password : ''}</p>
                     <label className="input-label" htmlFor="confirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
-                    <br/>
+                    
                     <input
                         className={formik.touched.confirmPassword && formik.errors.confirmPassword ? 'input-field error' : 'input-field'}
                         id="confirmPassword"
                         name="confirmPassword"
                         type="password"
-                        placeholder={formik.touched.confirmPassword && formik.errors.confirmPassword ? formik.errors.confirmPassword : 'পাসওয়ার্ড নিশ্চিত করুন'}
+                        placeholder='পাসওয়ার্ড নিশ্চিত করুন'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.confirmPassword}
                     />
-                    <br/>
+                    
+                    <p className='error-text'>{formik.touched.confirmPassword && formik.errors.confirmPassword ? formik.errors.confirmPassword : ''}</p>
                     <button className="submit-button" type="submit" disabled={loading}>
                         {loading ? 'অপেক্ষা করুন...' : 'রেজিস্টার করুন'}
                     </button>

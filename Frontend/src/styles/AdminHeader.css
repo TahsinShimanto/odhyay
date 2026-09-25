@@ -1,0 +1,68 @@
+.admin-header {
+    height: 60px;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.admin-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.admin-header-logo {
+    color: var(--text-primary);
+    font-family: var(--font-logo);
+    font-size: 1.6rem;
+    font-weight: bolder;
+}
+
+.admin-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-header-signout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    background-color: transparent;
+    border: none;
+    color: rgb(241, 119, 119);
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: var(--font-headlink);
+}
+
+.admin-header-signout:hover {
+    color: rgb(224, 92, 92);
+}
+
+@media (max-width: 768px) {
+    .admin-menu-toggle {
+        display: block;
+    }
+
+    .admin-header-name {
+        display: none;
+    }
+}

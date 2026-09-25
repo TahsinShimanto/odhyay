@@ -19,7 +19,7 @@ const loadOptions = (url, setData) => {
         .catch(console.error);
 };
 
-export default function FilterCard({ saved = false, emptyMessage = 'কোনো প্রশ্ন পাওয়া যায়নি' }) {
+export default function FilterCard({ saved = false, emptyMessage = 'কোনো প্রশ্ন পাওয়া যায়নি', questionTypes = QUESTION_TYPES, questionProps = {}, refreshKey = 0,}) {
     const navigate = useNavigate();
 
     const [modules, setModules] = useState([]);
@@ -100,7 +100,7 @@ export default function FilterCard({ saved = false, emptyMessage = 'কোনো
         };
 
         fetchQuestions();
-    }, [filters, page, saved]);
+    }, [filters, page, saved, refreshKey]);
 
     // Reset to the first page whenever a filter changes
     const updateFilters = (updater) => {
@@ -276,7 +276,7 @@ export default function FilterCard({ saved = false, emptyMessage = 'কোনো
                 ) : (
                     <>
                         {questions.map((question, index) => {
-                            const QuestionComponent = QUESTION_TYPES[question.type];
+                            const QuestionComponent = questionTypes[question.type];
                             if (!QuestionComponent) return null;
 
                             const globalNumber = (pagination.page - 1) * pagination.limit + index + 1;
@@ -290,6 +290,7 @@ export default function FilterCard({ saved = false, emptyMessage = 'কোনো
                                     isSaved={question.saved}
                                     isSaving={savingIds.has(question._id)}
                                     onToggleSave={() => handleToggleSave(question)}
+                                    {...questionProps}
                                 />
                             );
                         })}

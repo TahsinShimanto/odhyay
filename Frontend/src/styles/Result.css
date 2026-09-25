@@ -83,7 +83,10 @@
     font-size: 0.85rem;
     
 }
-
+.next-prev-div{
+    display: flex;
+    gap: 2rem;
+}
 .main-mark{
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--border-subtle);

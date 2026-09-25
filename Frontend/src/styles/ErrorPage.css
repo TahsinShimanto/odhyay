@@ -1,39 +1,92 @@
-.error-page{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    gap: 12px;
+.error-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  background: var(--bg-color);
+}
+.error-content {
+  width: min(100%, 520px);
+  text-align: center;
+}
+.error-code {
+  display: block;
+  margin-bottom: 24px;
+  font-family: var(--font-headlink);
+  font-size: clamp(80px, 14vw, 120px);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  color: var(--text-primary);
 }
 
-.error-page h2 {
-    font-family: var(--font-headlink);
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--text-primary);
+.error-divider {
+  width: 32px;
+  height: 2px;
+  margin: 0 auto 28px;
+  background: var(--accent);
 }
 
-.error-page p {
-    font-size: 15px;
-    color: var(--text-muted);
-    max-width: 420px;
-    line-height: 1.6;
-    margin-bottom: 12px;
+.error-content h1 {
+  margin: 0;
+  font-family: var(--font-headlink);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
 
-.error-page button {
-    margin-top: 20px;
+.error-content p {
+  max-width: 390px;
+  margin: 12px auto 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+.home-button {
+  margin-top: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid var(--accent);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    gap 0.2s ease,
+    border-color 0.2s ease;
+}
+.home-button:hover {
+  color: var(--accent);
+  gap: 14px;
+}
+.home-button .arrow {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.home-button:hover .arrow {
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 600px) {
+  .error-page {
+    padding: 24px 20px;
+  }
+  .error-code {
+    font-size: 88px;
+  }
+  .error-content h1 {
+    font-size: 21px;
+  }
+  .error-content p {
     font-size: 13px;
-    font-weight: 600;
-    color: var(--bg-color);
-    background-color: var(--accent);
-    border: none;
-    padding: 12px 28px;
-    transition: all 0.2s ease;
-}
-
-.error-page button:hover {
-    background-color: var(--accent-hover);
-    cursor: pointer;
+  }
 }

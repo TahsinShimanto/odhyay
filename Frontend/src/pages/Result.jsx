@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router'
+import { replace, useNavigate, useParams } from 'react-router'
 import { useEffect, useState } from "react";
 import '../styles/Result.css'
 import AnsCard from '../components/AnsCard'
@@ -104,8 +104,18 @@ const Result = () => {
         </div>
 
         <div className="result-nav">
-            <button className='next-button' onClick={handleNewExam}>নতুন পরীক্ষা</button>
-            <button className='prev-button' onClick={handleRetry} disabled={!settings}>আবার চেষ্টা করুন</button>
+          {
+            type === 'ranked' ? (
+              <button className='next-button' onClick={() => navigate("/rankedexam", { replace: true } )}>লিডারবোর্ড দেখুন</button>
+            ) :
+            (
+              <div className='next-prev-div'>
+                <button className='next-button' onClick={handleNewExam}>নতুন পরীক্ষা</button>
+                <button className='prev-button' onClick={handleRetry} disabled={!settings}>আবার চেষ্টা করুন</button>
+              </div>
+            )
+          }
+            
         </div>
       </div>
     

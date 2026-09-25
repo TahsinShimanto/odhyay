@@ -1,0 +1,95 @@
+.admin-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 1.5rem;
+    margin: 40px 0;
+}
+
+.metric-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+}
+
+.metric-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+}
+
+.metric-card-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.metric-card-heading p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.metric-card h3 {
+    font-size: 1.6rem;
+    color: var(--text-primary);
+}
+.chart-module-section{
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    gap: 1rem;
+}
+.module-overview-card {
+    width: 38%;
+    border: 1px solid var(--border-subtle);
+    padding: 1.25rem;
+}
+.chart-section{
+    width: 60%;
+}
+.admin-module-tabs {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    justify-content: start;
+}
+
+.admin-module-tab {
+    background: none;
+    border: none;
+    padding: 0.4rem 0.9rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+
+.admin-module-tab.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+
+.admin-module-tab.not-active:hover {
+    color: var(--text-primary);
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--border-subtle);
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 1000px) {
+    .chart-module-section{
+        flex-direction: column;
+        gap: 3rem;
+    }
+    .chart-section, .module-overview-card{
+        width: 100%;
+    }
+
+}

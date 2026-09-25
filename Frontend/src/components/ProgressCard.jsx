@@ -1,9 +1,9 @@
 import '../styles/ProgressCard.css'
 
-const ProgressCard = ({ subjects }) => {
+const ProgressCard = ({ subjects, title = "বিষয়ভিত্তিক অগ্রগতি (মডেল টেস্ট)", detailLabel = "অংশগ্রহণ" }) => {
   return (
     <div className='progress-card-container'>
-      <p id='card-heading'>বিষয়ভিত্তিক অগ্রগতি (মডেল টেস্ট)</p>
+      <p id='card-heading'>{title}</p>
       <div className="subject-list">
         {
             subjects.map((elem) => (
@@ -17,7 +17,7 @@ const ProgressCard = ({ subjects }) => {
                         <div className="progress-fill" style={{width: `${elem.progress}%`}}></div>
                     </div>
 
-                    <p id='attempt-text'>অংশগ্রহণ: {elem.attempts}</p>
+                    <p id='attempt-text'>{detailLabel}: {elem.detail}</p>
                 </div>
             ))
         }
