@@ -87,7 +87,7 @@ const SignIn = () => {
                     />
                     
                     <p className='error-text'>{formik.touched.password && formik.errors.password ? formik.errors.password : ''}</p>
-                    <p className="query-text forgot-password">পাসওয়ার্ড ভুলে গেছেন?</p>
+                    
                     
                     <button className="submit-button" type="submit" disabled={loading}>
                         {loading ? 'অপেক্ষা করুন...' : 'সাইন ইন'}
