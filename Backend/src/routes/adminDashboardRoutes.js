@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.get("/dashboard-stats", verifyToken, requireRole("admin"), getDashboardStats);
+router.get("/stats", verifyToken, requireRole("admin"), getDashboardStats);
 router.get("/module-subjects", verifyToken, requireRole("admin"), getModuleSubjectOverview);
 router.get("/student-growth", verifyToken, requireRole("admin"), getStudentGrowth);
 

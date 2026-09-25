@@ -159,6 +159,8 @@
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
+    /* background-color: var(--surface-hover);
+    border-radius: 12px; */
     border: 1px solid var(--border-subtle);
     padding: 1.2rem 1rem;
     width: 23%; 

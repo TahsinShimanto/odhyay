@@ -15,8 +15,11 @@ import ProtectedRoute from '../components/ProtectedRoute.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import AdminProtectedRoute from '../components/AdminProtectedRoute.jsx'
 import User from './User.jsx'
+import AdminLayout from '../components/AdminLayout.jsx'
 import AdminSidebar from '../components/AdminSidebar.jsx'
 import AdminDashboard from '../components/AdminDashboard.jsx'
+import { Navigate } from "react-router";
+
 
 const StudentLayout = () => {
   const { isAdmin, loading } = useAuth();
@@ -43,13 +46,6 @@ const StudentBareLayout = () => {
   );
 };
 
-const AdminLayout = () => (
-  <div>
-    <AdminSidebar/>
-    <Outlet/>
-  </div>
-);
-
 function App() {
 
   const router = createBrowserRouter([
@@ -59,7 +55,8 @@ function App() {
         { path: "/", element: <HomePage/> },
         { path: "/questionsolving", element: <QuestionSolving/> },
         { path: "/savedquestions", element: <ProtectedRoute><SavedQuestions/></ProtectedRoute> },
-        { path: "/result/:type/:attemptId", element: <ProtectedRoute><Result/></ProtectedRoute> },
+        { path: "/unrankedexam", element: <ProtectedRoute><UnrankedSimulator/></ProtectedRoute> },
+        { path: "/rankedexam", element: <ProtectedRoute><RankedSimulator/></ProtectedRoute> },
         { path: "/profile", element: <ProtectedRoute><User/></ProtectedRoute> },
         { path: "/signin", element: <SignIn/> },
         { path: "/register", element: <Register/> },
@@ -69,9 +66,8 @@ function App() {
     {
       element: <StudentBareLayout/>,
       children: [
-          { path: "/unrankedexam", element: <ProtectedRoute><UnrankedSimulator/></ProtectedRoute> },
-          { path: "/rankedexam", element: <ProtectedRoute><RankedSimulator/></ProtectedRoute> },
           { path: "/exam/:type/:attemptId", element: <ProtectedRoute><ExamCard/></ProtectedRoute> },
+          { path: "/result/:type/:attemptId", element: <ProtectedRoute><Result/></ProtectedRoute> },
         ]
     },
 

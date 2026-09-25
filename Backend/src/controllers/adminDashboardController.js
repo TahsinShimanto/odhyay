@@ -88,6 +88,7 @@ export const getModuleSubjectOverview = async (req, res) => {
 
     return res.status(200).json(overview)
   } catch (err) {
+    console.error("getDashboardStats failed:", err);
     return res.status(500).json({ error: "Server error occurred" });
   }
 };

@@ -1,0 +1,104 @@
+.admin-sidebar {
+    width: 240px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: var(--surface);
+    border-right: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    overflow-y: auto;
+}
+.admin-sidebar-header {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5rem 1.5rem;
+}
+
+.admin-sidebar-logo {
+    color: var(--text-primary);
+    font-family: var(--font-logo);
+    font-size: 1.6rem;
+    font-weight: bolder;
+}
+.admin-sidebar-close {
+    display: none;
+    align-self: flex-end;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-bottom: 0.7rem;
+}
+
+.admin-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.admin-sidebar-nav span{
+    font-size: 0.8rem;
+}
+.admin-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-family: var(--font-headlink);
+}
+
+.admin-nav-item:hover {
+    background-color: var(--surface-hover);
+    color: var(--text-primary);
+}
+
+.admin-nav-item.active {
+    background-color: var(--accent);
+    color: var(--bg-color);
+    font-weight: bold
+}
+
+.admin-sidebar-backdrop {
+    display: none;
+}
+
+.admin-panel-text{
+    margin-bottom: 0.3rem;
+    font-family: var(--font-headlink);
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 40;
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
+    }
+
+    .admin-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .admin-sidebar-close {
+        display: block;
+    }
+
+    .admin-sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 30;
+    }
+}
