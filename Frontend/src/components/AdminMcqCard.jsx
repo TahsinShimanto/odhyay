@@ -1,3 +1,4 @@
+import { EditIcon, Trash2 } from 'lucide-react';
 import '../styles/AdminQuestionCard.css'
 
 
@@ -9,9 +10,9 @@ const AdminMcqCard = ({ question, current, total, onEdit, onDelete, deletingId  
           প্রশ্ন {current} / {total}
         </span>
         <div className="admin-question-actions">
-          <button onClick={() => onEdit(question)}>সম্পাদনা</button>
+          <button onClick={() => onEdit(question)}><EditIcon size={16}/></button>
           <button className="delete-btn" onClick={() => onDelete(question)} disabled={deletingId === question._id}>
-            {deletingId === question._id ? 'মুছে ফেলা হচ্ছে...' : 'মুছুন'}
+            {deletingId === question._id ? '...' : (<Trash2 size={16}/>)}
           </button>
         </div>
       </div>

@@ -143,12 +143,60 @@ const AdminQuestionForm = ({ question, onClose }) => {
   const removeAppearance = (index) =>
     setAppearances((prev) => prev.filter((_, i) => i !== index));
 
+  const fileToDataUrl = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
 
     try {
+      if (isEditMode) {
+      const updates = {
+        type,
+        moduleId,
+        subjectId,
+        chapterId,
+        topicId,
+        questionText,
+        answerOrExplanationText: answerText,
+      };
+      if (importance) updates.importance = importance;
+
+      if (type === "mcq") {
+        updates.options = await Promise.all(
+          options.map(async (o) => ({
+            text: o.text,
+            isCorrect: o.isCorrect,
+            image: o.imageFile
+              ? await fileToDataUrl(o.imageFile)
+              : (o.existingImage ?? null),
+          })),
+        );
+      }
+
+      updates.appearances = appearances
+        .filter((a) => a.university)
+        .map((a) => ({
+          university: a.university,
+          year: a.year ? Number(a.year) : undefined,
+        }));
+
+      if (questionImageFile) {
+        updates.questionImage = await fileToDataUrl(questionImageFile);
+      }
+      if (answerImageFile) {
+        updates.answerOrExplanationImage = await fileToDataUrl(answerImageFile);
+      }
+
+      await axios.patch(`/api/questions/${question._id}`, updates);
+    } else {
       const body = new FormData();
       body.append("type", type);
       body.append("moduleId", moduleId);
@@ -187,15 +235,12 @@ const AdminQuestionForm = ({ question, onClose }) => {
       if (answerImageFile)
         body.append("answerOrExplanationImage", answerImageFile);
 
-      if (isEditMode) {
-        await axios.patch(`/api/questions/${question._id}`, body);
-      } else {
-        await axios.post("/api/questions", body, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-      }
+      await axios.post("/api/questions", body, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    }
 
-      onClose(true);
+    onClose(true);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -209,7 +254,7 @@ const AdminQuestionForm = ({ question, onClose }) => {
         <div className="admin-form-header">
           <h3>{isEditMode ? "প্রশ্ন সম্পাদনা" : "নতুন প্রশ্ন যোগ করুন"}</h3>
           <button type="button" onClick={() => onClose(false)}>
-            ×
+            x
           </button>
         </div>
 

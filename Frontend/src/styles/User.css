@@ -155,12 +155,9 @@
 
 .more-details-card{
     display: flex;
-    
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
-    /* background-color: var(--surface-hover);
-    border-radius: 12px; */
     border: 1px solid var(--border-subtle);
     padding: 1.2rem 1rem;
     width: 23%; 
@@ -189,18 +186,17 @@
     justify-content: space-around;
 }
 .module-tab{
+    border: none;
     padding: 0.5rem 1rem;
-    border-radius: 12px;
-    border: 1px solid transparent;
+    background: none;
+    border-bottom: 2px solid transparent;
 }
 .module-tab.active{
-    background-color: var(--surface);
     color: var(--accent);
     border-color: var(--accent);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
 }
 .module-tab.not-active{
-    background-color: var(--surface-hover);
     color: var(--text-muted);
 }
 .module-tab.not-active:hover{

@@ -70,7 +70,7 @@ const uploadImageSource = (value, file, folder = "questions") => {
       return { url: result.secure_url, publicId: result.public_id };
     });
   }
-  return value;
+  return Promise.resolve(value);
 };
 
 const processOptions = async (options, optionFiles = []) => {

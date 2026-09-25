@@ -21,34 +21,21 @@
 
 .admin-question-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .admin-question-actions button {
-    background-color: transparent;
-    border: 1px solid var(--border-subtle);
-    color: var(--text-primary);
-    border-radius: 6px;
-    padding: 0.35rem 0.8rem;
-    font-family: var(--font-headlink);
-    font-size: 0.85rem;
+    background: none;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+    color: var(--text-muted);
 }
 
 .admin-question-actions button:hover {
-    background-color: var(--surface-hover);
-    border-color: var(--accent);
+    color: var(--text-primary);
 }
-
-.admin-question-actions .delete-btn {
-    color: #ff8a8a;
-    border-color: rgba(255, 138, 138, 0.3);
-}
-
 .admin-question-actions .delete-btn:hover {
-    background-color: rgba(255, 138, 138, 0.1);
-    border-color: #ff8a8a;
+    color: #ff8a8a;
 }
 
 .admin-question-actions button:disabled {
@@ -95,7 +82,11 @@
 
 .admin-option img {
     max-height: 60px;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
     border-radius: 4px;
+    flex-shrink: 0;
 }
 
 .admin-option.correct {
@@ -130,4 +121,14 @@
     border-radius: 8px;
     margin-top: 0.5rem;
     display: block;
+}
+
+@media (max-width: 480px) {
+    .admin-option {
+        flex-wrap: wrap;
+    }
+
+    .admin-option img {
+        max-height: 44px;
+    }
 }
