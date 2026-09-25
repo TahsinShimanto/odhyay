@@ -107,13 +107,13 @@ const Result = () => {
           {
             type === 'ranked' ? (
               <button className='next-button' onClick={() => navigate("/rankedexam", { replace: true } )}>লিডারবোর্ড দেখুন</button>
-          ) :
-          (
-            <div className='next-prev-div'>
-              <button className='next-button' onClick={handleNewExam}>নতুন পরীক্ষা</button>
-              <button className='prev-button' onClick={handleRetry} disabled={!settings}>আবার চেষ্টা করুন</button>
-            </div>
-          )
+            ) :
+            (
+              <div className='next-prev-div'>
+                <button className='next-button' onClick={handleNewExam}>নতুন পরীক্ষা</button>
+                <button className='prev-button' onClick={handleRetry} disabled={!settings}>আবার চেষ্টা করুন</button>
+              </div>
+            )
           }
             
         </div>

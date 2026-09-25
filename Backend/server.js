@@ -7,6 +7,7 @@ import authRouter from './src/routes/auth.js'
 import usersRouter from './src/routes/users.js'
 import examRoutes from './src/routes/examRoutes.js'
 import taxonomyRouter from './src/routes/taxonomy.js'
+import dashboardRouter from "./src/routes/adminDashboardRoutes.js"
 import dns from 'dns'
 
 dns.setServers(['8.8.8.8', '1.1.1.1']);
@@ -44,3 +45,6 @@ app.use("/api/taxonomy", taxonomyRouter);
 
 //Exam related APis
 app.use("/api/exam", examRoutes)
+
+
+app.use("/api/dashboard", dashboardRouter);

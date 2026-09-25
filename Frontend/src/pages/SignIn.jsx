@@ -44,10 +44,10 @@ const SignIn = () => {
     });
 
     useEffect(() => {
-        if (isAuthenticated && user) {
+        if (isAuthenticated && role) {
             navigate(role === 'admin' ? '/admin' : '/', { replace: true });
         }
-    }, [isAuthenticated, user]);
+    }, [isAuthenticated, role]);
     
     if (isAuthenticated) return null;
 
