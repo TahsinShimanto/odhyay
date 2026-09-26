@@ -210,9 +210,15 @@
     border: 1px solid var(--border-subtle);
 }
 
-@media (max-width: 800px){
+
+
+@media (max-width: 1050px){
     .user-details-card, .more-details-card-container, .performance-container{
         width: 95%;
+    }
+    .performance-container{
+       flex-direction: column;
+        gap: 1rem; 
     }
 }
 
