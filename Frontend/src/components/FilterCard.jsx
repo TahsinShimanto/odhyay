@@ -298,7 +298,7 @@ export default function FilterCard({ saved = false, emptyMessage = 'কোনো
                         {pagination && (
                             <div className="next-prev-ques">
                                 <button
-                                    className="prev-button"
+                                    className="prev-button pagination-action"
                                     onClick={() => setPage((prev) => prev - 1)}
                                     disabled={!pagination.hasPreviousPage}
                                 >
@@ -310,7 +310,7 @@ export default function FilterCard({ saved = false, emptyMessage = 'কোনো
                                 </span>
 
                                 <button
-                                    className="next-button"
+                                    className="next-button pagination-action"
                                     onClick={() => setPage((prev) => prev + 1)}
                                     disabled={!pagination.hasNextPage}
                                 >

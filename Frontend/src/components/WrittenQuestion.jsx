@@ -58,7 +58,7 @@ function Written({question, current, total, isSaved = false, isSaving = false, o
                     ) : (
                         <>
                             <Eye size={16}/>
-                            <div>উত্তর দেখুন</div>
+                            <div className="toggle-label">উত্তর দেখুন</div>
                         </>
                     )}
                 </div>

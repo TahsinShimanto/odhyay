@@ -71,7 +71,7 @@ const Register = () => {
     if (isAuthenticated) return null;
 
   return (
-    <div className="register-overlay">
+    <div className="register-overlay" onClick={(e) => e.target === e.currentTarget && navigate(-1)}>
             <div className="floating-card">
                 <X onClick={() => navigate(-1)} size={18} className="close-button"/>
                 <h3 className="welcome-text">অধ্যায়ে স্বাগতম!</h3>

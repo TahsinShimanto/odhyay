@@ -1,14 +1,17 @@
 .question-card {
     width: 90%;
+    background-color: var(--surface-raised);
     border: 1px solid var(--border-subtle);
-    border-radius: 5px;
+    border-radius: 8px;
     margin-block: 1.5rem;
+    overflow: hidden;
 }
 
 .question-card-info {
     display: flex;
     align-items: center;
-    background-color: #1b1b1b;
+    background-color: var(--surface-1);
+    border-bottom: 1px solid var(--border-micro);
     padding: 0.8rem;
 }
 
@@ -20,9 +23,9 @@
 
 .question-info-importance {
     font-size: 0.7rem;
-    background-color: #1b1b1b;
+    background-color: var(--surface-hover);
     border: 1px solid var(--border-subtle);
-    border-radius: 3px;
+    border-radius: 4px;
     margin-right: 0.5rem;
     padding-inline: 0.5rem;
     padding-block: 0.2rem;
@@ -31,16 +34,16 @@
 }
 
 .star {
-    color: #fbbf24;
-    fill: #fbbf24;
+    color: var(--star);
+    fill: var(--star);
 }
 
 .question-info-type {
     font-size: 0.7rem;
     color: var(--text-muted);
-    background-color: #1b1b1b;
+    background-color: var(--surface-hover);
     border: 1px solid var(--border-subtle);
-    border-radius: 3px;
+    border-radius: 4px;
     margin-right: auto;
     padding-inline: 0.5rem;
     padding-top: 0.2rem;
@@ -48,9 +51,9 @@
 }
 
 .question-info-save {
-    background-color: #1b1b1b;
-    border: none;
-    border-radius: 3px;
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-micro);
+    border-radius: 4px;
     padding: 8px;
     margin-right: 0.3rem;
 }
@@ -62,7 +65,8 @@
 }
 
 .question-info-save:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-strong);
 
     .save-fill {
         fill: rgba(255, 255, 255, 0.8);
@@ -71,8 +75,8 @@
 }
 
 .question-info-save.saved .save-fill {
-    fill: #facc15;
-    stroke: #facc15;
+    fill: var(--star);
+    stroke: var(--star);
 }
 
 .question-info-save:disabled {
@@ -81,9 +85,9 @@
 }
 
 .question-info-flag {
-    background-color: #1b1b1b;
-    border: none;
-    border-radius: 3px;
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-micro);
+    border-radius: 4px;
     padding: 8px;
     margin-right: 1rem;
 }
@@ -94,10 +98,11 @@
 }
 
 .question-info-flag:hover {
-    background-color: rgba(255, 0, 0, 0.1);
+    background-color: var(--danger-soft);
+    border-color: var(--danger);
 
     .flag-fill {
-        stroke: #F87171;
+        stroke: var(--danger);
     }
 }
 
@@ -110,7 +115,6 @@
     margin-bottom: 1.5rem;
 }
 
-/* TODO: Change fonts later */
 .question-statement {
     font-family: var(--font-question);
     font-weight: 500;
@@ -131,9 +135,9 @@
 .appearance-tag {
     font-family: monospace;
     font-weight: bold;
-    color: var(--accent);
-    background-color: rgba(192, 193, 255, 0.1);
-    border: 1px solid var(--border-subtle);
+    color: var(--on-accent);
+    background-color: var(--accent);
+    border: 1px solid transparent;
     border-radius: 4px;
     padding-block: 0.2rem;
     padding-inline: 0.4rem;
@@ -141,7 +145,7 @@
 }
 
 .bullet {
-    background-color: var(--accent);
+    background-color: var(--on-accent);
     display: inline-block;
     align-content: center;
     width: 6px;
@@ -161,51 +165,58 @@
     display: flex;
     gap: 0.8rem;
     padding: 0.8rem;
+    background-color: var(--surface-1);
     border: 1px solid var(--border-subtle);
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .single-option-div:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--surface);
+    border-color: var(--border-strong);
 }
 
 .single-option-div.correct,
 .single-option-div.wrong {
     cursor: default;
     pointer-events: none;
+    --validation-strength: 0.14;
 }
 
 .single-option-div.correct {
-    background-color: rgba(74, 222, 128, 0.12);
-    border-color: #4ade80;
+    --validation-color: #35B96B;
+    --validation-bg: rgba(53, 185, 107, var(--validation-strength));
+    background-color: var(--validation-bg);
+    border-color: var(--validation-color);
 }
 
 .single-option-div.correct .option-count {
-    border-color: #4ade80;
-    color: #4ade80;
+    border-color: var(--validation-color);
+    color: var(--validation-color);
 }
 
 .single-option-div.wrong {
-    background-color: rgba(248, 113, 113, 0.12);
-    border-color: #f87171;
+    --validation-color: #E05252;
+    --validation-bg: rgba(224, 82, 82, var(--validation-strength));
+    background-color: var(--validation-bg);
+    border-color: var(--validation-color);
 }
 
 .single-option-div.wrong .option-count {
-    border-color: #f87171;
-    color: #f87171;
+    border-color: var(--validation-color);
+    color: var(--validation-color);
 }
 
 .option-count {
     font-size: 0.8rem;
-    background-color: #1b1b1b;
+    background-color: var(--surface-hover);
     border: 1px solid var(--border-subtle);
     border-radius: 4px;
     padding-block: 0.2rem;
     padding-inline: 0.5rem;
 }
 
-/* TODO: Change fonts later */
 .option-text {
     font-family: monospace;
     align-content: center;
@@ -218,32 +229,50 @@
 }
 
 .divider {
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid var(--border-micro);
     margin-bottom: 1rem;
 }
 
 .hidden-explanation-card {
-    background-color: rgba(192, 193, 255, 0.1);
-    color: var(--accent);
+    background: var(--accent-gradient);
+    color: var(--on-accent);
     font-size: small;
     font-weight: bold;
-    border: 1px solid var(--border-subtle);
-    border-radius: 3px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 0.4rem;
     width: 100%;
     padding: 0.8rem;
+    cursor: pointer;
+    box-shadow:
+        0px 1px 2px rgba(0, 0, 0, 0.4),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+}
+
+.hidden-explanation-card:hover {
+    background: var(--accent-hover);
+    border-color: transparent;
+    box-shadow: var(--accent-glow);
+}
+
+.toggle-label {
+    font-family: var(--font-headlink);
 }
 
 .revealed-explanation-card {
-    background-color: var(--bg-color);
+    background-color: var(--surface-1);
     color: var(--text-primary);
     font-family: monospace;
     font-size: 0.8rem;
     display: flex;
     flex-direction: column;
     width: 100%;
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
     padding: 0.8rem;
 }
 
@@ -260,7 +289,6 @@
     color: var(--text-primary);
 }
 
-/* TODO: change font later */
 .explanation-text {
     white-space: pre-wrap;
 }

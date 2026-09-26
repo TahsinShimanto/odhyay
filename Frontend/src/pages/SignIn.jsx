@@ -52,7 +52,7 @@ const SignIn = () => {
     if (isAuthenticated) return null;
 
     return (
-        <div className="sign-in-overlay">
+        <div className="sign-in-overlay" onClick={(e) => e.target === e.currentTarget && navigate(-1)}>
             <div className="floating-card">
                 <X onClick={() => navigate(-1)} size={18} className="close-button"/>
                 <h3 className="welcome-text">আবারও স্বাগতম!</h3>

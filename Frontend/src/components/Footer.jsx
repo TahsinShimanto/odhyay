@@ -43,14 +43,10 @@ const Footer = () => {
         <p className="platform-title">আমাদের সঙ্গে যুক্ত থাকুন</p>
         <div className="social-links">
           <a href="https://www.facebook.com">
-            <FaFacebook size={33}/>
+            <FaFacebook size={27}/>
           </a>
-          <a href="https://github.com">
-            <FaGithub size={33}/>
-          </a>
-
-          <a href="https://www.youtube.com">
-            <FaYoutube size={36}/>
+          <a href="https://github.com/imran-saleh110/Odhyay">
+            <FaGithub size={27}/>
           </a>
         </div>
       </div>

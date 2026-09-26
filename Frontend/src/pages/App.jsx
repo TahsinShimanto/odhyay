@@ -48,13 +48,20 @@ const StudentBareLayout = () => {
   );
 };
 
+const RootRoute = () => {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading) return <div className='load-error'>লোড হচ্ছে...</div>;
+  if (isAuthenticated) return <Navigate to="/profile" replace />;
+  return <HomePage/>;
+};
+
 function App() {
 
   const router = createBrowserRouter([
     {
       element: <StudentLayout/>,
       children: [
-        { path: "/", element: <HomePage/> },
+        { path: "/", element: <RootRoute/> },
         { path: "/questionsolving", element: <QuestionSolving/> },
         { path: "/savedquestions", element: <ProtectedRoute><SavedQuestions/></ProtectedRoute> },
         { path: "/unrankedexam", element: <ProtectedRoute><UnrankedSimulator/></ProtectedRoute> },

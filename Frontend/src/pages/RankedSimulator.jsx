@@ -7,7 +7,6 @@ import {
   Stethoscope,
   Users,
 } from "lucide-react";
-import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "../services/axios.js";
@@ -185,7 +184,6 @@ const RankedSimulator = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

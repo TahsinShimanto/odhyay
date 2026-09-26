@@ -4,25 +4,46 @@
 @import url('https://fonts.maateen.me/adorsho-lipi/font.css');
 
 :root {
-/* TO BE DEPRECATED */
-  --font-serif: "Lora", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "Fira Code", monospace;
-  --font-bengali-links: "Hind Siliguri", sans-serif;
-  --font-bengali-text: "Noto Sans Bengali", sans-serif;
- /* USE THESE BELOW */
   --font-logo: "Anek Bangla", sans-serif;
   --font-text: 'Nikosh', 'Adorsho Lipi', 'Noto Sans Bengali', 'system-ui';
   --font-headlink: 'Hind Siliguri', 'Nikosh', 'Noto Sans Bengali', sans-serif;
   --font-question: 'Nikosh', 'Noto Sans Bengali', sans-serif;
-  --bg-color: #0F0F0F;
-  --surface:  #272727;
-  --surface-hover: #2727277e;
-  --accent: #c0c1ff;
-  --accent-hover: #a9aaff;
-  --text-primary: #f5f5f7;
-  --text-muted: #8a8890;
-  --border-subtle: rgba(255, 255, 255, 0.1);
+  --font-display: 'Hind Siliguri', 'Nikosh', 'Noto Sans Bengali', sans-serif;
+  --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Noto Sans Bengali', monospace;
+
+  --bg-color: #08090A;
+  --surface-1: #141516;
+  --surface: #141516;
+  --surface-raised: #0d0e0f;
+  --surface-hover: #1F2023;
+  --glass-overlay: rgba(255, 255, 255, 0.03);
+
+  --accent: #5E6AD2;
+  --accent-hover: #828FFF;
+  --accent-soft: rgba(94, 106, 210, 0.12);
+  --accent-gradient: linear-gradient(180deg, #6875E3 0%, #5E6AD2 100%);
+  --accent-glow: 0px 0px 12px rgba(130, 143, 255, 0.4);
+  --accent-volt: #E4F222;
+  --on-accent: #FFFFFF;
+
+  --success: #4ADE80;
+  --success-soft: rgba(74, 222, 128, 0.12);
+  --danger: #F87171;
+  --danger-soft: rgba(248, 113, 113, 0.12);
+  --star: #FBBF24;
+
+  --text-primary: #F7F8F8;
+  --text-secondary: #D0D6E0;
+  --text-muted: #8A8F98;
+  --text-dim: #62666D;
+
+  --border-micro: rgba(255, 255, 255, 0.03);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+
+  --radius-button: 9999px;
+
+  color-scheme: dark;
 }
 
 * {
@@ -36,6 +57,61 @@ body {
     color: var(--text-primary);
     font-family: var(--font-text);
     min-height: 100vh;
+}
+
+::selection {
+    background-color: var(--accent);
+    color: var(--on-accent);
+}
+
+select,
+select::picker(select) {
+    appearance: base-select;
+}
+
+select::picker(select) {
+    background-color: var(--surface-hover);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+select option {
+    padding: 5px 9px;
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-text);
+}
+
+select option:checked,
+select option:hover {
+    background-color: var(--accent);
+    color: var(--on-accent);
+}
+
+select option::checkmark {
+    color: var(--on-accent);
+}
+
+@supports (appearance: base-select) {
+    select {
+        position: relative;
+        font-size: 0.833rem;
+        padding-inline-end: 2rem !important;
+    }
+
+    select::picker-icon {
+        position: absolute;
+        inset-inline-end: 10px;
+        top: 50%;
+        translate: 0 -50%;
+        width: 12px;
+        height: 12px;
+        background-color: var(--text-muted);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
 }
 
 .load-error{

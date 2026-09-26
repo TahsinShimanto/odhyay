@@ -1,9 +1,7 @@
 import "../styles/User.css";
 import {
   Award,
-  Bookmark,
   BookOpen,
-  Clock2,
   Target,
   TrendingUp,
   Zap,

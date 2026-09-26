@@ -28,6 +28,8 @@
 .close-button {
     color: var(--text-muted);
     margin-left: auto;
+    padding: 8px;
+    border-radius: var(--radius-button);
 }
 
 .close-button:hover {
@@ -90,10 +92,11 @@
     width: 100%;
     padding-block: 0.7rem;
     background-color: var(--accent);
+    color: var(--on-accent);
     border: 1px solid var(--border-subtle);
     border-radius: 4px;
-    margin-top: 1rem;
-    margin-bottom: 1.4rem;
+    margin-top: 0.75rem;
+    margin-bottom: 1.1rem;
 }
 
 .submit-button:hover {
