@@ -21,6 +21,7 @@ import AdminQuestions from './AdminQuestions.jsx'
 import AdminTaxonomy from './AdminTaxonomy.jsx'
 import { Navigate } from "react-router";
 import Contact from './Contact.jsx'
+import CarbonFootprintDisplay from '../components/CarbonFootprintDisplay.jsx'
 
 
 
@@ -92,6 +93,7 @@ function App() {
   return (
     <div className="appWrapper">
       <RouterProvider router={router} />
+      {/* <CarbonFootprintDisplay/> */}
     </div>
   )
 }
