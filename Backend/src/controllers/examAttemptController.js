@@ -363,7 +363,7 @@ export const getProfileStats = async (req, res) => {
       user: req.user.id,
       percentage: { $ne: null },
     })
-    .select("percentage subjectId createdAt answers")
+    .select("percentage subjectId createdAt answers questionIds")
     .sort({ createdAt: 1 });
 
     const completedExams = attempts.length;
@@ -398,13 +398,34 @@ export const getProfileStats = async (req, res) => {
     if (moduleId) subjectFilter.moduleId = moduleId;
     const subjects = await Subject.find(subjectFilter).select("name");
 
-    const subjectProgress = subjects.map((subject) => {
-      const subjectAttempts = attempts.filter(
-        (attempt) =>
-          attempt.subjectId &&
-          attempt.subjectId.toString() === subject._id.toString(),
-      );
 
+    const noSubjectAttempts = attempts.filter((a) => !a.subjectId);
+    const questionIdsNeeded = new Set();
+    noSubjectAttempts.forEach((a) =>
+      (a.questionIds || []).forEach((qId) => questionIdsNeeded.add(qId.toString())),
+    );
+
+    let questionSubjectMap = {};
+    if (questionIdsNeeded.size > 0) {
+      const qDocs = await Question.find({
+        _id: { $in: Array.from(questionIdsNeeded) },
+      }).select("subjectId");
+      qDocs.forEach((q) => {
+        if (q.subjectId) questionSubjectMap[q._id.toString()] = q.subjectId.toString();
+      });
+    }
+
+    const subjectProgress = subjects.map((subject) => {
+      const subjectIdStr = subject._id.toString();
+
+      const subjectAttempts = attempts.filter((attempt) => {
+        if (attempt.subjectId) return attempt.subjectId.toString() === subjectIdStr;
+
+        return (attempt.questionIds || []).some(
+          (qId) => questionSubjectMap[qId.toString()] === subjectIdStr,
+        );
+      });
+      
       const attemptCount = subjectAttempts.length;
 
       let progress = 0;
