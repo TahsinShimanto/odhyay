@@ -16,6 +16,23 @@ Odhyay gives you:
 
 ## Screenshots
 
+<table>
+  <tr>
+    <td align="center">
+      <img src="Screenshots/Screenshot-1.png" width="250"><br>
+    </td>
+    <td align="center">
+      <img src="Screenshots/Screenshot-2.png" width="250"><br>
+    </td>
+    <td align="center">
+      <img src="Screenshots/Screenshot-3.png" width="250"><br>
+    </td>
+    <td align="center">
+      <img src="Screenshots/Screenshot-4.png" width="250"><br>
+    </td>
+  </tr>
+</table>
+
 ## Setting Up the Project
 
 To run the project locally, you will need: git, npm and a browser.
