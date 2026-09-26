@@ -1,6 +1,5 @@
 import "../styles/UnrankedSimulator.css";
 import { Award, Play, TriangleAlert } from "lucide-react";
-import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "../services/axios.js";
@@ -306,7 +305,6 @@ const UnrankedSimulator = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

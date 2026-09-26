@@ -1,142 +1,86 @@
 import "../styles/HomePage.css";
-import {
-  Pen,
-  BookOpen,
-  ArrowRight,
-  Layers,
-  ClipboardList,
-  Lightbulb,
-  BarChart,
-  Sparkles,
-  School,
-  Settings,
-  Stethoscope,
-} from "lucide-react";
 import { NavLink } from "react-router";
-import { useAuth } from '../context/AuthContext'
-const HomePage = () => {
+import FeatureArt from "../components/FeatureArt";
+import HomeShowcase from "../components/HomeShowcase";
 
-  const {isAuthenticated} = useAuth();
+const FEATURES = [
+  { to: "/questionsolving", label: "প্রশ্নব্যাংক", art: "questions" },
+  { to: "/unrankedexam", label: "পরীক্ষা", art: "exam" },
+  { to: "/rankedexam", label: "র‍্যাংকিং", art: "ranking" },
+  { to: "/questionsolving", label: "অনুশীলন", art: "practice" },
+];
+
+const HomePage = () => {
   return (
-    <div className="home-page-container">
+    <>
+      <div className="upper-grid">
+        <div className="vertical-divider-left rail-lead"></div>
+
+        <section className="section-band">
+          <div className="grid-cell band-main">
+            <div className="band-copy">
+              <h2 className="band-display">
+                প্রশ্ন অনুশীলন করুন, নিজেকে যাচাই করুন
+              </h2>
+              <p className="band-sub">
+                প্রতিদিনের অনুশীলনের জন্য যা যা দরকার — সব এক জায়গায়
+              </p>
+            </div>
+
+            <div className="fig-row">
+              {FEATURES.map(({ to, label, art }) => (
+                <NavLink key={label} to={to} className="fig-card">
+                  <FeatureArt name={art} className="fig-art" />
+                  <span className="fig-label">{label}</span>
+                </NavLink>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="vertical-divider-right rail-lead"></div>
+      </div>
+
+      <div className="band-divider"></div>
+
+      <div className="upper-grid">
+        <div className="vertical-divider-left"></div>
+
+        <section className="section-band">
+          <div className="grid-cell band-embed">
+            <div className="embed-split">
+              <div className="embed-empty" aria-hidden="true" />
+              <div className="showcase-wrapper">
+                {" "}
+                <HomeShowcase />{" "}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="vertical-divider-right"></div>
+      </div>
+
+      <div className="band-divider"></div>
+
       <div className="hero-card">
         <div className="left">
-          <div className="hero-badge">
-            <BookOpen size={12} />
-            শেখার নতুন অভিজ্ঞতা
-          </div>
-
           <div className="hero-description">
-            <p id="hero-heading">প্রশ্ন অনুশীলন করুন, নিজেকে যাচাই করুন </p>
-            <span>
-              বিষয় ও অধ্যায় বেছে নিয়ে প্রশ্ন সমাধান করুন। সঙ্গে সঙ্গে উত্তর ও ব্যাখ্যা দেখুন এবং আপনার অগ্রগতি ধরে রাখুন।
-              {" "}
-            </span>
+            <p id="hero-heading">অধ্যায়ের সকল সেবা পেতে সাইন ইন করুন </p>
           </div>
 
           <div className="hero-page-links">
-            <NavLink to={"/questionsolving"} className="solve-question">
+            <NavLink to={"/signin"} className="solve-question">
+              সাইন ইন করুন
+            </NavLink>
+
+            <NavLink to={"/questionsolving"} className="custom-exam">
               প্রশ্ন সমাধান করুন
             </NavLink>
-
-            <NavLink to={"/unrankedexam"} className="custom-exam">
-              নিজের পরীক্ষা তৈরি করুন
-            </NavLink>
-
-            <NavLink to={"/signin"} className={isAuthenticated ? "non-active-sign-in":"sign-in"}>
-              স্ট্রিক দেখতে সাইন ইন করুন
-              <ArrowRight size={15} />
-            </NavLink>
-          </div>
-        </div>
-
-        <div className="right">
-          <BookOpen size={400} color="#272727" />
-        </div>
-      </div>
-
-      <div className="modules-container">
-        <div className="module-header">
-          <Layers size={18} color="#c0c1ff" />
-          অনুশীলনের মডিউল (৩টি)
-        </div>
-        <div className="module-cards">
-
-          <div className="card-module">
-            <div className="card-icons"><Settings size={18} color="#c0c1ff"/></div>
-            <p className="card-title">ইঞ্জিনিয়ারিং প্রস্তুতি</p>
-            <p>৩টি বিষয় · ৫০০+ প্রশ্ন</p>
-            <NavLink to={"/unrankedexam"} className="enter-practice">
-              অনুশীলন শুরু করুন
-              <ArrowRight size={12} />
-            </NavLink>
-          </div>
-
-          <div className="card-module">
-           <div className="card-icons"><School size={18} color="#c0c1ff"/></div>
-            <p className="card-title">ভার্সিটি প্রস্তুতি</p>
-            <p>৬টি বিষয় · ১০০০+ প্রশ্ন</p>
-            <NavLink to={"/unrankedexam"} className="enter-practice">
-              অনুশীলন শুরু করুন
-              <ArrowRight size={12} />
-            </NavLink>
-          </div>
-
-          <div className="card-module">
-            <div className="card-icons"><Stethoscope size={18} color="#c0c1ff"/></div>
-            <p className="card-title">মেডিকেল প্রস্তুতি</p>
-            <p>৩টি বিষয় · ৬০০+ প্রশ্ন</p>
-            <NavLink to={"/unrankedexam"} className="enter-practice">
-              অনুশীলন শুরু করুন
-              <ArrowRight size={12} />
-            </NavLink>
-          </div>
-
-        </div>
-      </div>
-
-      <div className="modules-container">
-        <div className="module-header">
-          <Sparkles size={18} color="#c0c1ff" />
-          যেভাবে কাজ করে 
-        </div>
-
-        <div className="module-cards">
-
-          <div className="card-module">
-            <div className="card-icons">
-              <ClipboardList size={18} color="#c0c1ff"/>
-            </div>
-            
-            <p className="step-text">ধাপ ০১</p>
-            <p className="card-title">অধ্যায় বেছে নিন</p>
-            <p>প্রশ্নব্যাংক থেকে বিষয়, অধ্যায় বা টপিক বেছে নিন।</p>
-          </div>
-
-          <div className="card-module">
-            <div className="card-icons">
-              <Lightbulb size={18} color="#c0c1ff"/>
-            </div>
-            
-            <p className="step-text">ধাপ ০২</p>
-            <p className="card-title">সমাধান করুন, শিখুন</p>
-            <p>প্রশ্নের উত্তর দিন এবং সঙ্গে সঙ্গে ব্যাখ্যা দেখুন।</p>
-          </div>
-
-          <div className="card-module">
-            <div className="card-icons">
-              <BarChart size={18} color="#c0c1ff"/>
-            </div>
-            
-            <p className="step-text">ধাপ ০৩</p>
-            <p className="card-title">আপনার স্ট্রিক দেখুন</p>
-            <p>সময়ের সঙ্গে আপনার সঠিক উত্তরের হার, অবস্থান ও অগ্রগতি দেখুন।</p>
           </div>
         </div>
       </div>
-
-
-    </div>
+    </>
   );
 };
 

@@ -94,7 +94,7 @@ function MCQ({question, current, total, isSaved = false, isSaving = false, onTog
                     ) : (
                         <>
                             <Eye size={16}/>
-                            <div>ব্যাখ্যা দেখুন</div>
+                            <div className="toggle-label">ব্যাখ্যা দেখুন</div>
                         </>
                     )}
                 </div>

@@ -25,8 +25,10 @@
     width: 3rem;
     height: 3rem;
     background-color: var(--accent);
-    color: var(--bg-color);
-    font-weight: bold;
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
     border-radius: 0.3rem;
     font-size: 1.3rem;
     display: flex;
@@ -34,9 +36,19 @@
     justify-content: center;
 }
 
-
+.name-email-section h3{
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
 
 .name-email-section p{
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: 0;
     color: var(--text-muted);
     font-size: 0.8rem;
     margin-top: 0.5rem;
@@ -52,12 +64,16 @@
     padding: 1rem;
 }
 .heading p{
-    color: var(--text-muted);
-    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
 }
 
 .heading span{
     font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.4;
     color: var(--accent);
     display: flex;
     align-items: center;
@@ -84,10 +100,10 @@
 
 .days-card{
     width: 3rem;
-    height: 3rem;
+    min-height: 3.25rem;
+    padding: 0.3rem 0;
     border: 1px solid var(--border-subtle);
     color: var(--accent);
-    font-weight: bold;
     border-radius: 5px;
     background-color: var(--surface-hover);
     box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.25);
@@ -98,15 +114,35 @@
     overflow: hidden;
 }
 
+.days-card p{
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
 .days-card span{
-    font-size: 0.6rem;
+    font-size: 0.7rem;
+    line-height: 1.4;
     color: var(--text-muted);
 
 }
 
+.streak-text-section h6{
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
+
 .streak-text-section p{
     margin-top: 0.3rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
     color: var(--text-muted);
 }
 
@@ -128,13 +164,6 @@
     border-radius: 5px;
     border: 1px solid var(--border-subtle);
     box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.35);
-}
-
-.streak-bar-div p{
-    margin-top: 0.2rem;
-    color: var(--text-muted);
-    font-size: 0.5rem;
-    
 }
 
 .streak-bar{
@@ -166,10 +195,29 @@
 .more-det-card-heading{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.more-det-card-heading p{
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--text-secondary);
+}
+
+.more-details-card h3{
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
 }
 
 .more-details-card p{
-    font-size: 0.6rem;
+    font-size: 0.7rem;
+    line-height: 1.5;
     color: var(--text-muted);
 }
 
@@ -190,6 +238,13 @@
     padding: 0.5rem 1rem;
     background: none;
     border-bottom: 2px solid transparent;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.08px;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 .module-tab.active{
     color: var(--accent);

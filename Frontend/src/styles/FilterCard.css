@@ -1,7 +1,7 @@
 .filters-div {
     width: 81%;
     border: 1px solid var(--border-subtle);
-    border-radius: 5px;
+    border-radius: 8px;
     margin-block: 1.5rem;
     padding: 1.5rem;
 }
@@ -9,7 +9,7 @@
 .title {
     font-family: var(--font-bengali-links);
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     margin-bottom: 0.1rem;
 }
 
@@ -33,13 +33,28 @@
 }
 
 .filter-grid-child select{
-    background-color: black;
+    background-color: var(--surface);
     color: var(--text-primary);
     border: 1px solid var(--border-subtle);
     padding-block: 0.6rem;
     padding-inline: 0.4rem;
     border-radius: 0.25rem;
     outline: none;
+    transition: all 0.2s ease;
+}
+
+.filter-grid-child select:hover:not(:disabled){
+    border-color: var(--border-strong);
+}
+
+.filter-grid-child select:focus-visible{
+    border-color: var(--accent);
+}
+
+.filter-grid-child select:disabled{
+    color: var(--text-dim);
+    background-color: var(--surface-1);
+    cursor: not-allowed;
 }
 
 @media(max-width: 745px) {
@@ -66,7 +81,8 @@
     width: 90%;
     margin-block: 1rem;
     padding: 2rem;
-    border: 1px dashed var(--text-muted);
+    background-color: var(--surface-1);
+    border: 1px dashed var(--border-strong);
     border-radius: 8px;
     color: var(--text-muted);
     text-align: center;
@@ -83,8 +99,8 @@
 
 .prev-button, .next-button{
     outline: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+    padding: 0.7rem 1.3rem;
+    border-radius: var(--radius-button);
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
@@ -93,42 +109,92 @@
 }
 
 .prev-button{
-    background-color: var(--bg-color);
-    color: var(--text-muted);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
     border: 1px solid var(--border-subtle);
 }
 
 .prev-button:hover{
     color: var(--text-primary);
-    background-color: var(--surface);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-strong);
     cursor: pointer;
 }
 
 .next-button{
-    background-color: var(--accent);
-    color: var(--bg-color);
-    border: 1px solid transparent;
+    background: var(--accent-gradient);
+    color: var(--on-accent);
+    border: 1px solid var(--border-strong);
     font-weight: bold;
+    box-shadow:
+        0px 1px 2px rgba(0, 0, 0, 0.4),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.2);
 }
 
 .next-button:hover{
-    color: var(--accent);
-    background-color: var(--bg-color);
-    border-color: var(--accent);
+    background: var(--accent-hover);
+    border-color: transparent;
+    box-shadow: var(--accent-glow);
     cursor: pointer;
 }
 
 .prev-button:disabled,
 .next-button:disabled {
-    opacity: 0.4;
     cursor: not-allowed;
-    background-color: var(--surface);
+    background: var(--surface-1);
     color: var(--text-muted);
     border-color: var(--border-subtle);
+    box-shadow: none;
 }
 
 .pagination-info {
     color: var(--text-muted);
-    font-family: anek-bangla;
+    font-family: var(--font-headlink);
     font-size: 0.9rem;
+}
+
+.pagination-action {
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-headlink);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.08px;
+    padding: 12px 20px;
+    transition: all 0.2s ease;
+}
+
+.prev-button.pagination-action {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+}
+
+.prev-button.pagination-action:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-strong);
+    cursor: pointer;
+}
+
+.next-button.pagination-action {
+    color: var(--bg-color);
+    background: #e5e5e6;
+    border: 1px solid var(--border-strong);
+    font-weight: 500;
+    box-shadow:
+        0px 1px 2px rgba(0, 0, 0, 0.4),
+        inset 0px 1px 0px rgba(255, 255, 255, 0.6);
+}
+
+.next-button.pagination-action:hover {
+    color: var(--bg-color);
+    background: #ffffff;
+    border-color: var(--border-strong);
+    box-shadow: 0px 0px 12px rgba(229, 229, 230, 0.25);
+    cursor: pointer;
 }
