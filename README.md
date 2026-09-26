@@ -19,19 +19,23 @@ Odhyay gives you:
 <table>
   <tr>
     <td align="center">
-      <img src="Screenshots/Screenshot-1.png" width="250"><br>
+      <img src="screenshots/screenshot-1.png" width="400">
     </td>
     <td align="center">
-      <img src="Screenshots/Screenshot-2.png" width="250"><br>
+      <img src="screenshots/screenshot-2.png" width="400">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="screenshots/screenshot-3.png" width="400">
     </td>
     <td align="center">
-      <img src="Screenshots/Screenshot-3.png" width="250"><br>
-    </td>
-    <td align="center">
-      <img src="Screenshots/Screenshot-4.png" width="250"><br>
+      <img src="screenshots/screenshot-4.png" width="400">
     </td>
   </tr>
 </table>
+
+
 
 ## Setting Up the Project
 
