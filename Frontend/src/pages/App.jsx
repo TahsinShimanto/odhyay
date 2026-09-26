@@ -20,6 +20,8 @@ import AdminDashboard from './AdminDashboard.jsx'
 import AdminQuestions from './AdminQuestions.jsx'
 import AdminTaxonomy from './AdminTaxonomy.jsx'
 import { Navigate } from "react-router";
+import Contact from './Contact.jsx'
+import CarbonFootprintDisplay from '../components/CarbonFootprintDisplay.jsx'
 
 
 
@@ -69,6 +71,7 @@ function App() {
         { path: "/profile", element: <ProtectedRoute><User/></ProtectedRoute> },
         { path: "/signin", element: <SignIn/> },
         { path: "/register", element: <Register/> },
+        { path: "/contact", element: <Contact/>},
       ]
     },
 
@@ -77,6 +80,7 @@ function App() {
       children: [
           { path: "/exam/:type/:attemptId", element: <ProtectedRoute><ExamCard/></ProtectedRoute> },
           { path: "/result/:type/:attemptId", element: <ProtectedRoute><Result/></ProtectedRoute> },
+          
         ]
     },
 
@@ -96,6 +100,7 @@ function App() {
   return (
     <div className="appWrapper">
       <RouterProvider router={router} />
+      {/* <CarbonFootprintDisplay/> */}
     </div>
   )
 }

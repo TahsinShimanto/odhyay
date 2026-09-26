@@ -54,7 +54,7 @@ const AdminDashboard = () => {
   const progressData = subjects.map((s) => ({
     name: s.name,
     progress: maxCount > 0 ? Math.round((s.questionCount / maxCount) * 100) : 0,
-    detail: s.questionCount,
+    attempts: s.questionCount,
   }));
 
   return (

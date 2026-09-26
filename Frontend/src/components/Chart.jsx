@@ -23,7 +23,7 @@ const Chart = ({
       <p>{title}</p>
       <div className="chart">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
+          <LineChart data={data} margin={{ top: 10, right: 10, bottom: 10, left: 15 }}>
             <defs>
               <linearGradient id="lineStroke" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#c0c1ff" />

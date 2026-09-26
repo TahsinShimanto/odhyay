@@ -8,6 +8,7 @@ import usersRouter from './src/routes/users.js'
 import examRoutes from './src/routes/examRoutes.js'
 import taxonomyRouter from './src/routes/taxonomy.js'
 import dashboardRouter from "./src/routes/adminDashboardRoutes.js"
+import { carbonFootprintMiddleware } from './src/middlewares/carbonFootprint.js'
 import dns from 'dns'
 
 dns.setServers(['8.8.8.8', '1.1.1.1']);
@@ -20,6 +21,7 @@ const app = express()
 const port = process.env.PORT || 4000
 app.use(express.json())
 app.use(cookieParser())
+//app.use(carbonFootprintMiddleware)
 
 // Setting up a listener for our server
 app.listen(port, () => {

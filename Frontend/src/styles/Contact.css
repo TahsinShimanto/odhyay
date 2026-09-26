@@ -1,0 +1,325 @@
+.contact-page {
+    min-height: 100vh;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    padding: 0 24px;
+    margin-left: 60px;
+    display: flex;
+    gap: 60px;
+}
+
+.contact-container {
+    flex: 1;
+    min-width: 0;
+    max-width: 650px;
+
+    padding: 38px 0 90px;
+}
+
+.contact-hero {
+    width: 45vw;
+    height: 85vh;
+
+    margin-top: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.contact-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    
+}
+
+
+.contact-header {
+    margin-bottom: 110px;
+}
+
+.contact-logo {
+    font-family: var(--font-logo);
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+}
+
+.contact-intro {
+    max-width: 650px;
+    margin-bottom: 80px;
+}
+
+.contact-intro h1 {
+    margin: 0 0 22px;
+
+    font-family: var(--font-headlink);
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+
+    color: var(--text-primary);
+}
+
+.contact-intro p {
+    max-width: 540px;
+    margin: 0;
+
+    font-family: var(--font-text);
+    font-size: 13px;
+    line-height: 2;
+
+    color: var(--text-muted);
+}
+
+.contact-body {
+    display: grid;
+    grid-template-columns: minmax(0, 560px);
+}
+
+.contact-info h2 {
+    margin: 0 0 30px;
+
+    font-family: var(--font-headlink);
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1.5;
+
+    color: var(--text-primary);
+}
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-item {
+    min-height: 76px;
+
+    display: flex;
+    align-items: center;
+    gap: 17px;
+
+    padding: 12px 14px;
+
+    color: inherit;
+    text-decoration: none;
+
+    border-radius: 10px;
+}
+
+a.contact-item:hover {
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.contact-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(192, 193, 255, 0.08);
+    color: var(--accent);
+
+    border: 1px solid rgba(192, 193, 255, 0.08);
+}
+
+.contact-item-content {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.contact-item-content small {
+    font-family: var(--font-headlink);
+    font-size: 13px;
+    font-weight: 500;
+
+    color: var(--text-muted);
+}
+
+.contact-item-content strong {
+    font-family: var(--font-text);
+    font-size: 15px;
+    font-weight: 500;
+
+    color: var(--text-primary);
+}
+
+.contact-item-content em {
+    margin-top: 1px;
+
+    font-family: var(--font-text);
+    font-size: 12px;
+    font-style: normal;
+
+    color: var(--text-muted);
+}
+
+.contact-arrow {
+    margin-left: auto;
+    flex-shrink: 0;
+
+    color: var(--text-muted);
+
+    opacity: 0;
+}
+
+a.contact-item:hover .contact-arrow {
+    opacity: 1;
+    color: var(--accent);
+}
+
+.contact-divider {
+    width: 100%;
+    height: 1px;
+
+    margin: 44px 0 38px;
+
+    background: var(--border-subtle);
+}
+
+.contact-social {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.social-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+
+    color: var(--accent);
+}
+
+.social-heading > svg {
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.social-heading h3 {
+    margin: 0 0 5px;
+
+    font-family: var(--font-headlink);
+    font-size: 17px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+.social-heading p {
+    max-width: 340px;
+    margin: 0;
+
+    font-family: var(--font-text);
+    font-size: 13px;
+    line-height: 1.8;
+
+    color: var(--text-muted);
+}
+
+.social-links {
+    display: flex;
+    gap: 8px;
+}
+
+.social-link {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border-subtle);
+    border-radius: 50%;
+
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.social-link:hover {
+    color: var(--accent);
+    background: rgba(192, 193, 255, 0.06);
+    border-color: rgba(192, 193, 255, 0.25);
+}
+
+.facebook-icon {
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .contact-page {
+        flex-direction: column;
+        gap: 30px;
+        margin-left: 0;
+    }
+
+    .contact-container {
+        width: 100%;
+        max-width: none;
+    }
+
+    .contact-hero {
+        width: 100%;
+        height: 60vh;
+        margin-top: 0;
+    }
+
+    .contact-header {
+        margin-bottom: 75px;
+    }
+
+    .contact-intro {
+        margin-bottom: 60px;
+    }
+
+    .contact-intro h1 {
+        font-size: 48px;
+    }
+
+    .contact-intro p {
+        font-size: 15px;
+        line-height: 1.9;
+    }
+
+    .contact-social {
+        flex-direction: column;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 420px) {
+    .contact-intro h1 {
+        font-size: 42px;
+    }
+
+    .contact-item {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    .contact-arrow {
+        display: none;
+    }
+}
+

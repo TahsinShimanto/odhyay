@@ -17,7 +17,7 @@ const ProgressCard = ({ subjects, title = "বিষয়ভিত্তিক 
                         <div className="progress-fill" style={{width: `${elem.progress}%`}}></div>
                     </div>
 
-                    <p id='attempt-text'>{detailLabel}: {elem.detail}</p>
+                    <p id='attempt-text'>{detailLabel}: {elem.attempts}</p>
                 </div>
             ))
         }

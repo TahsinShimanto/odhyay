@@ -57,7 +57,7 @@
     color: rgb(224, 92, 92);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
     .admin-menu-toggle {
         display: block;
     }

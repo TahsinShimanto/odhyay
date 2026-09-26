@@ -34,8 +34,7 @@ const Footer = () => {
 
         <div className="support-container">
           <p className="platform-title">সহায়তা</p>
-          <p className="support-link">যোগাযোগ</p>
-          <p className="support-link">সাধারণ জিজ্ঞাসা</p>
+          <NavLink to="/contact" className="support-link">যোগাযোগ</NavLink>
         </div>
       </div>
 
